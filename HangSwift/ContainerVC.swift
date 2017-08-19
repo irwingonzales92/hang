@@ -108,7 +108,6 @@ extension ContainerVC: CenterVCDelegate
         if leftVC == nil
         {
             leftVC = UIStoryboard.leftViewController()
-            //addChildSidePanelViewController(leftVC!)
             addChildSidePanelViewController(leftVC!)
         }
     }

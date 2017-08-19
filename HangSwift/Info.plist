@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your Friends Need To Find You</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Show Your Friends Your Beautiful Face!</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Let Em Hear You Roar!</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

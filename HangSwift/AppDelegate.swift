@@ -7,14 +7,25 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    fileprivate var containerVC = ContainerVC()
+    
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
+        
+        containerVC = ContainerVC()
+        
+        window?.rootViewController = containerVC
+        window?.makeKeyAndVisible()
+        
         // Override point for customization after application launch.
         return true
     }

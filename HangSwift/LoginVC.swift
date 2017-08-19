@@ -15,6 +15,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet var passwordTextField: RoundedCornerTextField!
     @IBOutlet var emailTextField: RoundedCornerTextField!
     @IBOutlet var segmentedControl: UISegmentedControl!
+    @IBOutlet var usernameTextField: RoundedCornerTextField!
+    
     
     
     override func viewDidLoad()
@@ -23,6 +25,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
         setupDelegates()
         view.bindToKeyboard()
+        
+        self.segmentedControl.isHidden = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
         self.view.addGestureRecognizer(tap)
@@ -33,6 +37,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     {
         emailTextField.delegate = self
         passwordTextField.delegate = self
+        usernameTextField.delegate = self
     }
 
     func handleScreenTap(sender: UITapGestureRecognizer)
@@ -49,39 +54,38 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func authBtnWasPressed(_ sender: Any)
     {
-        if emailTextField.text != nil && passwordTextField.text != nil
+        // Checks if textfields are not empty
+        if emailTextField.text != nil && passwordTextField.text != nil && usernameTextField.text != nil
         {
             authBtn.animateButton(shouldLoad: true, withMessage: nil)
             self.view.endEditing(true)
             
+            // Sets username variable from textfield
+            var username = String()
+            username = self.usernameTextField.text!
+            
+            
             // Check textfields for content
             if let email = emailTextField.text, let password = passwordTextField.text
             {
-                //Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
                 Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
                     if error == nil
                     {
                         // Check if user exists
                         if let user = user
                         {
-                            if self.segmentedControl.selectedSegmentIndex == 0
-                            {
-                                let userData = ["provider": user.providerID] as [String: Any]
-                                DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isMusician: false)
-                            }
-                            else
-                            {
-                                let userData = ["provider": user.providerID, "userIsMusician": true, "isSessionModeEnabled": false, "musicianIsInSession": false] as [String: Any]
-                                DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isMusician: true)
-                                
-                            }
+                            let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": self.emailTextField.text!, "username": username] as [String: Any]
+                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
+
+//                            let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsInSession": false] as [String: Any]
+//                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
+                            
                         }
                         print("Email user authenticated successfully with Firebase")
                         self.dismiss(animated: true, completion: nil)
                     }
                     else
                     {
-                        // Creates new users
                         if let errorCode = AuthErrorCode(rawValue: error!._code)
                         {
                             switch errorCode
@@ -92,8 +96,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             case .wrongPassword:
                                 print("Oops, wrong password")
                                 
+                            case .credentialAlreadyInUse:
+                                print("Username Already Taken")
+                                
                             default:
-                                print("Oops, something wrong happened")
+                                print(error as Any)
                             }
                         }
                         
@@ -101,7 +108,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             if error != nil
                             {
                                 // Error handels
-                                ///if let errorCode = AuthErrorCode(rawValue: error!._code)
                                 if let errorCode = AuthErrorCode(rawValue: error!._code)
                                 {
                                     switch errorCode
@@ -113,7 +119,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                         print("That is an invalid email, please try again")
                                         
                                     default:
-                                        print("Oops, something wrong happened")
+                                        //print("Oops, something wrong happened")
+                                        print(error as Any)
                                         
                                     }
                                 }
@@ -122,16 +129,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             {
                                 if let user = user
                                 {
-                                    if self.segmentedControl.selectedSegmentIndex == 0
-                                    {
-                                        let userData = ["provider": user.providerID] as [String: Any]
-                                        DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isMusician: false)
-                                    }
-                                    else
-                                    {
-                                        let userData = ["provider": user.providerID, "userIsMusician": true, "isStartJamModeEnabled": false, "musicianIsOnSession": false] as [String: Any]
-                                        DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isMusician: true)
-                                    }
+
+                                    let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": self.emailTextField.text!, "username": username] as [String: Any]
+                                    DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
+
+//                                        let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsOnSession": false] as [String: Any]
+//                                        DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
+
                                 }
                                 
                                 print("Successfully created a new user with Firebase")
@@ -140,12 +144,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         })
                     }
                     
-//                    else
-//                    {
-//                        let error: Error
-//                        print("There is something wrong \(error)")
-//                    }
-
                 })
             }
         }
