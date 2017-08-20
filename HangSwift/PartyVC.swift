@@ -22,6 +22,11 @@ class PartyVC: UIViewController {
     var customMapCell = CustomMapCell()
     var guestListCell = GuestListCell()
     
+    var partyTitle: String?
+    var manager: CLLocationCoordinate2D?
+    
+    
+    
     
     override func viewDidLoad()
     {
@@ -68,7 +73,38 @@ extension PartyVC: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        return guestListCell
+        switch indexPath.section
+        {
+        case 0:
+            
+            eventCell.titleLabel.text = partyTitle
+            
+            return eventCell
+            
+        case 1:
+            
+            
+            return customImageCell
+            
+        case 2:
+            
+            return descriptionCell
+            
+        case 3:
+            
+            return customMapCell
+            
+        case 4:
+            
+            return guestListCell
+            
+        default:
+            
+            let cell = UITableViewCell()
+            
+            return cell
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int
