@@ -32,9 +32,9 @@ class UpdateService
         })
     }
     
-    func updatePartyLocationWithCoordinate(coordinate: CLLocationCoordinate2D)
+    func updateHangoutLocationWithCoordinate(coordinate: CLLocationCoordinate2D)
     {
-        DataService.instance.REF_PARTY.observeSingleEvent(of: .value, with: { (snapshot) in
+        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
             if let partySnapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
                 for party in partySnapshot
@@ -43,7 +43,7 @@ class UpdateService
                     {
                         if party.childSnapshot(forPath: "isSessionModeEnabled").value as? Bool == true
                         {
-                            DataService.instance.REF_PARTY.child(party.key).updateChildValues(["coordinate": [coordinate.latitude, coordinate.longitude]])
+                            DataService.instance.REF_HANGOUT.child(party.key).updateChildValues(["coordinate": [coordinate.latitude, coordinate.longitude]])
                         }
                     }
                 }

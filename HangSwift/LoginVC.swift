@@ -68,19 +68,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             // Check textfields for content
             if let email = emailTextField.text, let password = passwordTextField.text
             {
-                Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete: { (bool, error) in
                     if error == nil
                     {
-                        // Check if user exists
-                        if let user = user
-                        {
-                            let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": self.emailTextField.text!, "username": username] as [String: Any]
-                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
-
-//                            let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsInSession": false] as [String: Any]
-//                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
-                            
-                        }
                         print("Email user authenticated successfully with Firebase")
                         self.dismiss(animated: true, completion: nil)
                     }
@@ -91,61 +81,97 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             switch errorCode
                             {
                             case .emailAlreadyInUse:
-                                print("That email is already in use, please try again")
-                                
+                                print("Email is in use")
                             case .wrongPassword:
-                                print("Oops, wrong password")
-                                
+                                print("Wrong Password")
                             case .credentialAlreadyInUse:
-                                print("Username Already Taken")
-                                
+                                print("Username already taken")
                             default:
                                 print(error as Any)
                             }
                         }
-                        
-                        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
-                            if error != nil
-                            {
-                                // Error handels
-                                if let errorCode = AuthErrorCode(rawValue: error!._code)
-                                {
-                                    switch errorCode
-                                    {
-                                    case .emailAlreadyInUse:
-                                        print("That email is already in use, please try again")
-                                        
-                                    case .invalidEmail:
-                                        print("That is an invalid email, please try again")
-                                        
-                                    default:
-                                        //print("Oops, something wrong happened")
-                                        print(error as Any)
-                                        
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if let user = user
-                                {
-
-                                    let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": self.emailTextField.text!, "username": username] as [String: Any]
-                                    DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
-
-//                                        let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsOnSession": false] as [String: Any]
-//                                        DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
-
-                                }
-                                
-                                print("Successfully created a new user with Firebase")
-                                self.dismiss(animated: true, completion: nil)
-                            }
-                        })
                     }
-                    
                 })
             }
+//            {
+//                Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+//                    if error == nil
+//                    {
+//                        // Check if user exists
+//                        if let user = user
+//                        {
+////                            let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": user.email!, "username": username] as [String: Any]
+////                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
+//                            
+////                            let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsInSession": false] as [String: Any]
+////                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
+//                            
+//                        }
+//                        print("Email user authenticated successfully with Firebase")
+//                        self.dismiss(animated: true, completion: nil)
+//                    }
+//                    else
+//                    {
+//                        if let errorCode = AuthErrorCode(rawValue: error!._code)
+//                        {
+//                            switch errorCode
+//                            {
+//                            case .emailAlreadyInUse:
+//                                print("That email is already in use, please try again")
+//                                
+//                            case .wrongPassword:
+//                                print("Oops, wrong password")
+//                                
+//                            case .credentialAlreadyInUse:
+//                                print("Username Already Taken")
+//                                
+//                            default:
+//                                print(error as Any)
+//                            }
+//                        }
+//                        
+//                        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
+//                            if error != nil
+//                            {
+//                                // Error handels
+//                                if let errorCode = AuthErrorCode(rawValue: error!._code)
+//                                {
+//                                    switch errorCode
+//                                    {
+//                                    case .emailAlreadyInUse:
+//                                        print("That email is already in use, please try again")
+//                                        
+//                                    case .invalidEmail:
+//                                        print("That is an invalid email, please try again")
+//                                        
+//                                    default:
+//                                        //print("Oops, something wrong happened")
+//                                        print(error as Any)
+//                                        
+//                                    }
+//                                }
+//                            }
+//                            else
+//                            {
+//                                if let user = user
+//                                {
+//
+////                                    let userData = ["provider": user.providerID, "userIsInParty": false, "userEmail": self.emailTextField.text!, "username": username] as [String: Any]
+////                                    DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: false)
+//
+////                                        let userData = ["provider": user.providerID, "userIsParty": true, "isSessionModeEnabled": false, "partyIsOnSession": false] as [String: Any]
+////                                        DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, username: username, isParty: true)
+//
+//                                }
+//                                
+//                                print("Successfully created a new user with Firebase")
+//                                self.dismiss(animated: true, completion: nil)
+//                            }
+//                        })
+//                    }
+//                    
+//                })
+//            }
         }
     }
 

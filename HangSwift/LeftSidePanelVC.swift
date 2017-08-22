@@ -33,7 +33,7 @@ class LeftSidePanelVC: UIViewController {
         sessionSwitch.isHidden = true
         sessionLbl.isHidden = true
         
-        observeUsersAndParties()
+        observeUsers()
         
         // If User has no profile
         if Auth.auth().currentUser == nil
@@ -55,7 +55,7 @@ class LeftSidePanelVC: UIViewController {
     }
     
     //Observer Function
-    func observeUsersAndParties()
+    func observeUsers()
     {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot]
@@ -76,7 +76,7 @@ class LeftSidePanelVC: UIViewController {
             }
         })
         
-        DataService.instance.REF_PARTY.observeSingleEvent(of: .value, with: { (snapshot) in
+        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
                 for snap in snapshot
@@ -94,8 +94,8 @@ class LeftSidePanelVC: UIViewController {
     @IBAction func partyBtnPressed(_ sender: Any)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let partyVC = storyboard.instantiateViewController(withIdentifier: "PartyVC") as? PartyVC
-        present(partyVC!, animated: true, completion: nil)
+        let hangoutVC = storyboard.instantiateViewController(withIdentifier: "PartyVC") as? HangoutVC
+        present(hangoutVC!, animated: true, completion: nil)
     }
     
     @IBAction func acntBtnPressed(_ sender: Any)

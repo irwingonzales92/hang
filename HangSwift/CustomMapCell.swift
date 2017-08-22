@@ -9,16 +9,14 @@
 import UIKit
 import MapKit
 
-class CustomMapCell: UITableViewCell, MKMapViewDelegate {
-
-    @IBOutlet var mapView: MKMapView!
+class CustomMapCell: UITableViewCell {
     
+    @IBOutlet var mapView: MKMapView!
     override func awakeFromNib()
     {
         super.awakeFromNib()
-        // Initialization code
         
-        mapView.delegate = self
+        self.mapView.delegate = self as! MKMapViewDelegate
         
     }
 
@@ -28,4 +26,33 @@ class CustomMapCell: UITableViewCell, MKMapViewDelegate {
         // Configure the view for the selected state
     }
 
+}
+
+extension CustomImageCell: MKMapViewDelegate
+{
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation)
+    {
+        UpdateService.instance.updateUserLocationWithCoordinate(coordinate: userLocation.coordinate)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    {
+        if let annotation = annotation as? PartyAnnotation
+        {
+            let identifier = "party"
+            
+            var view: MKAnnotationView
+            view = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.image = UIImage(named: "driverAnnotation")
+            
+            return view
+        }
+        return nil
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool)
+    {
+        //        centerMapButton.fadeTo(alphaValue: 1.0, withDuration: 0.2)
+    }
+        
 }

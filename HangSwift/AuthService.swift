@@ -1,0 +1,39 @@
+//
+//  AuthService.swift
+//  HangSwift
+//
+//  Created by Irwin Gonzales on 8/21/17.
+//  Copyright © 2017 Irwin Gonzales. All rights reserved.
+//
+
+import Foundation
+import Firebase
+
+class AuthService
+{
+    static let instance = AuthService()
+    
+    func registerUser(withEmail email:String, Password password:String, andUsername username:String, userCreationComplete: @escaping (_ status: Bool, _ error: Error?) -> ())
+    {
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            guard user != nil else {
+                userCreationComplete(false, error)
+                return
+            }
+            
+            let userData = ["provider": user?.providerID, "userIsInHanout": false, "userEmail": user?.email, "username": username] as [String: Any]
+            DataService.instance.createFirebaseDBUsers(uid: user!.uid, userData: userData, isHangout: false)
+        }
+    }
+    
+    func loginUser(withEmail email:String, andPassword password:String, userLoginComplete: @escaping (_ status: Bool, _ error: Error?) -> ())
+    {
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            guard user != nil else{
+                userLoginComplete(false, error)
+                return
+            }
+            userLoginComplete(true, error)
+        }
+    }
+}

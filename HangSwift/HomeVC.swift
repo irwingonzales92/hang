@@ -24,12 +24,13 @@ class HomeVC: UIViewController {
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
+    let partyCoordinate = CLLocationCoordinate2D()
     var tableView =  UITableView()
     var matchingMapItems: [MKMapItem] = [MKMapItem]()
     var host: user = user()
     var matchingFriend = String()
     let tableViewCell =  UITableViewCell()
-    var friendArray = Array<Any>()
+    var guestArray = Array<Any>()
     
     
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
@@ -136,6 +137,44 @@ class HomeVC: UIViewController {
         })
     }
     
+    
+    //    LOCATION SEARCH FUNCTION
+    //
+    //    func perfomSearch()
+    //    {
+    //        matchingMapItems.removeAll()
+    //
+    //        let request = MKLocalSearchRequest()
+    //        request.naturalLanguageQuery = locationSearchTextField
+    //    }
+    
+    func startHangout(hangoutName: String, host: User, coordinate: CLLocationCoordinate2D, guests: Array<Any>)
+    {
+        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.children.allObjects is [DataSnapshot]
+            {
+                if host.uid == Auth.auth().currentUser?.uid
+                {
+                    let hangoutData = [ "hangoutName": hangoutName, "provider": host.providerID, "desciption": String(), "hagnoutIsActive": Bool(),"hangoutIsPrivate": Bool(), "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
+                    
+                    DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
+                }
+            }
+        })
+    }
+    
+    func searchForFriendsWithUsername(username: String) -> String
+    {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.children.allObjects is [DataSnapshot]
+            {
+                DataService.instance.REF_USERS.queryOrdered(byChild: "username").queryEqual(toValue: username)
+            }
+        })
+        return username
+    }
+    
+    
     func centerMapOnUserLocation()
     {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
@@ -157,8 +196,7 @@ class HomeVC: UIViewController {
         // Create buttons
         let buttonOne = DefaultButton(title: "Start Party", height: 60)
         {
-            print("Ah, maybe next time :)")
-//            self.startParty(partyName: "Test", host: Auth.auth().currentUser!, guests: self.friendArray)
+            self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
             print("Party Sucessfully Started")
         }
 
@@ -210,6 +248,7 @@ extension HomeVC: CLLocationManagerDelegate
 
 extension HomeVC: MKMapViewDelegate
 {
+    
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation)
     {
         UpdateService.instance.updateUserLocationWithCoordinate(coordinate: userLocation.coordinate)
@@ -234,29 +273,6 @@ extension HomeVC: MKMapViewDelegate
     {
         centerMapButton.fadeTo(alphaValue: 1.0, withDuration: 0.2)
     }
-    
-    
-//    LOCATION SEARCH FUNCTION
-//
-//    func perfomSearch()
-//    {
-//        matchingMapItems.removeAll()
-//        
-//        let request = MKLocalSearchRequest()
-//        request.naturalLanguageQuery = locationSearchTextField
-//    }
-    
-    func searchForFriendsWithUsername(username: String) -> String
-    {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.children.allObjects is [DataSnapshot]
-            {
-                DataService.instance.REF_USERS.queryOrdered(byChild: "username").queryEqual(toValue: username)
-            }
-        })
-        return username
-    }
-    
     
 }
 

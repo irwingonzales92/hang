@@ -25,11 +25,12 @@
 		574F82831F259C27006D41BE /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574F82781F259C27006D41BE /* RoundImageView.swift */; };
 		574F828B1F25CBE3006D41BE /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574F828A1F25CBE3006D41BE /* UIViewExt.swift */; };
 		574F828D1F25D128006D41BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 574F828C1F25D128006D41BE /* GoogleService-Info.plist */; };
+		577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C541F4B93DB005529A2 /* AuthService.swift */; };
 		57A39E2D1F42191D00D30F9D /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A39E2C1F42191D00D30F9D /* ProfileVC.swift */; };
 		57A39E2F1F42296E00D30F9D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57A39E2E1F42296E00D30F9D /* MobileCoreServices.framework */; };
 		57A39E311F42A43E00D30F9D /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A39E301F42A43E00D30F9D /* CardView.swift */; };
 		57BACD5E1F2FFBB700A3C426 /* PartyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BACD5D1F2FFBB700A3C426 /* PartyAnnotation.swift */; };
-		57F09E761F453DE20008701B /* PartyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E751F453DE20008701B /* PartyVC.swift */; };
+		57F09E761F453DE20008701B /* HangoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E751F453DE20008701B /* HangoutVC.swift */; };
 		57F09E781F4543B20008701B /* UITextFieldExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E771F4543B20008701B /* UITextFieldExt.swift */; };
 		57F09E7A1F48047F0008701B /* CustomImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E791F48047F0008701B /* CustomImageCell.swift */; };
 		57F09E7C1F4804A70008701B /* CustomMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E7B1F4804A70008701B /* CustomMapCell.swift */; };
@@ -63,11 +64,12 @@
 		574F82781F259C27006D41BE /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		574F828A1F25CBE3006D41BE /* UIViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		574F828C1F25D128006D41BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		577A7C541F4B93DB005529A2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		57A39E2C1F42191D00D30F9D /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		57A39E2E1F42296E00D30F9D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		57A39E301F42A43E00D30F9D /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		57BACD5D1F2FFBB700A3C426 /* PartyAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartyAnnotation.swift; sourceTree = "<group>"; };
-		57F09E751F453DE20008701B /* PartyVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartyVC.swift; sourceTree = "<group>"; };
+		57F09E751F453DE20008701B /* HangoutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HangoutVC.swift; sourceTree = "<group>"; };
 		57F09E771F4543B20008701B /* UITextFieldExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExt.swift; sourceTree = "<group>"; };
 		57F09E791F48047F0008701B /* CustomImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageCell.swift; sourceTree = "<group>"; };
 		57F09E7B1F4804A70008701B /* CustomMapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMapCell.swift; sourceTree = "<group>"; };
@@ -157,7 +159,7 @@
 			children = (
 				574F825E1F252B01006D41BE /* HomeVC.swift */,
 				57A39E2C1F42191D00D30F9D /* ProfileVC.swift */,
-				57F09E751F453DE20008701B /* PartyVC.swift */,
+				57F09E751F453DE20008701B /* HangoutVC.swift */,
 				574F82701F259C27006D41BE /* ContainerVC.swift */,
 				574F82731F259C27006D41BE /* LeftSidePanelVC.swift */,
 				574F82741F259C27006D41BE /* LoginVC.swift */,
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				574F82711F259C27006D41BE /* DataService.swift */,
+				577A7C541F4B93DB005529A2 /* AuthService.swift */,
 				57F9D2191F2C2251006E1D67 /* UpdateServices.swift */,
 			);
 			name = Services;
@@ -355,7 +358,8 @@
 				57F9D21A1F2C2251006E1D67 /* UpdateServices.swift in Sources */,
 				57A39E2D1F42191D00D30F9D /* ProfileVC.swift in Sources */,
 				57F09E781F4543B20008701B /* UITextFieldExt.swift in Sources */,
-				57F09E761F453DE20008701B /* PartyVC.swift in Sources */,
+				57F09E761F453DE20008701B /* HangoutVC.swift in Sources */,
+				577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */,
 				57F09E811F48077E0008701B /* EventTitleCell.swift in Sources */,
 				57BACD5E1F2FFBB700A3C426 /* PartyAnnotation.swift in Sources */,
 				574F82811F259C27006D41BE /* RoundedShadowButton.swift in Sources */,
