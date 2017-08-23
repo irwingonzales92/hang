@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         containerVC = ContainerVC()
         
+        
+        
         window?.rootViewController = containerVC
         window?.makeKeyAndVisible()
         

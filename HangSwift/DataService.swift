@@ -19,7 +19,7 @@ class DataService
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_HANGOUT = DB_BASE.child("hangout")
-    private var _REF_SESSIONS = DB_BASE.child("sessions")
+    private var _REF_FEED = DB_BASE.child("feed")
     
     var REF_BASE: DatabaseReference
     {
@@ -36,9 +36,9 @@ class DataService
         return _REF_HANGOUT
     }
     
-    var REF_SESSIONS: DatabaseReference
+    var REF_FEED: DatabaseReference
     {
-        return _REF_SESSIONS
+        return _REF_FEED
     }
     
     func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isHangout: Bool)
@@ -50,6 +50,19 @@ class DataService
     func createFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>, hangoutName: String, isHangout: Bool, guests: Array<Any>)
     {
         REF_HANGOUT.child(uid).updateChildValues(hangoutData)
+    }
+    
+    func updatePost(withMessage message: String, forUID uid: String, withGroupKey groupKey: String?, sendComplete: @escaping(_ status: Bool) -> ())
+    {
+        if groupKey != nil
+        {
+            // send group ref
+        }
+        else
+        {
+            REF_FEED.childByAutoId().updateChildValues(["content": message, "senderID": uid])
+            sendComplete(true)
+        }
     }
     
 }

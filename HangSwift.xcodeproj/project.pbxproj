@@ -26,6 +26,8 @@
 		574F828B1F25CBE3006D41BE /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574F828A1F25CBE3006D41BE /* UIViewExt.swift */; };
 		574F828D1F25D128006D41BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 574F828C1F25D128006D41BE /* GoogleService-Info.plist */; };
 		577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C541F4B93DB005529A2 /* AuthService.swift */; };
+		577A7C571F4C93BD005529A2 /* ThrowawayFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */; };
+		577A7C5B1F4D0899005529A2 /* CreatePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C5A1F4D0899005529A2 /* CreatePostVC.swift */; };
 		57A39E2D1F42191D00D30F9D /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A39E2C1F42191D00D30F9D /* ProfileVC.swift */; };
 		57A39E2F1F42296E00D30F9D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57A39E2E1F42296E00D30F9D /* MobileCoreServices.framework */; };
 		57A39E311F42A43E00D30F9D /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A39E301F42A43E00D30F9D /* CardView.swift */; };
@@ -65,6 +67,8 @@
 		574F828A1F25CBE3006D41BE /* UIViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		574F828C1F25D128006D41BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		577A7C541F4B93DB005529A2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThrowawayFunctions.swift; sourceTree = "<group>"; };
+		577A7C5A1F4D0899005529A2 /* CreatePostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostVC.swift; sourceTree = "<group>"; };
 		57A39E2C1F42191D00D30F9D /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		57A39E2E1F42296E00D30F9D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		57A39E301F42A43E00D30F9D /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 				574F825E1F252B01006D41BE /* HomeVC.swift */,
 				57A39E2C1F42191D00D30F9D /* ProfileVC.swift */,
 				57F09E751F453DE20008701B /* HangoutVC.swift */,
+				577A7C5A1F4D0899005529A2 /* CreatePostVC.swift */,
 				574F82701F259C27006D41BE /* ContainerVC.swift */,
 				574F82731F259C27006D41BE /* LeftSidePanelVC.swift */,
 				574F82741F259C27006D41BE /* LoginVC.swift */,
@@ -202,6 +207,7 @@
 				57F09E821F48079C0008701B /* DescriptionCell.swift */,
 				57F09E7B1F4804A70008701B /* CustomMapCell.swift */,
 				57F09E7E1F48072B0008701B /* GuestListCell.swift */,
+				577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 				574F827C1F259C27006D41BE /* DataService.swift in Sources */,
 				574F827F1F259C27006D41BE /* LoginVC.swift in Sources */,
 				574F827D1F259C27006D41BE /* GradientView.swift in Sources */,
+				577A7C5B1F4D0899005529A2 /* CreatePostVC.swift in Sources */,
 				574F825D1F252B01006D41BE /* AppDelegate.swift in Sources */,
 				574F82821F259C27006D41BE /* RoundedShadowView.swift in Sources */,
 				57A39E311F42A43E00D30F9D /* CardView.swift in Sources */,
@@ -366,6 +373,7 @@
 				57F09E7A1F48047F0008701B /* CustomImageCell.swift in Sources */,
 				574F82831F259C27006D41BE /* RoundImageView.swift in Sources */,
 				57F09E831F48079C0008701B /* DescriptionCell.swift in Sources */,
+				577A7C571F4C93BD005529A2 /* ThrowawayFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -117,7 +117,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate {
                     {
                         if user.key == Auth.auth().currentUser?.uid
                         {
-                            DataService.instance.REF_USERS.child(user.key).updateChildValues(["name": self.nameTextField.text!, "city": self.cityTextField.text!])
+                            DataService.instance.REF_USERS.child(user.key).updateChildValues(["username": self.nameTextField.text!, "city": self.cityTextField.text!])
                             
                             self.nameLabel.text = self.nameTextField.text
                             

@@ -68,20 +68,6 @@ class HangoutVC: UIViewController {
     //        request.naturalLanguageQuery = locationSearchTextField
     //    }
     
-    func startParty(partyName: String, host: User, coordinate: CLLocationCoordinate2D, guests: Array<Any>)
-    {
-        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.children.allObjects is [DataSnapshot]
-            {
-                if host.uid == Auth.auth().currentUser?.uid
-                {
-                    let partyData = [ "partyName": partyName, "provider": host.providerID, "desciption": String(), "partyIsActive": Bool(), "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
-                    
-                    DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: partyData, hangoutName: partyName, isHangout: true, guests: guests)
-                }
-            }
-        })
-    }
     
     func searchForFriendsWithUsername(username: String) -> String
     {

@@ -158,6 +158,8 @@ class HomeVC: UIViewController {
                     let hangoutData = [ "hangoutName": hangoutName, "provider": host.providerID, "desciption": String(), "hagnoutIsActive": Bool(),"hangoutIsPrivate": Bool(), "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
                     
                     DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
+                    
+                    UpdateService.instance.updateUserIsInHangoutStatus(bool: true)
                 }
             }
         })

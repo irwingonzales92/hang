@@ -29,72 +29,13 @@ class LeftSidePanelVC: UIViewController {
     {
         super.viewWillAppear(animated)
         
-        sessionSwitch.isOn = false
-        sessionSwitch.isHidden = true
-        sessionLbl.isHidden = true
-        
-        observeUsers()
-        
-        // If User has no profile
-        if Auth.auth().currentUser == nil
-        {
-            self.userEmailLbl.text = ""
-            self.userAcctTyleLbl.text = ""
-            self.userImageView.isHidden = true
-            self.sessionSwitch.isHidden = true
-            self.sessionLbl.isHidden = true
-            self.signinOutBtn.setTitle("Sign Up", for: .normal)
-        }
-        else
-        {
-            self.userEmailLbl.text = Auth.auth().currentUser?.email
-            self.userAcctTyleLbl.text = ""
-            self.userImageView.isHidden = false
-            self.signinOutBtn.setTitle("Sign Out", for: .normal)
-        }
     }
     
-    //Observer Function
-    func observeUsers()
-    {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for snap in snapshot
-                {
-                    if snap.key == Auth.auth().currentUser?.uid
-                    {
-                        self.userAcctTyleLbl.text = "USER"
-//                        
-//                        self.sessionSwitch.isHidden = false
-//                        
-//                        let switchStatus = snap.childSnapshot(forPath: "isSessionModeEnabled").value as! Bool
-//                        self.sessionSwitch.isOn = switchStatus
-//                        self.sessionLbl.isHidden = false
-                    }
-                }
-            }
-        })
-        
-        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for snap in snapshot
-                {
-                    if snap.key == Auth.auth().currentUser?.uid
-                    {
-                       self.userAcctTyleLbl.text = "PARTY"
 
-                    }
-                }
-            }
-        })
-    }
-    
     @IBAction func partyBtnPressed(_ sender: Any)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let hangoutVC = storyboard.instantiateViewController(withIdentifier: "PartyVC") as? HangoutVC
+        let hangoutVC = storyboard.instantiateViewController(withIdentifier: "HangoutVC") as? HangoutVC
         present(hangoutVC!, animated: true, completion: nil)
     }
     
