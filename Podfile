@@ -16,5 +16,6 @@ target 'HangSwift' do
   pod 'YNExpandableCell'
   pod 'GrowingTextView'
   pod ‘MTPopup’
+  pod 'PMAlertController'
 
 end

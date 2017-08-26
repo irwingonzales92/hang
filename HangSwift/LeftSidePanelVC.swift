@@ -58,11 +58,6 @@ class LeftSidePanelVC: UIViewController {
             do
             {
                 try Auth.auth().signOut()
-                userEmailLbl.text = ""
-                userAcctTyleLbl.text = ""
-                userImageView.isHidden = true
-                sessionLbl.text = ""
-                sessionSwitch.isHidden = true
                 signinOutBtn.setTitle("Sign In", for: .normal)
             }
             catch (let error)

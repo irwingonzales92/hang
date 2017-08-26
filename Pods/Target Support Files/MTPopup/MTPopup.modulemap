@@ -1,0 +1,6 @@
+framework module MTPopup {
+  umbrella header "MTPopup-umbrella.h"
+
+  export *
+  module * { export * }
+}

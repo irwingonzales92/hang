@@ -12,6 +12,7 @@ import RevealingSplashView
 import CoreLocation
 import Firebase
 import PopupDialog
+import PMAlertController
 
 
 class HomeVC: UIViewController {
@@ -31,6 +32,7 @@ class HomeVC: UIViewController {
     var matchingFriend = String()
     let tableViewCell =  UITableViewCell()
     var guestArray = Array<Any>()
+    var hangoutTextField = UITextField()
     
     
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
@@ -137,6 +139,8 @@ class HomeVC: UIViewController {
         })
     }
     
+    // Hide Location Function
+    
     
     //    LOCATION SEARCH FUNCTION
     //
@@ -155,7 +159,7 @@ class HomeVC: UIViewController {
             {
                 if host.uid == Auth.auth().currentUser?.uid
                 {
-                    let hangoutData = [ "hangoutName": hangoutName, "provider": host.providerID, "desciption": String(), "hagnoutIsActive": Bool(),"hangoutIsPrivate": Bool(), "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
+                    let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": Bool(),"hangoutIsPrivate": Bool(), "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
                     
                     DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
                     
@@ -171,6 +175,9 @@ class HomeVC: UIViewController {
             if snapshot.children.allObjects is [DataSnapshot]
             {
                 DataService.instance.REF_USERS.queryOrdered(byChild: "username").queryEqual(toValue: username)
+                let value = snapshot.value as? NSDictionary
+                let usernameFromDB = value?["username"] as? String ?? ""
+                print(usernameFromDB)
             }
         })
         return username
@@ -182,6 +189,7 @@ class HomeVC: UIViewController {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         self.mapView.setRegion(coordinateRegion, animated: true)
     }
+    
 
     @IBAction func createBtnPressed(_ sender: Any)
     {
@@ -189,43 +197,32 @@ class HomeVC: UIViewController {
         let createPostVC = storyboard.instantiateViewController(withIdentifier: "CreatePostVC") as? CreatePostVC
         present(createPostVC!, animated: true, completion: nil)
     }
+    
+    
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
         actionBtn.animateButton(shouldLoad: true, withMessage: nil)
         
-        // Prepare the popup assets
-        let title = "Start A Party?"
-        let message = "The party is about to start, are the details correct?"
-        let image = UIImage(named: "")
+        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: "IMG_1127"), style: .alert)
         
-        // Create the dialog
-        let popup = PopupDialog(title: title, message: message, image: image)
+        alertVC.addTextField { (textField) in
+            hangoutTextField = textField!
+            hangoutTextField.placeholder = "Title"
+        }
         
-        // Create buttons
-        let buttonOne = DefaultButton(title: "Start Party", height: 60)
-        {
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+            print("Capture action Cancel")
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            print("Capture action OK")
+            
             self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+            UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
             print("Party Sucessfully Started")
-        }
-
-        let buttonTwo = DefaultButton(title: "Edit Details")
-        {
-            print("What a beauty!")
-        }
+        }))
         
-        let buttonThree = CancelButton(title: "Nevermind")
-        {
-            print("You canceled the car dialog.")
-        }
-        
-        
-        // Add buttons to dialog
-        // Alternatively, you can use popup.addButton(buttonOne)
-        // to add a single button
-        popup.addButtons([buttonOne, buttonTwo, buttonThree])
-        
-        // Present dialog
-        self.present(popup, animated: true, completion: nil)
+        self.present(alertVC, animated: true, completion: nil)
     }
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
@@ -295,6 +292,7 @@ extension HomeVC: UITextFieldDelegate
             tableView.layer.cornerRadius = 5.0
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
             
+            
             tableView.delegate = self as UITableViewDelegate
             tableView.dataSource = self as UITableViewDataSource
             
@@ -315,7 +313,7 @@ extension HomeVC: UITextFieldDelegate
     {
         if textField == findFriendsTextfield
         {
-            // perform search function
+            self.searchForFriendsWithUsername(username: textField.text!)
             view.endEditing(true)
         }
         return true
