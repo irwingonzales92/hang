@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class CreatePostVC: UIViewController {
 
@@ -19,8 +20,6 @@ class CreatePostVC: UIViewController {
         super.viewDidLoad()
         
         self.textView.delegate = self
-
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func cancelBtnPressed(_ sender: Any)
@@ -28,7 +27,25 @@ class CreatePostVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func sendBtnWasPressed(_ sender: Any) {
+    @IBAction func sendBtnWasPressed(_ sender: Any)
+    {
+        if textView.text != nil && textView.text != "Say something here..."
+        {
+            self.sendButton.isEnabled = false
+            DataService.instance.updatePost(withMessage: self.textView.text, forUID: (Auth.auth().currentUser?.uid)!, withGroupKey: nil, sendComplete: { (isComplete) in
+                if isComplete == true
+                {
+                    self.sendButton.isEnabled = true
+                    self.dismiss(animated: true, completion: nil)
+                    print("Post Successfully Saved")
+                }
+                else
+                {
+                    self.sendButton.isEnabled = true
+                    print("There was an error!")
+                }
+            })
+        }
     }
 
 }
@@ -38,5 +55,6 @@ extension CreatePostVC: UITextViewDelegate
     private func textViewDidBeginEditing(_ textView: UITextField)
     {
         self.textView.text = ""
+        
     }
 }

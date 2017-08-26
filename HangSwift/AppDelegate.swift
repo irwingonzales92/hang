@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  HangSwift
 //
-//  Created by Irwin Gonzales on 7/23/17.
+//  Created by Irwin Gonzales on 7/23/17.   
 //  Copyright © 2017 Irwin Gonzales. All rights reserved.
 //
 
@@ -22,8 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         containerVC = ContainerVC()
-        
-        
         
         window?.rootViewController = containerVC
         window?.makeKeyAndVisible()

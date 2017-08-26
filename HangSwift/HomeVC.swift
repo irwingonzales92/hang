@@ -183,6 +183,12 @@ class HomeVC: UIViewController {
         self.mapView.setRegion(coordinateRegion, animated: true)
     }
 
+    @IBAction func createBtnPressed(_ sender: Any)
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let createPostVC = storyboard.instantiateViewController(withIdentifier: "CreatePostVC") as? CreatePostVC
+        present(createPostVC!, animated: true, completion: nil)
+    }
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
         actionBtn.animateButton(shouldLoad: true, withMessage: nil)
