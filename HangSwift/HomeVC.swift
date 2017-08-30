@@ -49,8 +49,9 @@ class HomeVC: UIViewController {
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         
-        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
-            self.loadUserAnnotationFromFirebase()
+        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
+            //self.loadUserAnnotationFromFirebase()
+            self.loadHangoutAnnotation()
         })
         
         self.setupDelegates()
@@ -60,12 +61,21 @@ class HomeVC: UIViewController {
         
         revealingSplashView.heartAttack = true
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
+        self.view.addGestureRecognizer(tap)
+        
     }
     
+    /// Setup Methods
     func setupDelegates()
     {
         mapView.delegate = self
         findFriendsTextfield.delegate = self
+    }
+    
+    func handleScreenTap(sender: UITapGestureRecognizer)
+    {
+        self.view.endEditing(true)
     }
     
     func checkLocationAuthStatus()
@@ -81,6 +91,9 @@ class HomeVC: UIViewController {
         }
     }
     
+    /// Annotation Loading Functions
+    
+    // User Annotations
     func loadUserAnnotationFromFirebase()
     {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -139,9 +152,67 @@ class HomeVC: UIViewController {
         })
     }
     
-    // Hide Location Function
+    // Hangout Annotations
+    func loadHangoutAnnotation()
+    {
+        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let hangSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+            {
+                for hangout in hangSnapshot
+                {
+                    if hangout.hasChild("coordinate")
+                    {
+                        if let hangDict = hangout.value as? Dictionary<String, AnyObject>
+                        {
+                            let coordnateArray = hangDict["coordinate"] as! NSArray
+                            let hangoutCoordinate = CLLocationCoordinate2D(latitude: coordnateArray[0] as! CLLocationDegrees, longitude: coordnateArray[1] as! CLLocationDegrees)
+                            
+                            let annotation = PartyAnnotation(coordinate: hangoutCoordinate, withKey: hangout.key)
+                            
+                            var hangoutAreVisible: Bool
+                            {
+                                return self.mapView.annotations.contains(where: { (annotation) -> Bool in
+                                    if let hangoutAnnotation = annotation as? PartyAnnotation
+                                    {
+                                        if hangoutAnnotation.key == hangout.key
+                                        {
+                                            hangoutAnnotation.update(annotationPosition: hangoutAnnotation, withCoordinate: hangoutCoordinate)
+                                            return true
+                                        }
+                                    }
+                                    return false
+                                })
+                            }
+                            if !hangoutAreVisible
+                            {
+                                self.mapView.addAnnotation(annotation)
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for annotation in self.mapView.annotations
+                        {
+                            if annotation.isKind(of: PartyAnnotation.self)
+                            {
+                                if let annotation = annotation as? PartyAnnotation
+                                {
+                                    if annotation.key == hangout.key
+                                    {
+                                        self.mapView.removeAnnotation(annotation)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
     
-    
+    /// Helper Methods
+
     //    LOCATION SEARCH FUNCTION
     //
     //    func perfomSearch()
@@ -183,6 +254,11 @@ class HomeVC: UIViewController {
         return username
     }
     
+    func addUsersToGuestListArrayWithId(user: String)
+    {
+        self.guestArray.append(user)
+    }
+    
     
     func centerMapOnUserLocation()
     {
@@ -190,7 +266,7 @@ class HomeVC: UIViewController {
         self.mapView.setRegion(coordinateRegion, animated: true)
     }
     
-
+    /// Actions
     @IBAction func createBtnPressed(_ sender: Any)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -237,6 +313,7 @@ class HomeVC: UIViewController {
     }
 }
 
+/// Extensions
 
 extension HomeVC: CLLocationManagerDelegate
 {
@@ -291,7 +368,6 @@ extension HomeVC: UITextFieldDelegate
             tableView.frame = CGRect(x: 20, y: view.frame.height, width: view.frame.width - 40, height: view.frame.height - 170)
             tableView.layer.cornerRadius = 5.0
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
-            
             
             tableView.delegate = self as UITableViewDelegate
             tableView.dataSource = self as UITableViewDataSource
@@ -379,10 +455,22 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        animateTableView(shouldShow: false)
-        print("selelcted")
         
-        // Add Alert View that allows users to invite friends to hang out.
+        let alertVC = PMAlertController(title: "Add Firend?", description: "Your friend will be able to see your location in real time", image: UIImage(named: ""), style: .alert)
+        
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+            print("Capture action Cancel")
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            print("Capture action OK")
+            print("Friend is added!")
+        }))
+        
+        self.addUsersToGuestListArrayWithId(user: matchingFriend)
+        UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+        
+        self.present(alertVC, animated: true, completion: nil)
         
     }
 }

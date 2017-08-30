@@ -82,5 +82,18 @@ class UpdateService
         })
     }
     
+    func addUsersIntoGuestList(users: Array<Any>)
+    {
+        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+            {
+                for hangout in hangoutSnapshot
+                {
+                    DataService.instance.REF_HANGOUT.child(hangout.key).updateChildValues(["guestList": users])
+                    print("Guest List Added")
+                }
+            }
+        })
+    }
     
 }
