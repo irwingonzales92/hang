@@ -371,7 +371,7 @@ extension HomeVC: UITextFieldDelegate
             
             tableView.frame = CGRect(x: 20, y: view.frame.height, width: view.frame.width - 40, height: view.frame.height - 170)
             tableView.layer.cornerRadius = 5.0
-//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")            
+//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
             tableView.dequeueReusableCell(withIdentifier: "locationCell")
             
             
