@@ -31,7 +31,7 @@ class HomeVC: UIViewController {
     var host: user = user()
     var matchingFriend = String()
     let tableViewCell =  UITableViewCell()
-    var guestArray = Array<Any>()
+    var guestArray = [String]()
     var hangoutTextField = UITextField()
     
     
@@ -44,6 +44,9 @@ class HomeVC: UIViewController {
         manager = CLLocationManager()
         manager?.delegate = self
         manager?.desiredAccuracy = kCLLocationAccuracyBest
+        
+        self.findFriendsTextfield.delegate = self
+        findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         
         self.checkLocationAuthStatus()
@@ -212,6 +215,7 @@ class HomeVC: UIViewController {
     }
     
     /// Helper Methods
+    
 
     //    LOCATION SEARCH FUNCTION
     //
@@ -254,10 +258,10 @@ class HomeVC: UIViewController {
         return username
     }
     
-    func addUsersToGuestListArrayWithId(user: String)
-    {
-        self.guestArray.append(user)
-    }
+//    func addUsersToGuestListArrayWithId(user: String)
+//    {
+//        self.guestArray.append(user)
+//    }
     
     
     func centerMapOnUserLocation()
@@ -367,7 +371,9 @@ extension HomeVC: UITextFieldDelegate
             
             tableView.frame = CGRect(x: 20, y: view.frame.height, width: view.frame.width - 40, height: view.frame.height - 170)
             tableView.layer.cornerRadius = 5.0
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
+//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")            
+            tableView.dequeueReusableCell(withIdentifier: "locationCell")
+            
             
             tableView.delegate = self as UITableViewDelegate
             tableView.dataSource = self as UITableViewDataSource
@@ -384,6 +390,21 @@ extension HomeVC: UITextFieldDelegate
         }
     }
     
+    func textFieldDidChange()
+    {
+        if findFriendsTextfield.text == ""
+        {
+            guestArray = []
+            tableView.reloadData()
+        }
+        else
+        {
+            DataService.instance.getUser(forSearchQuery: findFriendsTextfield.text!, handler: { (friendArray) in
+                self.guestArray = friendArray
+                self.tableView.reloadData()
+            })
+        }
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
@@ -450,7 +471,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 5
+        return guestArray.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
@@ -465,9 +486,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
             print("Capture action OK")
             print("Friend is added!")
+            
+            self.guestArray.insert(self.matchingFriend, at: indexPath.row)
         }))
         
-        self.addUsersToGuestListArrayWithId(user: matchingFriend)
+//        self.addUsersToGuestListArrayWithId(user: matchingFriend)
         UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
         
         self.present(alertVC, animated: true, completion: nil)

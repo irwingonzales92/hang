@@ -65,4 +65,25 @@ class DataService
         }
     }
     
+    func getUser(forSearchQuery query:String, handler:@escaping (_ userArray: [String]) -> ())
+    {
+        var userArray = [String]()
+        
+        REF_USERS.observe(.value, with: { (userSnapshot) in
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            for user in userSnapshot
+            {
+                let username = user.childSnapshot(forPath: "username").value as! String
+                
+                if username.contains(query) && username != Auth.auth().currentUser?.value(forKey: username) as! String
+                {
+                    userArray.append(username)
+                    
+                }
+                
+            }
+            handler(userArray)
+        })
+    }
+    
 }
