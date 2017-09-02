@@ -30,48 +30,9 @@
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dd7-Ul-6bL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="65" translatesAutoresizingMaskIntoConstraints="NO" id="2qK-00-KtX">
-                                        <rect key="frame" x="6" y="20" width="364" height="50"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
-                                                <rect key="frame" x="0.0" y="0.0" width="81" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="81" id="j0i-OT-5IF"/>
-                                                    <constraint firstAttribute="height" constant="50" id="xAI-AD-PXM"/>
-                                                </constraints>
-                                                <state key="normal" title="Button" image="menuSliderBtn"/>
-                                                <connections>
-                                                    <action selector="menuBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9mO-Qz-6Rj"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdk-TB-dJ1">
-                                                <rect key="frame" x="146" y="0.0" width="83" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="FmJ-on-Q3a"/>
-                                                    <constraint firstAttribute="width" constant="82.5" id="Q0L-Pk-tm5"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="27"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQT-hf-LhU">
-                                                <rect key="frame" x="294" y="0.0" width="70" height="50"/>
-                                                <state key="normal" title="Update" image="icons8-Comments-50"/>
-                                                <connections>
-                                                    <action selector="createBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="has-dG-Rzo"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="BlX-PN-kYZ"/>
-                                    <constraint firstItem="2qK-00-KtX" firstAttribute="top" secondItem="dd7-Ul-6bL" secondAttribute="top" constant="20" id="Qj9-su-Nai"/>
-                                    <constraint firstAttribute="bottom" secondItem="2qK-00-KtX" secondAttribute="bottom" constant="20" id="doE-NP-8WU"/>
-                                    <constraint firstAttribute="trailing" secondItem="2qK-00-KtX" secondAttribute="trailing" constant="5.5" id="gte-5I-aXd"/>
-                                    <constraint firstItem="2qK-00-KtX" firstAttribute="leading" secondItem="dd7-Ul-6bL" secondAttribute="leading" constant="6" id="qUO-O5-aI6"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sjc-57-fac" customClass="RoundedShadowButton" customModule="HangSwift" customModuleProvider="target">
@@ -127,10 +88,53 @@
                                     <constraint firstAttribute="width" constant="343" id="zeV-c5-p1x"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oc0-7Z-bAX">
+                                <rect key="frame" x="16" y="20" width="343" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
+                                        <rect key="frame" x="0.0" y="5" width="30" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="XP2-AB-wXs"/>
+                                            <constraint firstAttribute="width" constant="30" id="n1I-S2-mNO"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="menuSliderBtn"/>
+                                        <connections>
+                                            <action selector="menuBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9mO-Qz-6Rj"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdk-TB-dJ1">
+                                        <rect key="frame" x="30" y="0.0" width="263" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="FmJ-on-Q3a"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="27"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQT-hf-LhU">
+                                        <rect key="frame" x="293" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="Lhz-c6-Bwp"/>
+                                            <constraint firstAttribute="height" constant="50" id="vWL-De-OiL"/>
+                                        </constraints>
+                                        <state key="normal" title="Update" image="icons8-Comments-50"/>
+                                        <connections>
+                                            <action selector="createBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="has-dG-Rzo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="lQT-hf-LhU" secondAttribute="trailing" id="bzM-wb-O95"/>
+                                    <constraint firstItem="lQT-hf-LhU" firstAttribute="leading" secondItem="kdk-TB-dJ1" secondAttribute="trailing" id="rAD-tt-q8J"/>
+                                    <constraint firstItem="kdk-TB-dJ1" firstAttribute="centerY" secondItem="Oc0-7Z-bAX" secondAttribute="centerY" id="s8G-Sv-oBA"/>
+                                    <constraint firstAttribute="height" constant="50" id="vMT-Gi-47P"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3dW-b4-YHV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="1ha-Ei-pEr"/>
+                            <constraint firstItem="Oc0-7Z-bAX" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="20" id="1iV-mJ-8Dv"/>
                             <constraint firstItem="XM4-Cp-b04" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="2aS-CH-DWZ"/>
                             <constraint firstItem="dd7-Ul-6bL" firstAttribute="trailing" secondItem="GYU-BS-8Sv" secondAttribute="trailing" id="5pr-1A-Gtv"/>
                             <constraint firstItem="Sjc-57-fac" firstAttribute="top" secondItem="3dW-b4-YHV" secondAttribute="bottom" constant="8" id="BSc-zo-Rc3"/>
@@ -142,6 +146,8 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GYU-BS-8Sv" secondAttribute="bottom" id="Pxp-8k-wY6"/>
                             <constraint firstAttribute="trailing" secondItem="GYU-BS-8Sv" secondAttribute="trailing" id="Q0G-b0-YSL"/>
                             <constraint firstItem="GYU-BS-8Sv" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YnK-v7-ucM"/>
+                            <constraint firstItem="Oc0-7Z-bAX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="he6-z6-O3X"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Oc0-7Z-bAX" secondAttribute="trailing" id="ija-mP-fgO"/>
                             <constraint firstItem="dd7-Ul-6bL" firstAttribute="top" secondItem="GYU-BS-8Sv" secondAttribute="top" id="lvf-PC-x4c"/>
                             <constraint firstItem="Sjc-57-fac" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="5" id="uhv-kF-HDY"/>
                             <constraint firstItem="3dW-b4-YHV" firstAttribute="top" secondItem="XM4-Cp-b04" secondAttribute="bottom" constant="397" id="uwO-Oe-N6z"/>
