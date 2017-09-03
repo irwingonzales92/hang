@@ -82,6 +82,7 @@
 		57F09E821F48079C0008701B /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		57F9D2191F2C2251006E1D67 /* UpdateServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateServices.swift; sourceTree = "<group>"; };
 		C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangSwift/Pods-HangSwift.release.xcconfig"; sourceTree = "<group>"; };
+		CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HangSwift.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +128,7 @@
 		574F825B1F252B01006D41BE /* HangSwift */ = {
 			isa = PBXGroup;
 			children = (
+				CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */,
 				574F825C1F252B01006D41BE /* AppDelegate.swift */,
 				574F82871F259DB2006D41BE /* Services */,
 				574F82861F259DA4006D41BE /* Delegates */,
@@ -256,8 +258,16 @@
 				TargetAttributes = {
 					574F82581F252B01006D41BE = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 8RP384RY66;
+						DevelopmentTeam = 73TVPW27J7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -499,7 +509,7 @@
 			baseConfigurationReference = 285F87F032328F42BA436A2C /* Pods-HangSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8RP384RY66;
+				DEVELOPMENT_TEAM = 73TVPW27J7;
 				INFOPLIST_FILE = HangSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.irwingonzales.HangSwift;
@@ -513,7 +523,7 @@
 			baseConfigurationReference = C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8RP384RY66;
+				DEVELOPMENT_TEAM = 73TVPW27J7;
 				INFOPLIST_FILE = HangSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.irwingonzales.HangSwift;

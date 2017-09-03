@@ -22,6 +22,9 @@ class HomeVC: UIViewController {
     @IBOutlet var centerMapButton: UIButton!
     @IBOutlet var findFriendsTextfield: UITextField!
     
+    
+    
+    
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -40,6 +43,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         
         manager = CLLocationManager()
         manager?.delegate = self
@@ -64,8 +68,8 @@ class HomeVC: UIViewController {
         
         revealingSplashView.heartAttack = true
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
-        self.view.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
+//        self.view.addGestureRecognizer(tap)
         
     }
     
@@ -285,11 +289,12 @@ class HomeVC: UIViewController {
     {
         actionBtn.animateButton(shouldLoad: true, withMessage: nil)
         
-        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: "IMG_1127"), style: .alert)
+        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+
         
         alertVC.addTextField { (textField) in
             hangoutTextField = textField!
-            hangoutTextField.placeholder = "Title"
+            hangoutTextField.placeholder = "Name Your Party"
         }
         
         alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
@@ -403,6 +408,7 @@ extension HomeVC: UITextFieldDelegate
             DataService.instance.getUser(forSearchQuery: findFriendsTextfield.text!, handler: { (friendArray) in
                 self.guestArray = friendArray
                 self.tableView.reloadData()
+                print("Successfully reloaded")
             })
         }
     }
@@ -422,7 +428,7 @@ extension HomeVC: UITextFieldDelegate
     
     func textFieldDidEndEditing(_ textField: UITextField)
     {
-        
+        tableView.removeFromSuperview()
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool

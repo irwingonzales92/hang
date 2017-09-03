@@ -13,8 +13,6 @@ class CreatePostVC: UIViewController {
 
     @IBOutlet var sendButton: UIButton!
     @IBOutlet var textView: UITextView!
-    @IBOutlet var usernameLabel: UILabel!
-    @IBOutlet var userProfileImage: UIImageView!
     override func viewDidLoad()
     {
         super.viewDidLoad()
