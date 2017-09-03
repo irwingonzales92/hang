@@ -45,7 +45,8 @@ class HomeVC: UIViewController {
         manager?.delegate = self
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         
-        self.findFriendsTextfield.delegate = self
+        self.setupDelegates()
+        
         findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         
@@ -57,7 +58,6 @@ class HomeVC: UIViewController {
             self.loadHangoutAnnotation()
         })
         
-        self.setupDelegates()
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
         revealingSplashView.startAnimation()
@@ -73,6 +73,8 @@ class HomeVC: UIViewController {
     func setupDelegates()
     {
         mapView.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
         findFriendsTextfield.delegate = self
     }
     
@@ -372,8 +374,7 @@ extension HomeVC: UITextFieldDelegate
             tableView.frame = CGRect(x: 20, y: view.frame.height, width: view.frame.width - 40, height: view.frame.height - 170)
             tableView.layer.cornerRadius = 5.0
 //            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
-            tableView.dequeueReusableCell(withIdentifier: "locationCell")
-            
+//            tableView.dequeueReusableCell(withIdentifier: "locationCell")
             
             tableView.delegate = self as UITableViewDelegate
             tableView.dataSource = self as UITableViewDataSource
@@ -410,7 +411,10 @@ extension HomeVC: UITextFieldDelegate
     {
         if textField == findFriendsTextfield
         {
-            self.searchForFriendsWithUsername(username: textField.text!)
+//            self.searchForFriendsWithUsername(username: textField.text!)
+            DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!, handler: { (friepundArray) in
+                
+            })
             view.endEditing(true)
         }
         return true
@@ -458,8 +462,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        matchingFriend = searchForFriendsWithUsername(username: self.findFriendsTextfield.text!)
-        self.tableViewCell.textLabel?.text = matchingFriend
+//        matchingFriend = searchForFriendsWithUsername(username: self.findFriendsTextfield.text!)
+//        self.tableViewCell.textLabel?.text = matchingFriend
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as UITableViewCell
+        
+        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
+            cell.textLabel?.text = friendArray[indexPath.row]
+        }
         
         return self.tableViewCell
     }
