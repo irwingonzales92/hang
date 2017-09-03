@@ -287,11 +287,12 @@ class HomeVC: UIViewController {
     {
         actionBtn.animateButton(shouldLoad: true, withMessage: nil)
         
-        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: "IMG_1127"), style: .alert)
+        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+
         
         alertVC.addTextField { (textField) in
             hangoutTextField = textField!
-            hangoutTextField.placeholder = "Title"
+            hangoutTextField.placeholder = "Name Your Party"
         }
         
         alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in

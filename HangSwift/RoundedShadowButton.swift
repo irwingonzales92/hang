@@ -40,7 +40,7 @@ class RoundedShadowButton: UIButton
         if shouldLoad
         {
             self.addSubview(spinner)
-            self.setTitle("", for: .normal)
+            self.setTitle("Hangout23", for: .normal)
             
             UIView.animate(withDuration: 0.2, animations:
             {
