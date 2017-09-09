@@ -14,7 +14,7 @@ let DB_BASE = Database.database().reference()
 class DataService
 {
     static let instance = DataService()
-    
+    var userSnapshot: DataSnapshot?
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_HANGOUT = DB_BASE.child("hangout")
@@ -67,25 +67,58 @@ class DataService
     func getUser(forSearchQuery query: String, handler:@escaping (_ userArray: [String]) -> ())
     {
         var userArray = [String]()
-        
+        if let theSnapshot = userSnapshot {
+            guard let userSnapshot = theSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            for user in userSnapshot
+            {
+                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
+                    
+                    if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
+                    {
+                        userArray.append(userEmail)
+                    }
+                    else
+                    {
+                        print("query not found")
+                    }
+                }
+                /*
+                if let user = Auth.auth().currentUser {
+                    let changeRequest = user.createProfileChangeRequest()
+                    changeRequest.displayName = "My name"
+                    changeRequest.commitChanges(completion: nil)
+                }
+                */
+            }
+            DispatchQueue.main.async {
+                handler(userArray)
+            }
+        }
+        else {
+            
         REF_USERS.observe(.value, with: { (userSnapshot) in
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
             {
-                let userEmail = user.childSnapshot(forPath: "userEmail").value as! String
-                
-                if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
-                {
-                    userArray.append(userEmail)
-                }
-                else
-                {
-                    print("query not found")
+                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
+                    
+                    if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
+                    {
+                        userArray.append(userEmail)
+                    }
+                    else
+                    {
+                        print("query not found")
+                    }
                 }
                 
             }
-            handler(userArray)
+            DispatchQueue.main.async {
+                handler(userArray)
+            }
+            
         })
+        }
     }
         
 //    func readUserData()

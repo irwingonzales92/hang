@@ -43,6 +43,9 @@ class HomeVC: UIViewController {
     {
         super.viewDidLoad()
         
+        //tableView.register(FriendSearchCell.self, forCellReuseIdentifier: "locationCell")
+        let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
+        tableView.register(nib, forCellReuseIdentifier: "locationCell")
         
         manager = CLLocationManager()
         manager?.delegate = self
@@ -474,6 +477,7 @@ extension HomeVC: UITextFieldDelegate
         else
         {
             DataService.instance.getUser(forSearchQuery: findFriendsTextfield.text!, handler: { (friendArray) in
+                debugPrint(friendArray)
                 self.guestArray = friendArray
                 self.tableView.reloadData()
                 print("Successfully reloaded")
@@ -542,9 +546,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! FriendSearchCell
         
-        self.matchingFriend = searchArray[indexPath.row]
+        //self.matchingFriend = guestArray[indexPath.row]
         
-        cell.usernameLabel.text = self.matchingFriend
+        cell.usernameLabel.text = guestArray[indexPath.row]
         
         DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
             cell.textLabel?.text = friendArray[indexPath.row]
@@ -560,7 +564,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return searchArray.count
+        return guestArray.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
