@@ -23,8 +23,6 @@ class HomeVC: UIViewController {
     @IBOutlet var findFriendsTextfield: UITextField!
     
     
-    
-    
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -35,6 +33,7 @@ class HomeVC: UIViewController {
     var matchingFriend = String()
     let tableViewCell =  UITableViewCell()
     var guestArray = [String]()
+    var searchArray = [String]()
     var hangoutTextField = UITextField()
     
     
@@ -161,6 +160,88 @@ class HomeVC: UIViewController {
         })
     }
     
+    // Friend Search
+    
+//    func loadFriends(username: String) -> Array<Any>
+//    {
+//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
+//            
+//            if let friendSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+//            {
+//                for friend in friendSnapshot
+//                {
+//                    if friend.hasChild("username")
+//                    {
+//                        if let friendName = friend.value as? String
+//                        {
+//                            let friendArray 
+//                        }
+//                    }
+//                }
+//            }
+//        })
+//    }
+    
+//    func searchForFriendsWithUsername(username: String) -> String
+//    {
+//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
+//            
+//            if ((snapshot.children.allObjects as? [DataSnapshot]) != nil)
+//            {
+//                let friendSnapshot = snapshot.children.allObjects as! [DataSnapshot]
+//                for friend in friendSnapshot
+//                {
+//                    let value = friendSnapshot.value as? NSDictionary
+//                    let friend = value?["username"] as? String ?? ""
+//                    print(friend)
+//                    print(value as Any)
+//                }
+//            }
+//            else
+//            {
+//                print("error")
+//            }
+//        })
+//        print(username)
+//        return username
+//    }
+    
+    // DOES NOT WORK!!!!
+    
+//    func searchForFriendsWithUsername(username: String) -> String
+//    {
+//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
+//            
+//            let friendSnapshot = snapshot.children.allObjects as! [DataSnapshot]
+//            for friend in friendSnapshot
+//            {
+////                let value = friendSnapshot.value as? NSDictionary
+////                let friend = value?["username"] as? String ?? ""
+////                print(friend)
+////                print(value as Any)
+//                if friend.hasChild("username")
+//                {
+//                    if (friend.value as? String) != nil
+//                    {
+//                        username = friend.value as? String
+//                        print(friend.value!)
+//                    }
+//                    else
+//                    {
+//                        print("User has no username")
+//                    }
+//                }
+//                else
+//                {
+//                    print("No username found")
+//                }
+//            }
+//
+//        })
+//        print(username)
+//        return username
+//    }
+    
     // Hangout Annotations
     func loadHangoutAnnotation()
     {
@@ -250,19 +331,6 @@ class HomeVC: UIViewController {
         })
     }
     
-    func searchForFriendsWithUsername(username: String) -> String
-    {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.children.allObjects is [DataSnapshot]
-            {
-                DataService.instance.REF_USERS.queryOrdered(byChild: "username").queryEqual(toValue: username)
-                let value = snapshot.value as? NSDictionary
-                let usernameFromDB = value?["username"] as? String ?? ""
-                print(usernameFromDB)
-            }
-        })
-        return username
-    }
     
 //    func addUsersToGuestListArrayWithId(user: String)
 //    {
@@ -396,7 +464,7 @@ extension HomeVC: UITextFieldDelegate
         }
     }
     
-    func textFieldDidChange()
+    @objc func textFieldDidChange()
     {
         if findFriendsTextfield.text == ""
         {
@@ -417,10 +485,11 @@ extension HomeVC: UITextFieldDelegate
     {
         if textField == findFriendsTextfield
         {
-//            self.searchForFriendsWithUsername(username: textField.text!)
-            DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!, handler: { (friepundArray) in
-                
+            DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!, handler: { (friendArray) in
+                self.searchArray = friendArray
             })
+            
+//            DataService.instance.searchForFriendsWithUsername(username: findFriendsTextfield.text!)
             view.endEditing(true)
         }
         return true
@@ -471,13 +540,17 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
 //        matchingFriend = searchForFriendsWithUsername(username: self.findFriendsTextfield.text!)
 //        self.tableViewCell.textLabel?.text = matchingFriend
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! FriendSearchCell
+        
+        self.matchingFriend = searchArray[indexPath.row]
+        
+        cell.usernameLabel.text = self.matchingFriend
         
         DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
             cell.textLabel?.text = friendArray[indexPath.row]
         }
         
-        return self.tableViewCell
+        return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int
@@ -487,7 +560,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return guestArray.count
+        return searchArray.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
@@ -511,6 +584,20 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         self.present(alertVC, animated: true, completion: nil)
         
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        view.endEditing(true)
+        
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
+    {
+        if self.findFriendsTextfield.text == ""
+        {
+            animateTableView(shouldShow: false)
+        }
     }
 }
 

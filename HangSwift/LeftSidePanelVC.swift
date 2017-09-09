@@ -38,6 +38,12 @@ class LeftSidePanelVC: UIViewController {
         let hangoutVC = storyboard.instantiateViewController(withIdentifier: "HangoutVC") as? HangoutVC
         present(hangoutVC!, animated: true, completion: nil)
     }
+    @IBAction func inviteFriendBtnPressed(_ sender: Any)
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let friendSearchVC = storyboard.instantiateViewController(withIdentifier: "FriendSearchVC") as? FriendSearchVC
+        present(friendSearchVC!, animated: true, completion: nil)
+    }
     
     @IBAction func acntBtnPressed(_ sender: Any)
     {

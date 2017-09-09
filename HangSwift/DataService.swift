@@ -15,7 +15,6 @@ class DataService
 {
     static let instance = DataService()
     
-    
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_HANGOUT = DB_BASE.child("hangout")
@@ -65,7 +64,7 @@ class DataService
         }
     }
     
-    func getUser(forSearchQuery query:String, handler:@escaping (_ userArray: [String]) -> ())
+    func getUser(forSearchQuery query: String, handler:@escaping (_ userArray: [String]) -> ())
     {
         var userArray = [String]()
         
@@ -73,17 +72,26 @@ class DataService
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
             {
-                let username = user.childSnapshot(forPath: "username").value as! String
+                let userEmail = user.childSnapshot(forPath: "userEmail").value as! String
                 
-                if username.contains(query) && username != Auth.auth().currentUser?.value(forKey: username) as! String
+                if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
                 {
-                    userArray.append(username)
-                    
+                    userArray.append(userEmail)
+                }
+                else
+                {
+                    print("query not found")
                 }
                 
             }
             handler(userArray)
         })
     }
-    
+        
+//    func readUserData()
+//    {
+//        REF_USERS.child("username").observe(.value, with: { (DataSnapshot) in
+//            <#code#>
+//        })
+//    }
 }
