@@ -163,87 +163,6 @@ class HomeVC: UIViewController {
         })
     }
     
-    // Friend Search
-    
-//    func loadFriends(username: String) -> Array<Any>
-//    {
-//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
-//            
-//            if let friendSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-//            {
-//                for friend in friendSnapshot
-//                {
-//                    if friend.hasChild("username")
-//                    {
-//                        if let friendName = friend.value as? String
-//                        {
-//                            let friendArray 
-//                        }
-//                    }
-//                }
-//            }
-//        })
-//    }
-    
-//    func searchForFriendsWithUsername(username: String) -> String
-//    {
-//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
-//            
-//            if ((snapshot.children.allObjects as? [DataSnapshot]) != nil)
-//            {
-//                let friendSnapshot = snapshot.children.allObjects as! [DataSnapshot]
-//                for friend in friendSnapshot
-//                {
-//                    let value = friendSnapshot.value as? NSDictionary
-//                    let friend = value?["username"] as? String ?? ""
-//                    print(friend)
-//                    print(value as Any)
-//                }
-//            }
-//            else
-//            {
-//                print("error")
-//            }
-//        })
-//        print(username)
-//        return username
-//    }
-    
-    // DOES NOT WORK!!!!
-    
-//    func searchForFriendsWithUsername(username: String) -> String
-//    {
-//        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
-//            
-//            let friendSnapshot = snapshot.children.allObjects as! [DataSnapshot]
-//            for friend in friendSnapshot
-//            {
-////                let value = friendSnapshot.value as? NSDictionary
-////                let friend = value?["username"] as? String ?? ""
-////                print(friend)
-////                print(value as Any)
-//                if friend.hasChild("username")
-//                {
-//                    if (friend.value as? String) != nil
-//                    {
-//                        username = friend.value as? String
-//                        print(friend.value!)
-//                    }
-//                    else
-//                    {
-//                        print("User has no username")
-//                    }
-//                }
-//                else
-//                {
-//                    print("No username found")
-//                }
-//            }
-//
-//        })
-//        print(username)
-//        return username
-//    }
     
     // Hangout Annotations
     func loadHangoutAnnotation()
@@ -306,16 +225,6 @@ class HomeVC: UIViewController {
     
     /// Helper Methods
     
-
-    //    LOCATION SEARCH FUNCTION
-    //
-    //    func perfomSearch()
-    //    {
-    //        matchingMapItems.removeAll()
-    //
-    //        let request = MKLocalSearchRequest()
-    //        request.naturalLanguageQuery = locationSearchTextField
-    //    }
     
     func startHangout(hangoutName: String, host: User, coordinate: CLLocationCoordinate2D, guests: Array<Any>)
     {
@@ -449,8 +358,7 @@ extension HomeVC: UITextFieldDelegate
             
             tableView.frame = CGRect(x: 20, y: view.frame.height, width: view.frame.width - 40, height: view.frame.height - 170)
             tableView.layer.cornerRadius = 5.0
-//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "locationCell")
-//            tableView.dequeueReusableCell(withIdentifier: "locationCell")
+
             
             tableView.delegate = self as UITableViewDelegate
             tableView.dataSource = self as UITableViewDataSource
@@ -541,12 +449,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-//        matchingFriend = searchForFriendsWithUsername(username: self.findFriendsTextfield.text!)
-//        self.tableViewCell.textLabel?.text = matchingFriend
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! FriendSearchCell
-        
-        //self.matchingFriend = guestArray[indexPath.row]
         
         cell.usernameLabel.text = guestArray[indexPath.row]
         
@@ -577,16 +481,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+
             print("Capture action OK")
             print("Friend is added!")
             
             self.guestArray.insert(self.matchingFriend, at: indexPath.row)
+            self.dismiss(animated: true, completion: nil)
         }))
         
 //        self.addUsersToGuestListArrayWithId(user: matchingFriend)
-        UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
-        
         self.present(alertVC, animated: true, completion: nil)
+
         
     }
     

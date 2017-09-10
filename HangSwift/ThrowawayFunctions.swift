@@ -8,7 +8,8 @@
 
 import Foundation
 
-//Observer Function
+//    Observer Function - DataService
+//
 //    func observeUsers()
 //    {
 //        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -39,4 +40,14 @@ import Foundation
 //            }
 //        })
 //    }
-    
+
+//    LOCATION SEARCH FUNCTION - HomeVC
+//
+//    func perfomSearch()
+//    {
+//        matchingMapItems.removeAll()
+//
+//        let request = MKLocalSearchRequest()
+//        request.naturalLanguageQuery = locationSearchTextField
+//    }
+
