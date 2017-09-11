@@ -51,3 +51,12 @@ import Foundation
 //        request.naturalLanguageQuery = locationSearchTextField
 //    }
 
+//    USER DISPLAY NAME CHANGE
+/*
+ if let user = Auth.auth().currentUser {
+ let changeRequest = user.createProfileChangeRequest()
+ changeRequest.displayName = "My name"
+ changeRequest.commitChanges(completion: nil)
+ }
+ */
+

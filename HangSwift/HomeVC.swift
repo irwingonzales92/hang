@@ -59,10 +59,12 @@ class HomeVC: UIViewController {
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         
-        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
-            //self.loadUserAnnotationFromFirebase()
-            self.loadHangoutAnnotation()
-        })
+        checkIfUserIsInHangout()
+        
+//        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
+//            //self.loadUserAnnotationFromFirebase()
+//            self.loadHangoutAnnotation()
+//        })
         
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
@@ -70,8 +72,8 @@ class HomeVC: UIViewController {
         
         revealingSplashView.heartAttack = true
         
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
-//        self.view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
+        self.view.addGestureRecognizer(tap)
         
     }
     
@@ -101,6 +103,41 @@ class HomeVC: UIViewController {
             manager?.requestAlwaysAuthorization()
         }
     }
+    
+    func checkIfUserIsInHangout()
+    {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+            {
+                for user in userSnapshot
+                {
+                    if user.key == Auth.auth().currentUser?.uid
+                    {
+                        if user.childSnapshot(forPath: "userIsInHangout").value as? Bool == true
+                        {
+//                            DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
+//                                self.loadHangoutAnnotation()
+//                                print("Hangout Annotation Displayed")
+//                            })
+                            self.loadHangoutAnnotation()
+                            print("Hangout Annotation Displayed")
+                        }
+                        else
+                        {
+//                            DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
+//                                self.loadUserAnnotationFromFirebase()
+//                                print("Hangout Annotation Displayed")
+//                            })
+                            self.loadUserAnnotationFromFirebase()
+                            print("User Annotation Displayed")
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
     
     /// Annotation Loading Functions
     
@@ -196,6 +233,7 @@ class HomeVC: UIViewController {
                                     return false
                                 })
                             }
+                            
                             if !hangoutAreVisible
                             {
                                 self.mapView.addAnnotation(annotation)
@@ -225,7 +263,6 @@ class HomeVC: UIViewController {
     
     /// Helper Methods
     
-    
     func startHangout(hangoutName: String, host: User, coordinate: CLLocationCoordinate2D, guests: Array<Any>)
     {
         DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -238,6 +275,7 @@ class HomeVC: UIViewController {
                     DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
                     
                     UpdateService.instance.updateUserIsInHangoutStatus(bool: true)
+                    self.mapView.reloadInputViews()
                 }
             }
         })
@@ -454,9 +492,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         cell.usernameLabel.text = guestArray[indexPath.row]
         
-        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
-            cell.textLabel?.text = friendArray[indexPath.row]
-        }
+//        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
+//            cell.textLabel?.text = friendArray[indexPath.row]
+//        }
         
         return cell
     }
@@ -495,6 +533,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
 
         
     }
+    
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {

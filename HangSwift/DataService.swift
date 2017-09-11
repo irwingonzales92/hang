@@ -94,8 +94,8 @@ class DataService
                 handler(userArray)
             }
         }
-        else {
-            
+        else
+        {
         REF_USERS.observe(.value, with: { (userSnapshot) in
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
