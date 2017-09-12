@@ -51,14 +51,14 @@ class UpdateService
         })
     }
     
-    func updateUserIsInHangoutStatus(bool:Bool)
+    func updateUserIsInHangoutStatus(bool:Bool, passedUser: User)
     {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
                 for user in userSnapshot
                 {
-                    if user.key == Auth.auth().currentUser?.uid
+                    if user.key == passedUser.uid
                     {
                         DataService.instance.REF_USERS.child(user.key).updateChildValues(["userIsInHangout": bool])
                         print("User is in hangout")

@@ -51,6 +51,11 @@ class DataService
         REF_HANGOUT.child(uid).updateChildValues(hangoutData)
     }
     
+    func endFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>)
+    {
+        REF_HANGOUT.child(uid).updateChildValues(hangoutData)
+    }
+    
     func updatePost(withMessage message: String, forUID uid: String, withGroupKey groupKey: String?, sendComplete: @escaping(_ status: Bool) -> ())
     {
         if groupKey != nil
