@@ -21,6 +21,7 @@ class HomeVC: UIViewController {
     @IBOutlet var actionBtn: RoundedShadowButton!
     @IBOutlet var centerMapButton: UIButton!
     @IBOutlet var findFriendsTextfield: UITextField!
+    @IBOutlet weak var createMessageBtn: UIButton!
     
     
     var manager: CLLocationManager?
@@ -43,6 +44,8 @@ class HomeVC: UIViewController {
     {
         super.viewDidLoad()
         
+        createMessageBtn.isEnabled = false
+        
         //tableView.register(FriendSearchCell.self, forCellReuseIdentifier: "locationCell")
         let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
         tableView.register(nib, forCellReuseIdentifier: "locationCell")
@@ -59,7 +62,7 @@ class HomeVC: UIViewController {
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         
-        checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!)
+        //checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!)
         
 //        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
 //            //self.loadUserAnnotationFromFirebase()
@@ -381,7 +384,11 @@ class HomeVC: UIViewController {
 
     @IBAction func menuBtnWasPressed(_ sender: Any)
     {
-        delegate?.toggleLeftPanel()
+        //delegate?.toggleLeftPanel()
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
+        present(loginVC!, animated: true, completion: nil)
+        
     }
 }
 
