@@ -36,13 +36,16 @@ class HomeVC: UIViewController {
     var guestArray = [String]()
     var searchArray = [String]()
     var hangoutTextField = UITextField()
-    
+    //var currentUserID = Auth.auth().currentUser?.uid
+    var leaderAnnotationImg = UIImage(named: "leaderAnnotationImg")
     
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        mapView.tintColor = UIColor.green //Change color of location bubble
         
         createMessageBtn.isEnabled = false
         
@@ -426,6 +429,12 @@ extension HomeVC: MKMapViewDelegate
             view.image = UIImage(named: "driverAnnotation")
             
             return view
+        } else if let annotation = annotation as? LeaderAnnotation {
+            let identifier = "leader"
+            var view: MKAnnotationView
+            view = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.image = leaderAnnotationImg
+            
         }
         return nil
     }
@@ -561,6 +570,12 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
+        let leaderCoordinate = manager?.location?.coordinate
+        let leaderAnnotation = LeaderAnnotation(coordinate: leaderCoordinate!, withKey: (Auth.auth().currentUser?.uid)!)
+        mapView.addAnnotation(leaderAnnotation)
+        
+        
+        
         let alertVC = PMAlertController(title: "Add Firend?", description: "Your friend will be able to see your location in real time", image: UIImage(named: ""), style: .alert)
         
         alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
@@ -583,9 +598,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
     }
     
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        
-//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
