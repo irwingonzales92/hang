@@ -45,6 +45,8 @@ class HomeVC: UIViewController {
     {
         super.viewDidLoad()
         
+        
+        mapView.backgroundColor = UIColor.purple
         mapView.tintColor = UIColor.green //Change color of location bubble
         
         createMessageBtn.isEnabled = false
