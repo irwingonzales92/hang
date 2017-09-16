@@ -125,7 +125,32 @@ class DataService
         })
         }
     }
-        
+    
+    func checkIfUserIsInHangout(passedUser: User, handler:@escaping (_ isInside: Bool) -> Void)
+    {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+            {
+                for user in userSnapshot
+                {
+                    if user.key == passedUser.uid
+                    {
+                        if user.childSnapshot(forPath: "userIsInHangout").value as? Bool == true
+                        {
+                            print("Hangout Annotation Displayed")
+                            handler(true)
+                        }
+                        else
+                        {
+                            print("User Annotation Displayed")
+                            handler(false)
+                        }
+                    }
+                }
+            }
+        })
+    }
+    
 //    func readUserData()
 //    {
 //        REF_USERS.child("username").observe(.value, with: { (DataSnapshot) in

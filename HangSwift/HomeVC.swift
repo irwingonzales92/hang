@@ -67,13 +67,19 @@ class HomeVC: UIViewController {
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         
-        //checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!)
-        
-//        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
-//            //self.loadUserAnnotationFromFirebase()
-//            self.loadHangoutAnnotation()
-//        })
-        
+        DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
+            if isInHangout == true
+            {
+                self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
+                self.loadHangoutAnnotation()
+            }
+            else
+            {
+                self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
+                self.loadUserAnnotationFromFirebase()
+            }
+        }
+                
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
         revealingSplashView.startAnimation()
@@ -111,35 +117,6 @@ class HomeVC: UIViewController {
             manager?.requestAlwaysAuthorization()
         }
     }
-    
-    func checkIfUserIsInHangout(passedUser:User) -> Bool
-    {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for user in userSnapshot
-                {
-                    if user.key == passedUser.uid
-                    {
-                        if user.childSnapshot(forPath: "userIsInHangout").value as? Bool == true
-                        {
-                            self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
-                            self.loadHangoutAnnotation()
-                            print("Hangout Annotation Displayed")
-                        }
-                        else
-                        {
-                            self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
-                            self.loadUserAnnotationFromFirebase()
-                            print("User Annotation Displayed")
-                        }
-                    }
-                }
-            }
-        })
-        return false
-    }
-    
     
     /// Annotation Loading Functions
     
@@ -303,81 +280,131 @@ class HomeVC: UIViewController {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
-        if checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) == false
-        {
-            DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-                {
-                    for hangout in hangoutSnapshot
+        DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in
+            if isInParty == true
+            {
+                DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
                     {
-                        if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
+                        for hangout in hangoutSnapshot
                         {
-                            if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == false
+                            if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
                             {
-                                self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
-                                
-                                let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
-                                
-                                
-                                alertVC.addTextField { (textField) in
-                                    self.hangoutTextField = textField!
-                                    self.hangoutTextField.placeholder = "Name Your Party"
-                                }
-                                
-                                alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
-                                    print("Capture action Cancel")
-                                }))
-                                
-                                alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-                                    print("Capture action OK")
+                                if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == false
+                                {
+                                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
                                     
-                                    self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
-                                    UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
-                                    UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
-                                    print("Party Sucessfully Started")
-                                }))
-                                
-                                self.present(alertVC, animated: true, completion: nil)
+                                    let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+                                    
+                                    
+                                    alertVC.addTextField { (textField) in
+                                        self.hangoutTextField = textField!
+                                        self.hangoutTextField.placeholder = "Name Your Party"
+                                    }
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                                        print("Capture action Cancel")
+                                    }))
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                                        print("Capture action OK")
+                                        
+                                        self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+                                        UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+                                        print("Party Sucessfully Started")
+                                    }))
+                                    
+                                    self.present(alertVC, animated: true, completion: nil)
+                                }
+                                else
+                                {
+                                    print("something is wrong")
+                                    let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                                        print("Capture action Cancel")
+                                    }))
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                                        print("Capture action OK")
+                                        
+                                        self.endHangout(host: Auth.auth().currentUser!)
+                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+                                        print("Party Sucessfully Ended")
+                                    }))
+                                    
+                                    self.present(alertVC, animated: true, completion: nil)
+
+                                }
                             }
                         }
                     }
-                    
-                }
-            })
-            
-        }
-        else
-        {
-            DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-                {
-                    for hangout in hangoutSnapshot
+                })
+            }
+            else
+            {
+                DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
                     {
-                        if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
+                        for hangout in hangoutSnapshot
                         {
-                            if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == true
+                            if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
                             {
-                                // End Party Functionality
-                                let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
-                                
-                                alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
-                                    print("Capture action Cancel")
-                                }))
-                                
-                                alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-                                    print("Capture action OK")
-                                
-                                self.endHangout(host: Auth.auth().currentUser!)
-                                UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
-                                    print("Party Sucessfully Ended")
-                                }))
-                                                            
-                                self.present(alertVC, animated: true, completion: nil)
+                                if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == true
+                                {
+                                    // End Party Functionality
+                                    let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                                        print("Capture action Cancel")
+                                    }))
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                                        print("Capture action OK")
+                                        
+                                        self.endHangout(host: Auth.auth().currentUser!)
+                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+                                        print("Party Sucessfully Ended")
+                                    }))
+                                    
+                                    self.present(alertVC, animated: true, completion: nil)
+                                }
+                                else
+                                {
+                                    print("hangout is not active")
+                                    
+                                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+                                    
+                                    let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+                                    
+                                    
+                                    alertVC.addTextField { (textField) in
+                                        self.hangoutTextField = textField!
+                                        self.hangoutTextField.placeholder = "Name Your Party"
+                                    }
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                                        print("Capture action Cancel")
+                                    }))
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                                        print("Capture action OK")
+                                        
+                                        self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+                                        UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+                                        print("Party Sucessfully Started")
+                                    }))
+                                    
+                                    self.present(alertVC, animated: true, completion: nil)
+                                }
                             }
                         }
                     }
-                }
-            })
+                })
+            }
+
         }
     }
 
@@ -594,12 +621,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
             self.dismiss(animated: true, completion: nil)
         }))
         
-//        self.addUsersToGuestListArrayWithId(user: matchingFriend)
         self.present(alertVC, animated: true, completion: nil)
 
         
     }
-    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
