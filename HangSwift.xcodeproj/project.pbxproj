@@ -44,6 +44,7 @@
 		57F09E831F48079C0008701B /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E821F48079C0008701B /* DescriptionCell.swift */; };
 		57F9D21A1F2C2251006E1D67 /* UpdateServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9D2191F2C2251006E1D67 /* UpdateServices.swift */; };
 		8B5E377CBF42FA58B82A15FC /* Pods_HangSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF003048898911CFB2384E2 /* Pods_HangSwift.framework */; };
+		CD83C8071F6C7EC300C59AC6 /* LeaderAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		57F09E821F48079C0008701B /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		57F9D2191F2C2251006E1D67 /* UpdateServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateServices.swift; sourceTree = "<group>"; };
 		C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangSwift/Pods-HangSwift.release.xcconfig"; sourceTree = "<group>"; };
+		CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderAnnotation.swift; sourceTree = "<group>"; };
 		CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HangSwift.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				57BACD5D1F2FFBB700A3C426 /* PartyAnnotation.swift */,
+				CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */,
 				574F826F1F259C27006D41BE /* CircleView.swift */,
 				57A39E301F42A43E00D30F9D /* CardView.swift */,
 				574F82721F259C27006D41BE /* GradientView.swift */,
@@ -367,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				574F828B1F25CBE3006D41BE /* UIViewExt.swift in Sources */,
+				CD83C8071F6C7EC300C59AC6 /* LeaderAnnotation.swift in Sources */,
 				574F827A1F259C27006D41BE /* CircleView.swift in Sources */,
 				574F827E1F259C27006D41BE /* LeftSidePanelVC.swift in Sources */,
 				574F82791F259C27006D41BE /* CenterVCDelegate.swift in Sources */,

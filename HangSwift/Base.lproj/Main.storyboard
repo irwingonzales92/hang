@@ -92,18 +92,21 @@
                                 <rect key="frame" x="16" y="20" width="343" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
-                                        <rect key="frame" x="0.0" y="5" width="30" height="40"/>
+                                        <rect key="frame" x="0.0" y="5" width="50" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="XP2-AB-wXs"/>
-                                            <constraint firstAttribute="width" constant="30" id="n1I-S2-mNO"/>
+                                            <constraint firstAttribute="width" constant="50" id="n1I-S2-mNO"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="menuSliderBtn"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="20"/>
+                                        <state key="normal" title="Login">
+                                            <color key="titleColor" red="0.2627124488" green="0.2627638578" blue="0.26270923019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="menuBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9mO-Qz-6Rj"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdk-TB-dJ1">
-                                        <rect key="frame" x="30" y="0.0" width="263" height="50"/>
+                                        <rect key="frame" x="50" y="0.0" width="243" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="FmJ-on-Q3a"/>
                                         </constraints>
@@ -117,7 +120,6 @@
                                             <constraint firstAttribute="width" constant="50" id="Lhz-c6-Bwp"/>
                                             <constraint firstAttribute="height" constant="50" id="vWL-De-OiL"/>
                                         </constraints>
-                                        <state key="normal" title="Update" image="icons8-Comments-50"/>
                                         <connections>
                                             <action selector="createBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="has-dG-Rzo"/>
                                         </connections>
@@ -157,6 +159,7 @@
                     <connections>
                         <outlet property="actionBtn" destination="Sjc-57-fac" id="vV4-21-PEc"/>
                         <outlet property="centerMapButton" destination="3dW-b4-YHV" id="Usd-rg-SXy"/>
+                        <outlet property="createMessageBtn" destination="lQT-hf-LhU" id="B4M-ly-7EX"/>
                         <outlet property="findFriendsTextfield" destination="nn9-7h-BUp" id="aqA-DP-svD"/>
                         <outlet property="mapView" destination="GYU-BS-8Sv" id="hLm-yL-eak"/>
                     </connections>
@@ -1050,7 +1053,6 @@
     <resources>
         <image name="cancelBtn" width="32" height="31"/>
         <image name="centerMapBtn" width="62" height="62"/>
-        <image name="icons8-Comments-50" width="50" height="50"/>
         <image name="menuSliderBtn" width="30" height="24"/>
     </resources>
 </document>
