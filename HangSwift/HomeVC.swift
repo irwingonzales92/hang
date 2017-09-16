@@ -59,9 +59,7 @@ class HomeVC: UIViewController {
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         
-//        checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!, handler: (Bool) -> Void)
-        
-        checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
+        DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
             if isInHangout == true
             {
                 self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
@@ -73,12 +71,7 @@ class HomeVC: UIViewController {
                 self.loadUserAnnotationFromFirebase()
             }
         }
-        
-//        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
-//            //self.loadUserAnnotationFromFirebase()
-//            self.loadHangoutAnnotation()
-//        })
-        
+                
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
         revealingSplashView.startAnimation()
@@ -116,40 +109,6 @@ class HomeVC: UIViewController {
             manager?.requestAlwaysAuthorization()
         }
     }
-    
-//    func checkIfUserIsInHangout(passedUser:User) -> Bool
-//    func checkIfUserIsInHangout(passedUser: User, completion: (_ result: String) -> Void)
-    func checkIfUserIsInHangout(passedUser: User, handler:@escaping (_ isInside: Bool) -> Void)
-    {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for user in userSnapshot
-                {
-                    if user.key == passedUser.uid
-                    {
-                        if user.childSnapshot(forPath: "userIsInHangout").value as? Bool == true
-                        {
-//                            self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
-//                            self.loadHangoutAnnotation()
-                            print("Hangout Annotation Displayed")
-                            
-                            handler(true)
-                        }
-                        else
-                        {
-//                            self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
-//                            self.loadUserAnnotationFromFirebase()
-                            print("User Annotation Displayed")
-                            handler(false)
-                        }
-                    }
-                }
-            }
-        })
-//        return false
-    }
-    
     
     /// Annotation Loading Functions
     
@@ -313,7 +272,7 @@ class HomeVC: UIViewController {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
-        checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in
+        DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in
             if isInParty == true
             {
                 DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -353,6 +312,22 @@ class HomeVC: UIViewController {
                                 else
                                 {
                                     print("something is wrong")
+                                    let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                                        print("Capture action Cancel")
+                                    }))
+                                    
+                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                                        print("Capture action OK")
+                                        
+                                        self.endHangout(host: Auth.auth().currentUser!)
+                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+                                        print("Party Sucessfully Ended")
+                                    }))
+                                    
+                                    self.present(alertVC, animated: true, completion: nil)
+
                                 }
                             }
                         }
@@ -424,12 +399,6 @@ class HomeVC: UIViewController {
             }
 
         }
-        
-        
-//        if checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!, handler: (isInside) -> Void) == false
-//        {
-//            
-//        }
     }
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
@@ -629,15 +598,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
             self.dismiss(animated: true, completion: nil)
         }))
         
-//        self.addUsersToGuestListArrayWithId(user: matchingFriend)
         self.present(alertVC, animated: true, completion: nil)
 
         
     }
-    
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        
-//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
