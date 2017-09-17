@@ -45,6 +45,7 @@
 		57F9D21A1F2C2251006E1D67 /* UpdateServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9D2191F2C2251006E1D67 /* UpdateServices.swift */; };
 		8B5E377CBF42FA58B82A15FC /* Pods_HangSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF003048898911CFB2384E2 /* Pods_HangSwift.framework */; };
 		CD83C8071F6C7EC300C59AC6 /* LeaderAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */; };
+		CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD983AA81F6EE6B400ABDA65 /* Alertable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		57F9D2191F2C2251006E1D67 /* UpdateServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateServices.swift; sourceTree = "<group>"; };
 		C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangSwift/Pods-HangSwift.release.xcconfig"; sourceTree = "<group>"; };
 		CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderAnnotation.swift; sourceTree = "<group>"; };
+		CD983AA81F6EE6B400ABDA65 /* Alertable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HangSwift.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,7 +141,7 @@
 				CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */,
 				574F825C1F252B01006D41BE /* AppDelegate.swift */,
 				574F82871F259DB2006D41BE /* Services */,
-				574F82861F259DA4006D41BE /* Delegates */,
+				574F82861F259DA4006D41BE /* Protocols */,
 				57BACD5F1F30431A00A3C426 /* Extensions */,
 				574F82851F259D82006D41BE /* ViewControllers */,
 				57F09E7D1F4804B40008701B /* TableViewCells */,
@@ -184,12 +186,13 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
-		574F82861F259DA4006D41BE /* Delegates */ = {
+		574F82861F259DA4006D41BE /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				574F826E1F259C27006D41BE /* CenterVCDelegate.swift */,
+				CD983AA81F6EE6B400ABDA65 /* Alertable.swift */,
 			);
-			name = Delegates;
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		574F82871F259DB2006D41BE /* Services */ = {
@@ -391,6 +394,7 @@
 				57A39E2D1F42191D00D30F9D /* ProfileVC.swift in Sources */,
 				57F09E781F4543B20008701B /* UITextFieldExt.swift in Sources */,
 				57F09E761F453DE20008701B /* HangoutVC.swift in Sources */,
+				CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */,
 				577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */,
 				57F09E811F48077E0008701B /* EventTitleCell.swift in Sources */,
 				57BACD5E1F2FFBB700A3C426 /* PartyAnnotation.swift in Sources */,
