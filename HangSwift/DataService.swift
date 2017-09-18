@@ -87,6 +87,7 @@ class DataService
                         print("query not found")
                     }
                 }
+                
                 /*
                 if let user = Auth.auth().currentUser {
                     let changeRequest = user.createProfileChangeRequest()
@@ -94,6 +95,7 @@ class DataService
                     changeRequest.commitChanges(completion: nil)
                 }
                 */
+                
             }
             DispatchQueue.main.async {
                 handler(userArray)
@@ -101,28 +103,56 @@ class DataService
         }
         else
         {
-        REF_USERS.observe(.value, with: { (userSnapshot) in
+            
+        /*
+             Bug Fix Theory: The reason why the tableview keeps reloading is because
+             that it is constantly being observed. Try chaning the methods of "Observe"
+             with "ObserveWithSingleEvent"
+        */
+          
+        REF_USERS.observeSingleEvent(of: .value, with: { (userSnapshot) in
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
             {
-                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
-                    
+                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String
+                {
                     if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
                     {
                         userArray.append(userEmail)
                     }
                     else
                     {
-                        print("query not found")
+                        print("Query not found")
                     }
                 }
-                
             }
+            
             DispatchQueue.main.async {
                 handler(userArray)
             }
-            
         })
+        
+            
+//        REF_USERS.observe(.value, with: { (userSnapshot) in
+//            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
+//            for user in userSnapshot
+//            {
+//                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
+//                    
+//                    if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
+//                    {
+//                        userArray.append(userEmail)
+//                    }
+//                    else
+//                    {
+//                        print("query not found")
+//                    }
+//                }
+//            }
+//            DispatchQueue.main.async {
+//                handler(userArray)
+//            }
+//        })
         }
     }
     
@@ -150,11 +180,4 @@ class DataService
             }
         })
     }
-    
-//    func readUserData()
-//    {
-//        REF_USERS.child("username").observe(.value, with: { (DataSnapshot) in
-//            <#code#>
-//        })
-//    }
 }

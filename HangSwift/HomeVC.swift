@@ -501,10 +501,10 @@ extension HomeVC: UITextFieldDelegate
     
     @objc func textFieldDidChange()
     {
-        if findFriendsTextfield.text == ""
+        if findFriendsTextfield.text == " "
         {
             guestArray = []
-            tableView.reloadData()
+            self.tableView.reloadData()
         }
         else
         {
