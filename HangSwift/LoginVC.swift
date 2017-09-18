@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LoginVC: UIViewController, UITextFieldDelegate {
+class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
 
     @IBOutlet var authBtn: RoundedShadowButton!
     @IBOutlet var passwordTextField: RoundedCornerTextField!
@@ -68,7 +68,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             // Check textfields for content
             if let email = emailTextField.text, let password = passwordTextField.text
             {
-                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete: { (bool, error) in
+                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete: { (user, error) in
                     if error == nil
                     {
                         print("Email user authenticated successfully with Firebase")
@@ -81,12 +81,15 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             switch errorCode
                             {
                             case .emailAlreadyInUse:
-                                print("Email is in use")
+                                self.showAlert("Email is in use")
+                                
                             case .wrongPassword:
-                                print("Wrong Password")
+                                self.showAlert("Wrong Password")
                             case .credentialAlreadyInUse:
-                                print("Username already taken")
+                                self.showAlert("Username already taken")
+                                
                             default:
+                                self.showAlert(error as Any as! String)
                                 print(error as Any)
                             }
                         }

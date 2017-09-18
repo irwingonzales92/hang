@@ -91,11 +91,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oc0-7Z-bAX">
                                 <rect key="frame" x="16" y="20" width="343" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
-                                        <rect key="frame" x="0.0" y="5" width="50" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
+                                        <rect key="frame" x="0.0" y="5" width="75" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="XP2-AB-wXs"/>
-                                            <constraint firstAttribute="width" constant="50" id="n1I-S2-mNO"/>
+                                            <constraint firstAttribute="width" constant="75" id="n1I-S2-mNO"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="20"/>
                                         <state key="normal" title="Login">
@@ -106,7 +106,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdk-TB-dJ1">
-                                        <rect key="frame" x="50" y="0.0" width="243" height="50"/>
+                                        <rect key="frame" x="75" y="0.0" width="218" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="FmJ-on-Q3a"/>
                                         </constraints>
@@ -161,6 +161,7 @@
                         <outlet property="centerMapButton" destination="3dW-b4-YHV" id="Usd-rg-SXy"/>
                         <outlet property="createMessageBtn" destination="lQT-hf-LhU" id="B4M-ly-7EX"/>
                         <outlet property="findFriendsTextfield" destination="nn9-7h-BUp" id="aqA-DP-svD"/>
+                        <outlet property="loginBtn" destination="FOU-J0-y5E" id="ur2-Rl-WmL"/>
                         <outlet property="mapView" destination="GYU-BS-8Sv" id="hLm-yL-eak"/>
                     </connections>
                 </viewController>

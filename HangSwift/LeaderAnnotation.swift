@@ -21,15 +21,15 @@ class LeaderAnnotation: NSObject, MKAnnotation {
         super.init()
     }
     
-//    func update(annotationPosition annotation: LeaderAnnotation, withCoordinate coordinate: CLLocationCoordinate2D)
-//    {
-//        var location = self.coordinate
-//        location.latitude = coordinate.latitude
-//        location.longitude = coordinate.longitude
-//        
-//        UIView.animate(withDuration: 0.2)
-//        {
-//            self.coordinate = location
-//        }
-//    }
+    func update(annotationPosition annotation: LeaderAnnotation, withCoordinate coordinate: CLLocationCoordinate2D)
+    {
+        var location = self.coordinate
+        location.latitude = coordinate.latitude
+        location.longitude = coordinate.longitude
+        
+        UIView.animate(withDuration: 0.2)
+        {
+            self.coordinate = location
+        }
+    }
 }

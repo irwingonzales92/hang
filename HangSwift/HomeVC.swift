@@ -22,6 +22,8 @@ class HomeVC: UIViewController {
     @IBOutlet var centerMapButton: UIButton!
     @IBOutlet var findFriendsTextfield: UITextField!
     @IBOutlet weak var createMessageBtn: UIButton!
+    @IBOutlet weak var loginBtn: UIButton!
+    
     
     
     var manager: CLLocationManager?
@@ -38,6 +40,8 @@ class HomeVC: UIViewController {
     var hangoutTextField = UITextField()
     //var currentUserID = Auth.auth().currentUser?.uid
     var leaderAnnotationImg = UIImage(named: "leaderAnnotationImg")
+    var route: MKRoute!
+    
     
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
     
@@ -45,47 +49,69 @@ class HomeVC: UIViewController {
     {
         super.viewDidLoad()
         
-        mapView.tintColor = UIColor.green //Change color of location bubble
-        
-        createMessageBtn.isEnabled = false
-        
-        //tableView.register(FriendSearchCell.self, forCellReuseIdentifier: "locationCell")
-        let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
-        tableView.register(nib, forCellReuseIdentifier: "locationCell")
-        
-        manager = CLLocationManager()
-        manager?.delegate = self
-        manager?.desiredAccuracy = kCLLocationAccuracyBest
-        
-        self.setupDelegates()
-        
-        findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        
-        self.checkLocationAuthStatus()
-        self.centerMapOnUserLocation()
-        
-        DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
-            if isInHangout == true
-            {
-                self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
-                self.loadHangoutAnnotation()
-            }
-            else
-            {
-                self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
-                self.loadUserAnnotationFromFirebase()
+        if Auth.auth().currentUser == nil {
+            
+            print("No user")
+            loginBtn.setTitle("Login", for: .normal)
+            let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
+            present(loginVC!, animated: true, completion: nil)
+        } else {
+            
+            
+            
+            do {
+                print("User")
+                loginBtn.setTitle("Logout", for: .normal)
+                loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true 
+                
+                mapView.backgroundColor = UIColor.purple
+                mapView.tintColor = UIColor.green //Change color of location bubble
+                
+                createMessageBtn.isEnabled = false
+                
+                //tableView.register(FriendSearchCell.self, forCellReuseIdentifier: "locationCell")
+                let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
+                tableView.register(nib, forCellReuseIdentifier: "locationCell")
+                
+                manager = CLLocationManager()
+                manager?.delegate = self
+                manager?.desiredAccuracy = kCLLocationAccuracyBest
+                
+                self.setupDelegates()
+                
+                findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+                
+                
+                self.checkLocationAuthStatus()
+                self.centerMapOnUserLocation()
+                
+                DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
+                    if isInHangout == true
+                    {
+                        self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
+                        self.loadHangoutAnnotation()
+                    }
+                    else
+                    {
+                        self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
+                        self.loadUserAnnotationFromFirebase()
+                    }
+                }
+                
+                self.mapView.addSubview(revealingSplashView)
+                revealingSplashView.animationType = SplashAnimationType.heartBeat
+                revealingSplashView.startAnimation()
+                
+                revealingSplashView.heartAttack = true
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
+                self.view.addGestureRecognizer(tap)
+                
+            } catch (let error) {
+                print(error)
             }
         }
-                
-        self.mapView.addSubview(revealingSplashView)
-        revealingSplashView.animationType = SplashAnimationType.heartBeat
-        revealingSplashView.startAnimation()
-        
-        revealingSplashView.heartAttack = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
-        self.view.addGestureRecognizer(tap)
         
     }
     
@@ -415,9 +441,36 @@ class HomeVC: UIViewController {
     @IBAction func menuBtnWasPressed(_ sender: Any)
     {
         //delegate?.toggleLeftPanel()
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
-        present(loginVC!, animated: true, completion: nil)
+        
+        if Auth.auth().currentUser == nil {
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
+            present(loginVC!, animated: true, completion: nil)
+        } else {
+            do {
+                
+
+                let alertVC = PMAlertController(title: "Would you like to logout?", description: "", image: UIImage(named: ""), style: .alert)
+                
+                
+                alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                    print("Capture action Cancel")
+                }))
+                
+                alertVC.addAction(PMAlertAction(title: "Logout", style: .default, action: { () in
+                    print("Capture action LOGOUT")
+                
+                    try Auth.auth().signOut()
+                } as! (() -> Void)))
+                
+                self.present(alertVC, animated: true, completion: nil)
+
+            } catch (let error) {
+                print(error)
+            }
+        }
+
         
     }
 }
@@ -470,6 +523,29 @@ extension HomeVC: MKMapViewDelegate
     {
         centerMapButton.fadeTo(alphaValue: 1.0, withDuration: 0.2)
     }
+    
+    
+    
+    //capture the current location of the user and search mapkit for a route using the destination location.
+    func searchMapKitForResultsWithPolyline(forMapItem mapItem: MKMapItem) {
+        let request = MKDirectionsRequest()
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = mapItem
+        request.transportType = MKDirectionsTransportType.automobile
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { (response, error) in
+            guard let response = response else {
+                print(error.debugDescription)
+                return
+            }
+            self.route = response.routes[0] //pull the first route in the array because it tends to be the quickest
+            
+            self.mapView.add(self.route.polyline) //display the route as a solid line on the map
+        }
+    }
+    
+    
     
 }
 
