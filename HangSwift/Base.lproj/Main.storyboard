@@ -163,6 +163,7 @@
                         <outlet property="findFriendsTextfield" destination="nn9-7h-BUp" id="aqA-DP-svD"/>
                         <outlet property="loginBtn" destination="FOU-J0-y5E" id="ur2-Rl-WmL"/>
                         <outlet property="mapView" destination="GYU-BS-8Sv" id="hLm-yL-eak"/>
+                        <outlet property="roundedShadowView" destination="XM4-Cp-b04" id="gD6-bZ-wCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -928,7 +929,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gP2-zW-tb1" customClass="RoundedShadowButton" customModule="HangSwift" customModuleProvider="target">
-                                <rect key="frame" x="98" y="580" width="179" height="36"/>
+                                <rect key="frame" x="98" y="606" width="179" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="179" id="A4t-kG-Qpy"/>
                                     <constraint firstAttribute="height" constant="36" id="Odj-fv-U6s"/>
@@ -965,22 +966,8 @@
                                     <action selector="cancelBtnWasPressed:" destination="mjd-Ib-I59" eventType="touchUpInside" id="Br5-TL-QxK"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="57X-vE-8By">
-                                <rect key="frame" x="31" y="259" width="312" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="312" id="4rX-q1-wIf"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="Dk2-Ml-06t"/>
-                                    <constraint firstAttribute="height" constant="28" id="NHL-vm-KQE"/>
-                                    <constraint firstAttribute="width" constant="312" id="YYO-76-jTP"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="User"/>
-                                    <segment title="Second"/>
-                                </segments>
-                                <color key="tintColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </segmentedControl>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="pHS-6j-8v6">
-                                <rect key="frame" x="31" y="307" width="312" height="150"/>
+                                <rect key="frame" x="31" y="333" width="312" height="150"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5hw-0F-6Md" customClass="RoundedCornerTextField" customModule="HangSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="312" height="30"/>
@@ -1022,27 +1009,23 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="l9X-b4-YLk" secondAttribute="trailing" constant="21" id="4J6-pL-hB3"/>
-                            <constraint firstItem="pHS-6j-8v6" firstAttribute="top" secondItem="57X-vE-8By" secondAttribute="bottom" constant="20" id="4JM-pF-eJE"/>
+                            <constraint firstItem="zvT-XD-Bqd" firstAttribute="top" secondItem="gP2-zW-tb1" secondAttribute="bottom" constant="25" id="7Ly-di-8yp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gP2-zW-tb1" secondAttribute="trailing" constant="82" id="Cag-ML-h0P"/>
                             <constraint firstItem="gP2-zW-tb1" firstAttribute="top" secondItem="pHS-6j-8v6" secondAttribute="bottom" constant="123" id="E28-FE-hwV"/>
                             <constraint firstItem="gP2-zW-tb1" firstAttribute="leading" secondItem="fN9-yE-cdx" secondAttribute="leadingMargin" constant="82" id="NJj-of-3sd"/>
-                            <constraint firstItem="57X-vE-8By" firstAttribute="top" secondItem="l9X-b4-YLk" secondAttribute="bottom" constant="24" id="RFI-JK-cDJ"/>
                             <constraint firstItem="pHS-6j-8v6" firstAttribute="leading" secondItem="fN9-yE-cdx" secondAttribute="leadingMargin" constant="15" id="VHa-zV-8v2"/>
-                            <constraint firstItem="pHS-6j-8v6" firstAttribute="top" secondItem="57X-vE-8By" secondAttribute="bottom" constant="20" id="ZSb-4f-Hrv"/>
                             <constraint firstItem="diE-Ih-Bhz" firstAttribute="leading" secondItem="fN9-yE-cdx" secondAttribute="leadingMargin" id="biM-cj-7RW"/>
                             <constraint firstItem="l9X-b4-YLk" firstAttribute="leading" secondItem="fN9-yE-cdx" secondAttribute="leadingMargin" constant="21" id="hW8-JK-pAn"/>
                             <constraint firstItem="l9X-b4-YLk" firstAttribute="top" secondItem="diE-Ih-Bhz" secondAttribute="bottom" constant="113" id="lf1-5n-f4R"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="57X-vE-8By" secondAttribute="trailing" constant="16" id="nSZ-od-exF"/>
                             <constraint firstItem="diE-Ih-Bhz" firstAttribute="top" secondItem="PhB-5W-3xA" secondAttribute="bottom" id="vZZ-Io-DxY"/>
-                            <constraint firstItem="57X-vE-8By" firstAttribute="leading" secondItem="fN9-yE-cdx" secondAttribute="leadingMargin" constant="15" id="yBB-sb-L03"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pHS-6j-8v6" secondAttribute="trailing" constant="16" id="zfr-aC-GXi"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="authBtn" destination="gP2-zW-tb1" id="IoL-aN-Uzk"/>
+                        <outlet property="cancelBtn" destination="diE-Ih-Bhz" id="Kkc-hF-iGg"/>
                         <outlet property="emailTextField" destination="5hw-0F-6Md" id="tYP-T8-Q2e"/>
                         <outlet property="passwordTextField" destination="1Mc-q1-CtO" id="zvt-oH-K5d"/>
-                        <outlet property="segmentedControl" destination="57X-vE-8By" id="T4v-fZ-Ko8"/>
                         <outlet property="usernameTextField" destination="jHR-ie-yGg" id="Hby-o8-YhE"/>
                     </connections>
                 </viewController>

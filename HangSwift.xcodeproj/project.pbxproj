@@ -44,6 +44,8 @@
 		57F09E831F48079C0008701B /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F09E821F48079C0008701B /* DescriptionCell.swift */; };
 		57F9D21A1F2C2251006E1D67 /* UpdateServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9D2191F2C2251006E1D67 /* UpdateServices.swift */; };
 		8B5E377CBF42FA58B82A15FC /* Pods_HangSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF003048898911CFB2384E2 /* Pods_HangSwift.framework */; };
+		CD0C272F1F71B52B002DB47D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C272E1F71B52B002DB47D /* Constants.swift */; };
+		CD0C27311F71E0D4002DB47D /* Global Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C27301F71E0D4002DB47D /* Global Functions.swift */; };
 		CD83C8071F6C7EC300C59AC6 /* LeaderAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */; };
 		CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD983AA81F6EE6B400ABDA65 /* Alertable.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +92,8 @@
 		57F09E821F48079C0008701B /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		57F9D2191F2C2251006E1D67 /* UpdateServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateServices.swift; sourceTree = "<group>"; };
 		C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangSwift/Pods-HangSwift.release.xcconfig"; sourceTree = "<group>"; };
+		CD0C272E1F71B52B002DB47D /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CD0C27301F71E0D4002DB47D /* Global Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Global Functions.swift"; sourceTree = "<group>"; };
 		CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderAnnotation.swift; sourceTree = "<group>"; };
 		CD983AA81F6EE6B400ABDA65 /* Alertable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HangSwift.entitlements; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 			children = (
 				CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */,
 				574F825C1F252B01006D41BE /* AppDelegate.swift */,
+				CD0C272E1F71B52B002DB47D /* Constants.swift */,
 				574F82871F259DB2006D41BE /* Services */,
 				574F82861F259DA4006D41BE /* Protocols */,
 				57BACD5F1F30431A00A3C426 /* Extensions */,
@@ -151,6 +156,7 @@
 				574F82651F252B01006D41BE /* LaunchScreen.storyboard */,
 				574F82681F252B01006D41BE /* Info.plist */,
 				574F828C1F25D128006D41BE /* GoogleService-Info.plist */,
+				CD0C27301F71E0D4002DB47D /* Global Functions.swift */,
 			);
 			path = HangSwift;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 				574F827F1F259C27006D41BE /* LoginVC.swift in Sources */,
 				574F827D1F259C27006D41BE /* GradientView.swift in Sources */,
 				577A7C5B1F4D0899005529A2 /* CreatePostVC.swift in Sources */,
+				CD0C27311F71E0D4002DB47D /* Global Functions.swift in Sources */,
 				574F825D1F252B01006D41BE /* AppDelegate.swift in Sources */,
 				574F82821F259C27006D41BE /* RoundedShadowView.swift in Sources */,
 				57A39E311F42A43E00D30F9D /* CardView.swift in Sources */,
@@ -395,6 +402,7 @@
 				57F09E781F4543B20008701B /* UITextFieldExt.swift in Sources */,
 				57F09E761F453DE20008701B /* HangoutVC.swift in Sources */,
 				CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */,
+				CD0C272F1F71B52B002DB47D /* Constants.swift in Sources */,
 				577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */,
 				57F09E811F48077E0008701B /* EventTitleCell.swift in Sources */,
 				57BACD5E1F2FFBB700A3C426 /* PartyAnnotation.swift in Sources */,

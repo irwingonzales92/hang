@@ -12,7 +12,7 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    fileprivate var containerVC = ContainerVC()
+//    fileprivate var containerVC = ContainerVC()
     
     var window: UIWindow?
 
@@ -21,10 +21,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        containerVC = ContainerVC()
         
-        window?.rootViewController = containerVC
-        window?.makeKeyAndVisible()
+//        if Auth.auth().currentUser?.uid == nil {
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+//            self.window?.rootViewController = initialViewController
+//            self.window?.makeKeyAndVisible()
+//        } else {
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
+//            self.window?.rootViewController = initialViewController
+//            self.window?.makeKeyAndVisible()
+//        }
+        
+//        containerVC = ContainerVC()
+//        
+//        window?.rootViewController = containerVC
+//        window?.makeKeyAndVisible()
         
         // Override point for customization after application launch.
         return true
