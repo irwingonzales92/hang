@@ -40,7 +40,7 @@ class DataService
         return _REF_FEED
     }
     
-    func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isHangout: Bool)
+    func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isLeader: Bool)
     {
         REF_USERS.child(uid).updateChildValues(userData)
         

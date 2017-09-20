@@ -22,7 +22,7 @@ class AuthService
             }
             
             let userData = ["provider": user?.providerID, "userIsInHangout": false, "userEmail": user?.email, "username": username] as [String: Any]
-            DataService.instance.createFirebaseDBUsers(uid: user!.uid, userData: userData, isHangout: false)
+            DataService.instance.createFirebaseDBUsers(uid: user!.uid, userData: userData, isLeader: false)
             print("User Created")
         }
     }

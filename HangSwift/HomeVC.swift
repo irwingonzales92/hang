@@ -23,9 +23,11 @@ class HomeVC: UIViewController {
     @IBOutlet var findFriendsTextfield: UITextField!
     @IBOutlet weak var createMessageBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var roundedShadowView: RoundedShadowView!
     
     
     
+    var globalFunctions = GlobalFunctions()
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -45,6 +47,23 @@ class HomeVC: UIViewController {
     
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if Auth.auth().currentUser == nil {
+            actionBtn.isHidden = true
+            centerMapButton.isHidden = true
+            roundedShadowView.isHidden = true
+            
+        } else {
+            actionBtn.isHidden = false
+            centerMapButton.isHidden = false
+            roundedShadowView.isHidden = false
+        }
+        
+        createMessageBtn.isEnabled = false
+    }
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -53,6 +72,7 @@ class HomeVC: UIViewController {
             
             print("No user")
             loginBtn.setTitle("Login", for: .normal)
+            
             let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
             let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
             present(loginVC!, animated: true, completion: nil)
@@ -61,7 +81,6 @@ class HomeVC: UIViewController {
             
             
             do {
-                print("User")
                 loginBtn.setTitle("Logout", for: .normal)
                 loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true 
                 
@@ -442,38 +461,46 @@ class HomeVC: UIViewController {
     {
         //delegate?.toggleLeftPanel()
         
-        if Auth.auth().currentUser == nil {
+        if Auth.auth().currentUser == nil
+        {
             
-            let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
+            let storyBoard = UIStoryboard(name: MAIN_STORYBOARD, bundle: Bundle.main)
+            let loginVC = storyboard?.instantiateViewController(withIdentifier: VC_LOGIN) as? LoginVC
             present(loginVC!, animated: true, completion: nil)
-        } else {
-            do {
-                
-
-                let alertVC = PMAlertController(title: "Would you like to logout?", description: "", image: UIImage(named: ""), style: .alert)
-                
-                
-                alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
-                    print("Capture action Cancel")
-                }))
-                
-                alertVC.addAction(PMAlertAction(title: "Logout", style: .default, action: { () in
-                    print("Capture action LOGOUT")
-                
-                    try Auth.auth().signOut()
-                } as! (() -> Void)))
-                
-                self.present(alertVC, animated: true, completion: nil)
-
-            } catch (let error) {
-                print(error)
-            }
         }
+        else
+        {
 
-        
+            let alertVC = PMAlertController(title: "Would you like to logout?", description: "", image: UIImage(named: ""), style: .alert)
+            
+            
+            alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action:
+                { () -> Void in
+                print("Capture action Cancel")
+            }))
+            
+            alertVC.addAction(PMAlertAction(title: "Logout", style: .default, action:
+                { () -> Void in
+                do
+                {
+                    try Auth.auth().signOut()
+                    print("User Successfully Signed Out")
+
+                }
+                catch (let error)
+                {
+                    print(error)
+                }
+            }))
+            
+            self.present(alertVC, animated: true, completion: nil)
+            
+            }
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+        self.present(loginVC, animated: true, completion: nil)
+        }
     }
-}
 
 /// Extensions
 
