@@ -42,6 +42,9 @@
                             <constraint firstAttribute="height" constant="22" id="1me-5J-Sv0"/>
                             <constraint firstAttribute="width" constant="22" id="AV2-5T-gfE"/>
                         </constraints>
+                        <connections>
+                            <action selector="inviteFriendOnBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SYN-85-ttp"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -58,7 +61,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="addFriendToPartyButton" destination="B3O-uR-j2A" id="32a-YA-s5K"/>
+                <outlet property="addFriendToPartyButton" destination="B3O-uR-j2A" id="ELb-2u-2Gg"/>
                 <outlet property="userImageView" destination="Tuf-Fr-dVi" id="2il-WL-uA4"/>
                 <outlet property="usernameLabel" destination="SQm-yz-1Wc" id="L0M-q5-tEg"/>
             </connections>

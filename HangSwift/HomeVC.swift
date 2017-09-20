@@ -653,6 +653,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         cell.usernameLabel.text = guestArray[indexPath.row]
         
+        
 //        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
 //            cell.textLabel?.text = friendArray[indexPath.row]
 //        }
