@@ -16,7 +16,11 @@ class UpdateService
 {
     static var instance = UpdateService()
     
-    func updateUserLocationWithCoordinate(coordinate: CLLocationCoordinate2D)
+    
+    
+    
+    //gets the current user's location
+    func updateUserLocation(withCoordinate coordinate: CLLocationCoordinate2D)
     {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
@@ -25,12 +29,17 @@ class UpdateService
                 {
                     if user.key == Auth.auth().currentUser?.uid
                     {
-                        DataService.instance.REF_USERS.child(user.key).updateChildValues(["coordinate": [coordinate.latitude, coordinate.longitude]])
+                    DataService.instance.REF_USERS.child(user.key).updateChildValues([COORDINATE: [coordinate.latitude, coordinate.longitude]])
                     }
                 }
             }
         })
     }
+    
+    
+    
+    
+    
     
     func updateHangoutLocationWithCoordinate(coordinate: CLLocationCoordinate2D)
     {

@@ -32,7 +32,7 @@ extension CustomImageCell: MKMapViewDelegate
 {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation)
     {
-        UpdateService.instance.updateUserLocationWithCoordinate(coordinate: userLocation.coordinate)
+        UpdateService.instance.updateUserLocation(withCoordinate: userLocation.coordinate)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
