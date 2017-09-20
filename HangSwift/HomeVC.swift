@@ -15,7 +15,7 @@ import PopupDialog
 import PMAlertController
 
 
-class HomeVC: UIViewController {
+class HomeVC: UIViewController, Alertable {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var actionBtn: RoundedShadowButton!
@@ -45,22 +45,25 @@ class HomeVC: UIViewController {
     var route: MKRoute!
     
     
+    let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
     let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "launchScreenIcon")!, iconInitialSize: CGSize(width: 80, height: 80), backgroundColor: UIColor.white)
     
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         if Auth.auth().currentUser == nil {
-            actionBtn.isHidden = true
-            centerMapButton.isHidden = true
-            roundedShadowView.isHidden = true
-            
-        } else {
-            actionBtn.isHidden = false
-            centerMapButton.isHidden = false
-            roundedShadowView.isHidden = false
+            loginBtn.setTitle("Login", for: .normal)
+            buttonsForUser(areHidden: true)
+            print("No user")
         }
-        
+        else
+        {
+            loginBtn.setTitle("Logout", for: .normal)
+            loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+            buttonsForUser(areHidden: false)
+        }
         createMessageBtn.isEnabled = false
+        mapView.tintColor = UIColor.green //Change color of location bubble
     }
     
     
@@ -68,43 +71,20 @@ class HomeVC: UIViewController {
     {
         super.viewDidLoad()
         
-        if Auth.auth().currentUser == nil {
-            
-            print("No user")
-            loginBtn.setTitle("Login", for: .normal)
-            
-            let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC
-            present(loginVC!, animated: true, completion: nil)
-        } else {
-            
-            
-            
-            do {
-                loginBtn.setTitle("Logout", for: .normal)
-                loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true 
-                
-                mapView.backgroundColor = UIColor.purple
-                mapView.tintColor = UIColor.green //Change color of location bubble
-                
-                createMessageBtn.isEnabled = false
-                
-                //tableView.register(FriendSearchCell.self, forCellReuseIdentifier: "locationCell")
-                let nib = UINib(nibName: "FriendSearchCell", bundle: Bundle.main)
+                self.setupDelegates()
+                self.checkLocationAuthStatus()
+                self.centerMapOnUserLocation()
+        
                 tableView.register(nib, forCellReuseIdentifier: "locationCell")
                 
                 manager = CLLocationManager()
                 manager?.delegate = self
                 manager?.desiredAccuracy = kCLLocationAccuracyBest
                 
-                self.setupDelegates()
-                
+
                 findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
                 
-                
-                self.checkLocationAuthStatus()
-                self.centerMapOnUserLocation()
-                
+
                 DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
                     if isInHangout == true
                     {
@@ -126,13 +106,9 @@ class HomeVC: UIViewController {
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
                 self.view.addGestureRecognizer(tap)
-                
-            } catch (let error) {
-                print(error)
-            }
-        }
-        
     }
+    
+    
     
     /// Setup Methods
     func setupDelegates()
@@ -141,6 +117,26 @@ class HomeVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         findFriendsTextfield.delegate = self
+    }
+    
+    func buttonsForUser(areHidden: Bool) {
+        if areHidden == true {
+            actionBtn.fadeTo(alphaValue: 0.0, withDuration: 0.2)
+            centerMapButton.fadeTo(alphaValue: 0.0, withDuration: 0.2)
+            roundedShadowView.fadeTo(alphaValue: 0.0, withDuration: 0.2)
+            actionBtn.isHidden = true
+            centerMapButton.isHidden = true
+            roundedShadowView.isHidden = true
+        }
+        else
+        {
+            actionBtn.fadeTo(alphaValue: 1.0, withDuration: 0.2)
+            centerMapButton.fadeTo(alphaValue: 1.0, withDuration: 0.2)
+            roundedShadowView.fadeTo(alphaValue: 1.0, withDuration: 0.2)
+            actionBtn.isHidden = false
+            centerMapButton.isHidden = false
+            roundedShadowView.isHidden = false
+        }
     }
     
     func handleScreenTap(sender: UITapGestureRecognizer)
@@ -172,11 +168,13 @@ class HomeVC: UIViewController {
             {
                 for user in userSnapshot
                 {
-                    if user.hasChild("coordinate")
+                    if user.hasChild(COORDINATE)
                     {
+                        //Tell is user is a leaser
+//                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
                         if let userDict = user.value as? Dictionary<String, AnyObject>
                         {
-                            let coordnateArray = userDict["coordinate"] as! NSArray
+                            let coordnateArray = userDict[COORDINATE] as! NSArray
                             let userCoordinate = CLLocationCoordinate2D(latitude: coordnateArray[0] as! CLLocationDegrees, longitude: coordnateArray[1] as! CLLocationDegrees)
                             
                             let annotation = PartyAnnotation(coordinate: userCoordinate, withKey: user.key)
@@ -200,6 +198,7 @@ class HomeVC: UIViewController {
                                 self.mapView.addAnnotation(annotation)
                             }
                         }
+                    //}
                     }
                     else
                     {
@@ -500,6 +499,12 @@ class HomeVC: UIViewController {
 
 /// Extensions
 
+
+////////////////
+/// MAP VIEW ///
+////////////////
+
+
 extension HomeVC: CLLocationManagerDelegate
 {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
@@ -513,12 +518,12 @@ extension HomeVC: CLLocationManagerDelegate
     }
 }
 
+
 extension HomeVC: MKMapViewDelegate
 {
-    
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation)
     {
-        UpdateService.instance.updateUserLocationWithCoordinate(coordinate: userLocation.coordinate)
+        UpdateService.instance.updateUserLocation(withCoordinate: userLocation.coordinate)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
@@ -529,7 +534,7 @@ extension HomeVC: MKMapViewDelegate
             
             var view: MKAnnotationView
             view = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            view.image = UIImage(named: "driverAnnotation")
+            view.image = UIImage(named: "currentLocationAnnotation")
             
             return view
             
@@ -537,8 +542,9 @@ extension HomeVC: MKMapViewDelegate
             let identifier = "leader"
             var view: MKAnnotationView
             view = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//            view.tintColor = UIColor.red
             view.image = leaderAnnotationImg
-            
+            return view
         }
         return nil
     }
@@ -548,29 +554,103 @@ extension HomeVC: MKMapViewDelegate
         centerMapButton.fadeTo(alphaValue: 1.0, withDuration: 0.2)
     }
     
+    //How the route overlay should show up
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let lineRenderer = MKPolylineRenderer(overlay: (self.route?.polyline)!)
+        lineRenderer.strokeColor = UIColor(red: 186/255, green: 11/255, blue: 224/255, alpha: 0.8)
+        lineRenderer.lineWidth = 3
+        
+        ShouldPresentLoadingView(false)
+        
+        return lineRenderer
+    }
+    
     
     //capture the current location of the user and search mapkit for a route using the destination location.
-    func searchMapKitForResultsWithPolyline(forMapItem mapItem: MKMapItem) {
+    func searchMapKitForResultsWithPolyline(forOriginMapItem originMapItem: MKMapItem, withDestinationMapItem destinationMapItem: MKMapItem)
+    {
         let request = MKDirectionsRequest()
-        request.source = MKMapItem.forCurrentLocation()
-        request.destination = mapItem
+        
+        if originMapItem == nil {
+            request.source = MKMapItem.forCurrentLocation()
+        } else {
+            request.source = originMapItem
+        }
+        
+        request.destination = destinationMapItem
         request.transportType = MKDirectionsTransportType.automobile
+        request.requestsAlternateRoutes = true
+//        request.transportType = MKDirectionsTransportType.transit
+//        request.transportType = MKDirectionsTransportType.walking
         
         let directions = MKDirections(request: request)
+        
         directions.calculate { (response, error) in
             guard let response = response else {
-                print(error.debugDescription)
+                self.showAlert("An error occurred, please try again.")
                 return
             }
-            self.route = response.routes[0] //pull the first route in the array because it tends to be the quickest
-            
+            self.route = response.routes[0]
             self.mapView.add(self.route.polyline) //display the route as a solid line on the map
         }
     }
     
+    //Show passenger and destination annotation on map
+    func zoom(toFitAnnotationsFromMapView mapView: MKMapView, forActiveTripToLeader: Bool, withKey key: String?) {
+        if mapView.annotations.count == 0 {
+            return
+        }
+        
+        var topLeftCoordinate = CLLocationCoordinate2D(latitude: -90, longitude: 180)
+        var bottomRightCoordinate = CLLocationCoordinate2D(latitude: 90, longitude: -180)
+        
+        if forActiveTripToLeader {
+            for annotation in mapView.annotations {
+                if let annotation = annotation as? PartyAnnotation {
+                    if annotation.key == key {
+                        topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, annotation.coordinate.longitude)
+                        topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, annotation.coordinate.latitude)
+                        bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, annotation.coordinate.longitude)
+                        bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, annotation.coordinate.latitude)
+                    }
+                } else {
+                    topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, annotation.coordinate.longitude)
+                    topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, annotation.coordinate.latitude)
+                    bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, annotation.coordinate.longitude)
+                    bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, annotation.coordinate.latitude)
+                }
+            }
+        }
+        
+        
+        for annotation in mapView.annotations where !annotation.isKind(of: PartyAnnotation.self) {
+            topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, annotation.coordinate.longitude)
+            topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, annotation.coordinate.latitude)
+            bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, annotation.coordinate.longitude)
+            bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, annotation.coordinate.latitude)
+        }
+        
+        var region = MKCoordinateRegion (center: CLLocationCoordinate2DMake(topLeftCoordinate.latitude - (topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 0.5, topLeftCoordinate.longitude + (bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 0.5), span: MKCoordinateSpan(latitudeDelta: fabs(topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 2.0, longitudeDelta: fabs(bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 2.0))
+        
+        region = mapView.regionThatFits(region)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    
     
     
 }
+
+
+
+
+
+
+
+
+/////////////////
+/// TEXTFIELD ///
+/////////////////
 
 extension HomeVC: UITextFieldDelegate
 {

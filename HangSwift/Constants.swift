@@ -9,6 +9,9 @@
 import Foundation
 
 
+// Location
+let COORDINATE = "coordinate"
+
 // Storyboard
 let MAIN_STORYBOARD = "Main"
 

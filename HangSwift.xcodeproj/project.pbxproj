@@ -46,6 +46,7 @@
 		8B5E377CBF42FA58B82A15FC /* Pods_HangSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF003048898911CFB2384E2 /* Pods_HangSwift.framework */; };
 		CD0C272F1F71B52B002DB47D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C272E1F71B52B002DB47D /* Constants.swift */; };
 		CD0C27311F71E0D4002DB47D /* Global Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C27301F71E0D4002DB47D /* Global Functions.swift */; };
+		CD0C27331F7200C2002DB47D /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C27321F7200C2002DB47D /* UIViewControllerExt.swift */; };
 		CD83C8071F6C7EC300C59AC6 /* LeaderAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */; };
 		CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD983AA81F6EE6B400ABDA65 /* Alertable.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 		C342FA2AEAC4928AEEA04AB8 /* Pods-HangSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangSwift/Pods-HangSwift.release.xcconfig"; sourceTree = "<group>"; };
 		CD0C272E1F71B52B002DB47D /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CD0C27301F71E0D4002DB47D /* Global Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Global Functions.swift"; sourceTree = "<group>"; };
+		CD0C27321F7200C2002DB47D /* UIViewControllerExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		CD83C8061F6C7EC300C59AC6 /* LeaderAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderAnnotation.swift; sourceTree = "<group>"; };
 		CD983AA81F6EE6B400ABDA65 /* Alertable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		CDF259201F5A4D0500F55D91 /* HangSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HangSwift.entitlements; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 			children = (
 				574F828A1F25CBE3006D41BE /* UIViewExt.swift */,
 				57F09E771F4543B20008701B /* UITextFieldExt.swift */,
+				CD0C27321F7200C2002DB47D /* UIViewControllerExt.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				574F827A1F259C27006D41BE /* CircleView.swift in Sources */,
 				574F827E1F259C27006D41BE /* LeftSidePanelVC.swift in Sources */,
 				574F82791F259C27006D41BE /* CenterVCDelegate.swift in Sources */,
+				CD0C27331F7200C2002DB47D /* UIViewControllerExt.swift in Sources */,
 				575F612E1F64381C009533B6 /* FriendSearchVC.swift in Sources */,
 				574F825F1F252B01006D41BE /* HomeVC.swift in Sources */,
 				574F827C1F259C27006D41BE /* DataService.swift in Sources */,
