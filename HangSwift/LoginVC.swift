@@ -77,128 +77,84 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
             if let email = emailTextField.text, let password = passwordTextField.text
             {
                 //IRWIN: YOU CAN SWITCH THIS WITH YOUR SIGNIN FUNCTION IF YOU'D LIKE
-                Auth.auth().signIn(withEmail: email, password: password, completion:
-                    { (user, error) in
+                
+                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: "", userCreationComplete: { (success, error) in
                     if error == nil
                     {
-                        if let user = user
-                        {
-                            let userData = ["provider": user.providerID] as [String: Any]
-                                DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isLeader: false)
-                        }
-                        //self.dismiss(animated: true, completion: nil)
-                        
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                         let homeVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
                         self.present(homeVC, animated: true, completion: nil)
                         
                         self.showAlert("Login Successful")
                         print("User Successfully Logged in")
-                    } else
+                    }
+                    else
                     {
                         if let errorCode = AuthErrorCode(rawValue: error!._code)
                         {
-                            
+                        
                             switch errorCode
                             {
-                                
-                            case .wrongPassword:
+                        
+                                case .wrongPassword:
                                 self.showAlert(ERROR_MSG_WRONG_PASSWORD)
-                                
-                            default:
+                        
+                                default:
                                 self.showAlert(ERROR_MSG_UNEXPECTED_ERROR)
                                 print(error as Any)
                             }
                         }
                         
-                        //IRWIN: YOU CAN SWITCH THIS WITH YOUR REGISTER USER FUNCTION IF YOU'D LIKE
                         if let email = self.emailTextField.text, let password = self.passwordTextField.text, let username = self.usernameTextField.text
-                        {
-                    
-                            Auth.auth().createUser(withEmail: email, password: password, completion:
+                            {
+                                
+                                Auth.auth().createUser(withEmail: email, password: password, completion:
                                 { (user, error) in
-                                if error != nil
-                                {
-                                    
-                                    if let errorCode = AuthErrorCode(rawValue: error!._code)
+                                    if error != nil
                                     {
-                                        
-                                        switch errorCode
+                        
+                                        if let errorCode = AuthErrorCode(rawValue: error!._code)
                                         {
-                                        case .emailAlreadyInUse:
-                                            self.showAlert("Email is in use")
-                                            
-                                        case .invalidEmail:
-                                            self.showAlert(ERROR_MSG_INVALID_EMAIL)
-                                            
-                                        default:
-                                            self.showAlert(ERROR_MSG_UNEXPECTED_ERROR)
-                                            print(error as Any)
-                                            debugPrint(error)
+                        
+                                            switch errorCode
+                                            {
+                                                case .emailAlreadyInUse:
+                                                self.showAlert("Email is in use")
+                        
+                                                case .invalidEmail:
+                                                self.showAlert(ERROR_MSG_INVALID_EMAIL)
+                        
+                                                default:
+                                                self.showAlert(ERROR_MSG_UNEXPECTED_ERROR)
+                                                print(error as Any)
+                                                debugPrint(error)
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    if let user = user
+                                    else
                                     {
+                                        if let user = user
+                                        {
                                             let userData = ["provider": user.providerID, USER_IS_LEADER: false] as [String:Any]
                                             DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isLeader: false)
+//                                        }
+                        
+                                            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                                            let homeVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
+                                            self.present(homeVC, animated: true, completion: nil)
+                                        
+                                                            
+                                            self.showAlert("Sign Up Successful")
+                                            print("User Successfully Signed Up")
+                                            self.dismiss(animated: true, completion: nil)
+                                                            
                                         }
-                                    
-                                    
-                                    
-//                                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//                                    let homeVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
-//                                    self.present(homeVC, animated: true, completion: nil)
-                                    
-                                    
-                                    self.showAlert("Sign Up Successful")
-                                    print("User Successfully Signed Up")
-                                    self.dismiss(animated: true, completion: nil)
-                                    
                                     }
                                 })
                             }
                         }
-                    })
-                }
+                })
             }
-            
-//            if let email = emailTextField.text, let password = passwordTextField.text, let username = self.usernameTextField.text
-//            {
-//                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete: { (user, error) in
-//                    if error == nil
-//                    {
-//                        print("Email user authenticated successfully with Firebase")
-//                        self.dismiss(animated: true, completion: nil)
-//                    }
-//                    else
-//                    {
-//                        if let errorCode = AuthErrorCode(rawValue: error!._code)
-//                        {
-//                            switch errorCode
-//                            {
-//                            case .emailAlreadyInUse:
-//                                self.showAlert("Email is in use")
-//                                
-//                            case .wrongPassword:
-//                                self.showAlert("Wrong Password")
-//                            case .credentialAlreadyInUse:
-//                                self.showAlert("Username already taken")
-//                                
-//                            default:
-//                                self.showAlert(error as Any as! String)
-//                                print(error as Any)
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-        
-        
         }
-    
-    
-    
     }
+}
