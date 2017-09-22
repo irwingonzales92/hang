@@ -469,7 +469,6 @@ class HomeVC: UIViewController, Alertable {
         }
         else
         {
-
             let alertVC = PMAlertController(title: "Would you like to logout?", description: "", image: UIImage(named: ""), style: .alert)
             
             
@@ -484,16 +483,13 @@ class HomeVC: UIViewController, Alertable {
                 {
                     try Auth.auth().signOut()
                     print("User Successfully Signed Out")
-
                 }
                 catch (let error)
                 {
                     print(error)
                 }
             }))
-            
             self.present(alertVC, animated: true, completion: nil)
-            
             }
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
@@ -541,6 +537,7 @@ extension HomeVC: MKMapViewDelegate
             view.image = UIImage(named: "currentLocationAnnotation")
             
             return view
+            
         } else if let annotation = annotation as? LeaderAnnotation {
             let identifier = "leader"
             var view: MKAnnotationView
@@ -567,7 +564,6 @@ extension HomeVC: MKMapViewDelegate
         
         return lineRenderer
     }
-    
     
     
     //capture the current location of the user and search mapkit for a route using the destination location.
@@ -759,6 +755,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! FriendSearchCell
         
         cell.usernameLabel.text = guestArray[indexPath.row]
+        
         
 //        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
 //            cell.textLabel?.text = friendArray[indexPath.row]

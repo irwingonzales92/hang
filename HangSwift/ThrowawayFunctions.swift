@@ -140,4 +140,35 @@ import Foundation
 //                })
 //            }
 
+//            if let email = emailTextField.text, let password = passwordTextField.text, let username = self.usernameTextField.text
+//            {
+//                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete: { (user, error) in
+//                    if error == nil
+//                    {
+//                        print("Email user authenticated successfully with Firebase")
+//                        self.dismiss(animated: true, completion: nil)
+//                    }
+//                    else
+//                    {
+//                        if let errorCode = AuthErrorCode(rawValue: error!._code)
+//                        {
+//                            switch errorCode
+//                            {
+//                            case .emailAlreadyInUse:
+//                                self.showAlert("Email is in use")
+//
+//                            case .wrongPassword:
+//                                self.showAlert("Wrong Password")
+//                            case .credentialAlreadyInUse:
+//                                self.showAlert("Username already taken")
+//
+//                            default:
+//                                self.showAlert(error as Any as! String)
+//                                print(error as Any)
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+
 

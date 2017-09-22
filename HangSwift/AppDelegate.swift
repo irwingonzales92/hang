@@ -22,17 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         
-//        if Auth.auth().currentUser?.uid == nil {
-//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
-//            self.window?.rootViewController = initialViewController
-//            self.window?.makeKeyAndVisible()
-//        } else {
-//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
-//            self.window?.rootViewController = initialViewController
-//            self.window?.makeKeyAndVisible()
-//        }
+        if Auth.auth().currentUser?.uid == nil {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        } else {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let initialViewController: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        }
         
 //        containerVC = ContainerVC()
 //        
