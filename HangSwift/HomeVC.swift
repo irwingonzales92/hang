@@ -84,21 +84,28 @@ class HomeVC: UIViewController, Alertable {
                 
 
                 findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-                
-
-                DataService.instance.checkIfUserIsInHangout(passedUser: Auth.auth().currentUser!) { (isInHangout) in
-                    if isInHangout == true
-                    {
-                        self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
-                        self.loadHangoutAnnotation()
-                    }
-                    else
-                    {
-                        self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
-                        self.loadUserAnnotationFromFirebase()
-                    }
+        
+        if Auth.auth().currentUser?.uid != nil
+        {
+            DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInHangout) in
+                if isInHangout == true
+                {
+                    self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
+                    self.loadHangoutAnnotation()
                 }
-                
+                else
+                {
+                    self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
+                    self.loadUserAnnotationFromFirebase()
+                }
+            }
+        } else
+        {
+        return
+        }
+
+        
+        
                 self.mapView.addSubview(revealingSplashView)
                 revealingSplashView.animationType = SplashAnimationType.heartBeat
                 revealingSplashView.startAnimation()
@@ -459,14 +466,12 @@ class HomeVC: UIViewController, Alertable {
 
     @IBAction func menuBtnWasPressed(_ sender: Any)
     {
-        //delegate?.toggleLeftPanel()
+        
         
         if Auth.auth().currentUser == nil
         {
             
-            let storyBoard = UIStoryboard(name: MAIN_STORYBOARD, bundle: Bundle.main)
-            let loginVC = storyboard?.instantiateViewController(withIdentifier: VC_LOGIN) as? LoginVC
-            present(loginVC!, animated: true, completion: nil)
+            delegate?.toggleLoginVC()
         }
         else
         {
@@ -492,9 +497,11 @@ class HomeVC: UIViewController, Alertable {
             }))
             self.present(alertVC, animated: true, completion: nil)
             }
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
-        self.present(loginVC, animated: true, completion: nil)
+        
+        
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+//        self.present(loginVC, animated: true, completion: nil)
         }
     }
 

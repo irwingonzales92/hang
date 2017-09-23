@@ -158,6 +158,7 @@
 				574F82651F252B01006D41BE /* LaunchScreen.storyboard */,
 				574F82681F252B01006D41BE /* Info.plist */,
 				574F828C1F25D128006D41BE /* GoogleService-Info.plist */,
+				577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */,
 				CD0C27301F71E0D4002DB47D /* Global Functions.swift */,
 			);
 			path = HangSwift;
@@ -233,7 +234,6 @@
 				57F09E821F48079C0008701B /* DescriptionCell.swift */,
 				57F09E7B1F4804A70008701B /* CustomMapCell.swift */,
 				57F09E7E1F48072B0008701B /* GuestListCell.swift */,
-				577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";

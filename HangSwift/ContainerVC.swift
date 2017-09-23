@@ -16,12 +16,19 @@ enum SlideOutState
     case leftPanelExpanded
 }
 
+enum LoginState
+{
+    case collapsed
+    case loginVCExpanded
+}
+
 enum ShowWhichVC
 {
     case homeVC
+    case loginVC
 }
 
-//MARK:
+//MARK: Set HomVC as default VC when app launches
 var showVC: ShowWhichVC = .homeVC
 
 //MARK:
@@ -29,6 +36,7 @@ class ContainerVC: UIViewController
 {
     //MARK: Varibles
     var homeVC: HomeVC!
+    var loginVC: LoginVC!
     var leftVC: LeftSidePanelVC!
     var centerController: UIViewController!
     var currentState: SlideOutState = .collapsed
@@ -38,6 +46,17 @@ class ContainerVC: UIViewController
     
     var tap: UITapGestureRecognizer!
 
+    var loginVCCurrentState: LoginState = .collapsed
+    {
+        didSet
+        {
+            let shouldShowShadow = (loginVCCurrentState != .collapsed)
+            
+            shouldShowShadowForCenterViewController(status: shouldShowShadow)
+        }
+        
+    }
+    
     
     //MARK: View did load
     override func viewDidLoad()
@@ -61,6 +80,7 @@ class ContainerVC: UIViewController
         }
         
         presentingController = homeVC
+        
         
         //Clearing out unused VCs before loading a new center : Memory cleanup
         if let con = centerController
@@ -90,6 +110,72 @@ class ContainerVC: UIViewController
 //MARK: Conforming To Protocol of CenterVC
 extension ContainerVC: CenterVCDelegate
 {
+    
+    
+    
+    func toggleLoginVC()
+    {
+        let notAlreadyExpanded = (loginVCCurrentState != .loginVCExpanded)
+        
+        if notAlreadyExpanded
+        {
+            addLoginViewController()
+        }
+        animateLoginVC(shouldExpand: notAlreadyExpanded)
+    }
+    
+    func addLoginViewController()
+    {
+        //Instantiated beneath the current VC
+        if loginVC == nil {
+            loginVC = UIStoryboard.loginViewController()
+            addChildLoginViewController(loginVC!)
+        }
+    }
+    
+    
+    func addChildLoginViewController(_ loginController: LoginVC)
+    {
+        view.insertSubview(loginController.view, at: 0)
+        addChildViewController(loginController)
+        loginController.didMove(toParentViewController: self)
+    }
+    
+    func animateLoginVC(shouldExpand: Bool)
+    {
+        if shouldExpand
+        {
+            isHidden = !isHidden
+            animateStatusBar()
+            
+            setupWhiteCoverView()
+            loginVCCurrentState = .loginVCExpanded
+            
+            animateCenterPanelXPosition(targetPosition: centerController.view.frame.width - 20)
+        }
+        else
+        {
+            isHidden = !isHidden
+            animateStatusBar()
+            
+            hideWhiteCoverView()
+            animateCenterPanelXPosition(targetPosition: 0, completion: { (finished) in
+                if finished == true
+                {
+                    self.loginVCCurrentState = .collapsed
+                    self.loginVC = nil
+                }
+            })
+        }
+    }
+    
+
+    
+    
+    //////////////////////
+    ////// LEFT VC ///////
+    //////////////////////
+    
     func toggleLeftPanel()
     {
         // Set const that checks the current state of the the expansion
@@ -166,7 +252,7 @@ extension ContainerVC: CenterVCDelegate
         self.centerController.view.addSubview(whiteCoverView)
         whiteCoverView.fadeTo(alphaValue: 0.75, withDuration: 0.2)
         
-        tap = UITapGestureRecognizer(target: self, action: #selector(animateLeftPanel(shouldExpand:)))
+        tap = UITapGestureRecognizer(target: self, action: #selector(animateLoginVC(shouldExpand:)))
         tap.numberOfTapsRequired = 1
         
         self.centerController.view.addGestureRecognizer(tap)
@@ -194,12 +280,31 @@ extension ContainerVC: CenterVCDelegate
             self.setNeedsStatusBarAppearanceUpdate()
         })
     }
+    
+    func shouldShowShadowForCenterViewController(status: Bool)
+    {
+        if status == true
+        {
+            centerController.view.layer.shadowOpacity = 0.6
+        }
+        else
+        {
+            centerController.view.layer.shadowOpacity = 0.0
+        }
+    }
+
 }
 
-//MARK: Access to the Storyboard
+
+
+
+
+
+
+//MARK: Access to the Storyboard to instantiate and access all of the View Controllers in our App
 private extension UIStoryboard
 {
-    // Access To Storyboard
+    // Return to us the main Storyboard
     class func mainStoryBoard() -> UIStoryboard
     {
         return UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -215,4 +320,10 @@ private extension UIStoryboard
     {
         return (mainStoryBoard().instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
     }
+    
+    class func loginViewController() -> LoginVC
+    {
+        return (mainStoryBoard().instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+    }
+    
 }

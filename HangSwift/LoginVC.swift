@@ -81,9 +81,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                 AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: "", userCreationComplete: { (success, error) in
                     if error == nil
                     {
-                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                        let homeVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
-                        self.present(homeVC, animated: true, completion: nil)
                         
                         self.showAlert("Login Successful")
                         print("User Successfully Logged in")
@@ -138,15 +135,10 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                                             let userData = ["provider": user.providerID, USER_IS_LEADER: false] as [String:Any]
                                             DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isLeader: false)
 //                                        }
-                        
-                                            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                                            let homeVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC)!
-                                            self.present(homeVC, animated: true, completion: nil)
-                                        
                                                             
                                             self.showAlert("Sign Up Successful")
                                             print("User Successfully Signed Up")
-                                            self.dismiss(animated: true, completion: nil)
+                                            
                                                             
                                         }
                                     }
@@ -156,5 +148,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                 })
             }
         }
+        
+        
     }
 }
