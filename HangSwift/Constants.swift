@@ -24,6 +24,10 @@ let VC_LEFT_PANEL = "LeftSidePanelVC"
 let VC_HOME = "HomeVC"
 let VC_LOGIN = "LoginVC"
 
+//Trip
+let USER_IS_ON_TRIP_TO_LEADER = "userIsOnTripToLeader"
+let TRIP_COORDINATE = "tripCoordinate"
+
 // UI Messaging
 let MSG_SIGN_UP_SIGN_IN = "Sign Up / Login"
 let MSG_SIGN_OUT = "Sign Out"

@@ -42,6 +42,7 @@ class HomeVC: UIViewController, Alertable {
     var hangoutTextField = UITextField()
     //var currentUserID = Auth.auth().currentUser?.uid
     var leaderAnnotationImg = UIImage(named: "leaderAnnotationImg")
+    var userAnnotationImg = UIImage(named: "currentLocationAnnotation")
     var route: MKRoute!
     
     
@@ -170,7 +171,7 @@ class HomeVC: UIViewController, Alertable {
                 {
                     if user.hasChild(COORDINATE)
                     {
-                        //Tell is user is a leaser
+                        //Tell if user is a leader
 //                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
                         if let userDict = user.value as? Dictionary<String, AnyObject>
                         {
@@ -534,7 +535,7 @@ extension HomeVC: MKMapViewDelegate
             
             var view: MKAnnotationView
             view = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            view.image = UIImage(named: "currentLocationAnnotation")
+            view.image = userAnnotationImg
             
             return view
             
@@ -546,6 +547,8 @@ extension HomeVC: MKMapViewDelegate
             view.image = leaderAnnotationImg
             return view
         }
+        
+        
         return nil
     }
     
@@ -798,6 +801,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
             self.guestArray.insert(self.matchingFriend, at: indexPath.row)
             self.dismiss(animated: true, completion: nil)
         }))
+        
+        //DataService.instance.REF_USERS.child((Auth.auth().currentUser?.uid)!).updateChildValues([TRIP_COORDINATE: [selectedMapItem.placemark.coordinate.latitude, selectedMapItem.placemark.coordinate.longitude]])
+        
         
         self.present(alertVC, animated: true, completion: nil)
 

@@ -19,6 +19,7 @@ class DataService
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_HANGOUT = DB_BASE.child("hangout")
     private var _REF_FEED = DB_BASE.child("feed")
+    private var _REF_TRIPS = DB_BASE.child("trips")
     
     var REF_BASE: DatabaseReference
     {
@@ -38,6 +39,11 @@ class DataService
     var REF_FEED: DatabaseReference
     {
         return _REF_FEED
+    }
+    
+    var REF_TRIPS: DatabaseReference
+    {
+        return _REF_TRIPS
     }
     
     func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isLeader: Bool)
@@ -180,4 +186,28 @@ class DataService
             }
         })
     }
+    
+    
+
+    
+    func userIsLeader(userKey: String, handler: @escaping (_ status: Bool) -> Void) {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (leaderSnapshot) in
+            if let leaderSnapshot = leaderSnapshot.children.allObjects as? [DataSnapshot] {
+                for leader in leaderSnapshot {
+                    if leader.childSnapshot(forPath: "userIsLeader").value as? Bool == true {
+                        handler(true)
+                    } else {
+                        handler(false)
+                    }
+                }
+            }
+        })
+    }
+    
+    
+    
+    
+    
+    
+    
 }
