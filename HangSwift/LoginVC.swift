@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
+    
+    let appDelegate = AppDelegate.getAppDelegate()
 
     @IBOutlet var authBtn: RoundedShadowButton!
     @IBOutlet var passwordTextField: RoundedCornerTextField!
@@ -18,7 +20,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
     @IBOutlet weak var cancelBtn: UIButton!
     
     var username = String()
-    var globalFunctions = GlobalFunctions()
+    var homeVC = HomeVC()
     
     override func viewWillAppear(_ animated: Bool)
     {
@@ -143,6 +145,25 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
             }
         }
         
-        
+      appDelegate.MenuContainerVC.toggleLoginVC()
     }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if Auth.auth().currentUser == nil {
+            homeVC.loginBtn.setTitle("Login", for: .normal)
+            homeVC.buttonsForUser(areHidden: true)
+            print("No user")
+        }
+        else
+        {
+            homeVC.loginBtn.setTitle("Logout", for: .normal)
+            homeVC.loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+            homeVC.buttonsForUser(areHidden: false)
+        }
+        homeVC.createMessageBtn.isEnabled = false
+        homeVC.mapView.tintColor = UIColor.green //Change color of location bubble
+    }
+
+    
 }

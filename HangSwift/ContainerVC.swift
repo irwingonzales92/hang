@@ -122,6 +122,7 @@ extension ContainerVC: CenterVCDelegate
             addLoginViewController()
         }
         animateLoginVC(shouldExpand: notAlreadyExpanded)
+        
     }
     
     func addLoginViewController()
@@ -151,7 +152,7 @@ extension ContainerVC: CenterVCDelegate
             setupWhiteCoverView()
             loginVCCurrentState = .loginVCExpanded
             
-            animateCenterPanelXPosition(targetPosition: centerController.view.frame.width - 20)
+            animateCenterPanelXPosition(targetPosition: centerController.view.frame.width)
         }
         else
         {

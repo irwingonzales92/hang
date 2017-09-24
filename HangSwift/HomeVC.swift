@@ -39,6 +39,8 @@ class HomeVC: UIViewController, Alertable {
     @IBOutlet weak var roundedShadowView: RoundedShadowView!
     
     
+    let appDelegate = AppDelegate.getAppDelegate()
+    
     var actionForButton: ButtonAction = .startHangout
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
@@ -46,7 +48,7 @@ class HomeVC: UIViewController, Alertable {
     let partyCoordinate = CLLocationCoordinate2D()
     var tableView =  UITableView()
     var matchingMapItems: [MKMapItem] = [MKMapItem]()
-    var host: user = user()
+    //var host: user = user()
     var matchingFriend = String()
     let tableViewCell =  UITableViewCell()
     var guestArray = [String]()
@@ -79,20 +81,25 @@ class HomeVC: UIViewController, Alertable {
         mapView.tintColor = UIColor.green //Change color of location bubble
     }
     
+        
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
                 self.setupDelegates()
-                self.checkLocationAuthStatus()
-                self.centerMapOnUserLocation()
         
-                tableView.register(nib, forCellReuseIdentifier: "locationCell")
-                
                 manager = CLLocationManager()
                 manager?.delegate = self
                 manager?.desiredAccuracy = kCLLocationAccuracyBest
+        
+                self.checkLocationAuthStatus()
+                self.centerMapOnUserLocation()
+                loadUserAnnotationFromFirebase()
+        
+                tableView.register(nib, forCellReuseIdentifier: "locationCell")
+                
+        
                 
 
                 findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -111,8 +118,10 @@ class HomeVC: UIViewController, Alertable {
                     self.loadUserAnnotationFromFirebase()
                 }
             }
-        } else
+        }
+        else
         {
+        print("error")
         return
         }
 
@@ -182,7 +191,8 @@ class HomeVC: UIViewController, Alertable {
     // User Annotations
     func loadUserAnnotationFromFirebase()
     {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with:
+            { (snapshot) in
             
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
@@ -194,8 +204,8 @@ class HomeVC: UIViewController, Alertable {
 //                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
                         if let userDict = user.value as? Dictionary<String, AnyObject>
                         {
-                            let coordnateArray = userDict[COORDINATE] as! NSArray
-                            let userCoordinate = CLLocationCoordinate2D(latitude: coordnateArray[0] as! CLLocationDegrees, longitude: coordnateArray[1] as! CLLocationDegrees)
+                            let coordinateArray = userDict[COORDINATE] as! NSArray
+                            let userCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
                             
                             let annotation = PartyAnnotation(coordinate: userCoordinate, withKey: user.key)
                             
@@ -492,7 +502,9 @@ class HomeVC: UIViewController, Alertable {
         if Auth.auth().currentUser == nil
         {
             
-            delegate?.toggleLoginVC()
+            //delegate?.toggleLoginVC()
+            appDelegate.MenuContainerVC.toggleLoginVC()
+            
         }
         else
         {
@@ -510,7 +522,7 @@ class HomeVC: UIViewController, Alertable {
                 {
                     try Auth.auth().signOut()
                     print("User Successfully Signed Out")
-                    self.viewWillAppear(true) //RELOADS VIEW CONTROLLER!!!
+                    self.viewWillAppear(true) //RELOADS HOME VIEW CONTROLLER!!!
                 }
                 catch (let error)
                 {
@@ -556,6 +568,9 @@ class HomeVC: UIViewController, Alertable {
 ////////////////
 /// MAP VIEW ///
 ////////////////
+
+
+
 
 
 extension HomeVC: CLLocationManagerDelegate

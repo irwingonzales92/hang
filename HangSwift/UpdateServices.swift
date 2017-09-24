@@ -29,6 +29,12 @@ class UpdateService
                     {
                     DataService.instance.REF_USERS.child(user.key).updateChildValues([COORDINATE: [coordinate.latitude, coordinate.longitude]])
                     }
+                    
+//                    //Update destinationCoordinate with Leader's coordinates if they are the leader.
+//                    if user.childSnapshot(forPath: "userIsLeader").value as? Bool == true {
+//                        DataService.instance.REF_TRIPS.child("destinationCoordinate").updateChildValues([COORDINATE: [coordinate.latitude, coordinate.longitude]])
+//                    }
+                    
                 }
             }
         })

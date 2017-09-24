@@ -36,6 +36,7 @@ class AuthService
             }
             userLoginComplete(true, error)
             print("User SignedIn")
+            
         }
     }
 }
