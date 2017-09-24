@@ -510,14 +510,17 @@ class HomeVC: UIViewController, Alertable {
                 {
                     try Auth.auth().signOut()
                     print("User Successfully Signed Out")
+                    self.viewWillAppear(true) //RELOADS VIEW CONTROLLER!!!
                 }
                 catch (let error)
                 {
                     print(error)
                 }
             }))
+            
             self.present(alertVC, animated: true, completion: nil)
-            }
+            
+        }
         
         
 //        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
