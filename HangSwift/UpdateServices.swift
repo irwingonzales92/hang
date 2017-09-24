@@ -48,10 +48,11 @@ class UpdateService
                     if user.key == Auth.auth().currentUser?.uid {
                         if user.hasChild(USER_IS_LEADER) {
                             if let userDict = user.value as? Dictionary<String, AnyObject> {
-                                let userArray = userDict[COORDINATE] as! NSArray
+    
                                 let destinationArray = userDict[TRIP_COORDINATE] as! NSArray
                                 
-                                DataService.instance.REF_TRIPS.child(user.key).updateChildValues(["userCoordinate": [userArray[0], userArray[1]], "leaderCoordinate": [destinationArray[0], destinationArray[1]], "userKey": user.key])
+                                //user.key means it has the trips has same ID as User
+                                DataService.instance.REF_TRIPS.child(user.key).updateChildValues(["leaderCoordinate": [destinationArray[0], destinationArray[1]], "userKey": user.key])
                             }
                         }
                     }
