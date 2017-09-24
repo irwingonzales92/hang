@@ -147,23 +147,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
         
       appDelegate.MenuContainerVC.toggleLoginVC()
     }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if Auth.auth().currentUser == nil {
-            homeVC.loginBtn.setTitle("Login", for: .normal)
-            homeVC.buttonsForUser(areHidden: true)
-            print("No user")
-        }
-        else
-        {
-            homeVC.loginBtn.setTitle("Logout", for: .normal)
-            homeVC.loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true
-            homeVC.buttonsForUser(areHidden: false)
-        }
-        homeVC.createMessageBtn.isEnabled = false
-        homeVC.mapView.tintColor = UIColor.green //Change color of location bubble
-    }
 
     
 }
