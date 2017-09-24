@@ -78,7 +78,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
             {
                 //IRWIN: YOU CAN SWITCH THIS WITH YOUR SIGNIN FUNCTION IF YOU'D LIKE
                 
-                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: "", userCreationComplete: { (success, error) in
+                AuthService.instance.loginUser(withEmail: email, andPassword: password, userLoginComplete: { (success, error) in
                     if error == nil
                     {
                         
@@ -105,8 +105,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                         if let email = self.emailTextField.text, let password = self.passwordTextField.text, let username = self.usernameTextField.text
                             {
                                 
-                                Auth.auth().createUser(withEmail: email, password: password, completion:
-                                { (user, error) in
+                                AuthService.instance.registerUser(withEmail: email, Password: password, andUsername: username, userCreationComplete:
+                                    { (user, error) in
                                     if error != nil
                                     {
                         
@@ -130,19 +130,13 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                                     }
                                     else
                                     {
-                                        if let user = user
-                                        {
-                                            let userData = ["provider": user.providerID, USER_IS_LEADER: false] as [String:Any]
-                                            DataService.instance.createFirebaseDBUsers(uid: user.uid, userData: userData, isLeader: false)
-//                                        }
-                                                            
-                                            self.showAlert("Sign Up Successful")
-                                            print("User Successfully Signed Up")
-                                            
-                                                            
-                                        }
+                                        self.showAlert("Sign Up Successful")
+                                        print("User Successfully Signed Up")
+                                        
                                     }
                                 })
+                                
+                                
                             }
                         }
                 })

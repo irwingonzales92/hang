@@ -15,6 +15,19 @@ import PopupDialog
 import PMAlertController
 
 
+
+enum AnnotationType {
+    case user
+    case leader
+}
+
+enum ButtonAction {
+    case startHangout
+    case getDirectionsToLeader
+    case endHangout
+}
+
+
 class HomeVC: UIViewController, Alertable {
 
     @IBOutlet var mapView: MKMapView!
@@ -26,8 +39,7 @@ class HomeVC: UIViewController, Alertable {
     @IBOutlet weak var roundedShadowView: RoundedShadowView!
     
     
-    
-    var globalFunctions = GlobalFunctions()
+    var actionForButton: ButtonAction = .startHangout
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -319,7 +331,12 @@ class HomeVC: UIViewController, Alertable {
         self.mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    /// Actions
+    
+    
+    /////////////////
+    /// IBActions ///
+    /////////////////
+    
     @IBAction func createBtnPressed(_ sender: Any)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -330,6 +347,10 @@ class HomeVC: UIViewController, Alertable {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
+        
+        //buttonSelector(forAction: actionForButton)
+        
+        
         DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in
             if isInParty == true
             {
@@ -503,6 +524,27 @@ class HomeVC: UIViewController, Alertable {
 //        let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
 //        self.present(loginVC, animated: true, completion: nil)
         }
+    
+    
+//    func buttonSelector(forAction action: ButtonAction)
+//    {
+//        switch action {
+//            case .startHangout
+//                UpdateService.instance.updateTripsWithCoordinatesUponRequest()
+//                actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+//        
+//            case .getDirectionsToLeader
+//            
+//        
+//            case .endHangout
+//            
+//        }
+//    }
+    
+    
+    
+    
+    
     }
 
 /// Extensions

@@ -40,7 +40,7 @@ class UpdateService
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for user in userSnapshot {
                     if user.key == Auth.auth().currentUser?.uid {
-                        if !user.hasChild(USER_IS_LEADER) {
+                        if user.hasChild(USER_IS_LEADER) {
                             if let userDict = user.value as? Dictionary<String, AnyObject> {
                                 let userArray = userDict[COORDINATE] as! NSArray
                                 let destinationArray = userDict[TRIP_COORDINATE] as! NSArray
@@ -53,8 +53,6 @@ class UpdateService
             }
         })
     }
-    
-    
     
     
     
