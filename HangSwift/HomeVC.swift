@@ -135,6 +135,34 @@ class HomeVC: UIViewController, Alertable {
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
                 self.view.addGestureRecognizer(tap)
+        
+        
+        UpdateService.instance.observeTrips
+            { (tripDict) in
+                if let tripDict = tripDict
+                {
+                    let userCoordinateArray = tripDict["userCoordinate"] as! NSArray
+                    let hangoutID = tripDict["hangoutID"] as! String
+                    let acceptanceStatus = tripDict["hangoutIsAccepted"] as! Bool
+                    
+                    if acceptanceStatus == false
+                    {
+                        DataService.instance.userIsAvailableForHangout(key: (Auth.auth().currentUser?.uid)!, handler: { (available) in
+                            if let available = available
+                            {
+                                if available == true
+                                {
+                                    let storyboard = UIStoryboard(name: MAIN_STORYBOARD, bundle: Bundle.main)
+                                    let acceptVC = storyboard.instantiateViewController(withIdentifier: "acceptVC") as? AcceptVC
+                                    acceptVC?.initData(coordinate: CLLocationCoordinate2D(latitude: userCoordinateArray[0] as! CLLocationDegrees, longitude: userCoordinateArray[1] as! CLLocationDegrees), leaderKey: hangoutID)
+                                    self.present(acceptVC!, animated: true, completion: nil)
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        
     }
     
     
@@ -359,6 +387,9 @@ class HomeVC: UIViewController, Alertable {
     {
         
         //buttonSelector(forAction: actionForButton)
+        
+//        UpdateService.instance.updateTripsWithCoordinatesUponRequest()
+//        self.view.endEditing(true)
         
         
         DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in

@@ -3,7 +3,7 @@
 //  HangSwift
 //
 //  Created by Kenton D. Raiford on 9/19/17.
-//  Copyright © 2017 Irwin Gonzales. All rights reserved.
+//  Copyright © 2017 Kenton D. Raiford. All rights reserved.
 //
 
 import UIKit

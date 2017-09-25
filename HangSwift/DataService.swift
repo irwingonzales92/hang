@@ -188,6 +188,29 @@ class DataService
     }
     
     
+    func userIsAvailableForHangout(key: String, handler: @escaping (_ status: Bool?) -> Void) {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+            {
+                for user in userSnapshot
+                {
+                    if user.key == key
+                    {
+                            if user.childSnapshot(forPath: "userIsInHangout").value as? Bool == true
+                            {
+                                handler(false)
+                            }
+                            else
+                            {
+                                handler(true)
+                            }
+                    }
+                }
+            }
+        })
+    }
+
+    
 
     
     func userIsLeader(userKey: String, handler: @escaping (_ status: Bool) -> Void) {

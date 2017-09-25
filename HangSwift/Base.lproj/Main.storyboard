@@ -1033,10 +1033,10 @@
             </objects>
             <point key="canvasLocation" x="-594.39999999999998" y="138.98050974512745"/>
         </scene>
-        <!--PickupVC-->
+        <!--AcceptVC-->
         <scene sceneID="4Ds-ry-rib">
             <objects>
-                <viewController storyboardIdentifier="PickupVC" id="xqh-Wf-Dt8" customClass="PickupVC" customModule="Come" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="acceptVC" id="xqh-Wf-Dt8" customClass="AcceptVC" customModule="HangSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hcP-E2-6Py"/>
                         <viewControllerLayoutGuide type="bottom" id="hwQ-dR-B0j"/>
@@ -1052,19 +1052,17 @@
                                     <constraint firstAttribute="height" constant="30" id="urE-Qj-df6"/>
                                 </constraints>
                                 <state key="normal" image="cancelBtn"/>
+                                <connections>
+                                    <action selector="cancelBtnWasPressed:" destination="xqh-Wf-Dt8" eventType="touchUpInside" id="fb9-Yi-0sf"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TB5-Iz-RjT">
-                                <rect key="frame" x="82" y="15" width="211.5" height="40"/>
+                                <rect key="frame" x="138.5" y="15" width="99.5" height="40"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRy-Yg-iXU">
-                                        <rect key="frame" x="0.0" y="0.0" width="113.5" height="40"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1o-Mn-bY7">
+                                        <rect key="frame" x="0.0" y="0.0" width="99.5" height="40"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="36"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HERE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1o-Mn-bY7">
-                                        <rect key="frame" x="113.5" y="0.0" width="98" height="40"/>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="36"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1072,16 +1070,19 @@
                                     <constraint firstAttribute="height" constant="40" id="ORy-j9-uTh"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wm1-a8-zbz" customClass="RoundedShadowButton" customModule="Come" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wm1-a8-zbz" customClass="RoundedShadowButton" customModule="HangSwift" customModuleProvider="target">
                                 <rect key="frame" x="16" y="587" width="343" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="iHh-oo-GaQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="28"/>
-                                <state key="normal" title="ACCEPT TRIP">
+                                <state key="normal" title="ACCEPT INVITE">
                                     <color key="titleColor" red="0.18478795079999999" green="0.606635441" blue="0.86842948720000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="acceptTripBtnWasPressed:" destination="xqh-Wf-Dt8" eventType="touchUpInside" id="7c7-EL-PgP"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Would you like to pick up this passenger?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kap-V9-zpo">
                                 <rect key="frame" x="16" y="543.5" width="343" height="23.5"/>
@@ -1089,7 +1090,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Grk-sh-g5G" customClass="RoundMapView" customModule="Come" customModuleProvider="target">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Grk-sh-g5G" customClass="RoundMapView" customModule="HangSwift" customModuleProvider="target">
                                 <rect key="frame" x="25" y="171" width="325" height="325"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="325" id="PXD-Jx-Zdb"/>
@@ -1113,6 +1114,9 @@
                             <constraint firstItem="Grk-sh-g5G" firstAttribute="centerY" secondItem="Q7e-sG-HZv" secondAttribute="centerY" id="x9A-SG-ZGh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="acceptMapView" destination="Grk-sh-g5G" id="ETO-qQ-eos"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sKh-vo-RHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
