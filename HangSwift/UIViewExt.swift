@@ -1,6 +1,6 @@
 //
-//  UIViewExt.swiftr
-//  Hitchhiker-Dev
+//  UIViewExt.swift
+//
 //
 //  Created by Irwin Gonzales on 7/11/17.
 //  Copyright © 2017 Irwin Gonzales. All rights reserved.

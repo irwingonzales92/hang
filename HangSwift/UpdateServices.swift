@@ -67,7 +67,7 @@ class UpdateService
     
                                 let destinationArray = userDict[HANGOUT_COORDINATE] as! NSArray
                                 
-                                //user.key means it has the trips has same ID as User
+                                //user.key means the trips has same ID as User
                                 DataService.instance.REF_HANGOUT.child(user.key).updateChildValues(["leaderCoordinate": [destinationArray[0], destinationArray[1]], "hangoutID": user.key, "hangoutIsAccepted": false])
                             }
                         }

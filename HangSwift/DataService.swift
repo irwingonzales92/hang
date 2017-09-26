@@ -49,7 +49,7 @@ class DataService
         
     }
     
-    func createFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>, hangoutName: String, isHangout: Bool, guests: Array<Any>)
+    func createFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>, hangoutName: String, isHangout: Bool)
     {
         REF_HANGOUT.child(uid).updateChildValues(hangoutData)
     }

@@ -1,6 +1,6 @@
 //
 //  GradientView.swift
-//  Hitchhiker-Dev
+//  
 //
 //  Created by Irwin Gonzales on 7/7/17.
 //  Copyright © 2017 Irwin Gonzales. All rights reserved.
