@@ -882,6 +882,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! FriendSearchCell
         
+//        for var user in guestArray
+//        {
+//            
+//        }
+        
         cell.usernameLabel.text = guestArray[indexPath.row]
         
         
@@ -918,7 +923,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+//            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
 
             print("Capture action OK")
             print("Friend is added!")

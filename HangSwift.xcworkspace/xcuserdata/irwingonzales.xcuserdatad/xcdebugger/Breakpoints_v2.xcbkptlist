@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528101806.45011"
+            timestampString = "528134624.680881"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
@@ -250,13 +250,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528101806.450172"
+            timestampString = "528134624.681542"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "DataService"
-            landmarkType = "3">
+            landmarkName = "getUser(forSearchQuery:handler:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
