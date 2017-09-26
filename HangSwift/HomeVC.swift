@@ -401,6 +401,7 @@ class HomeVC: UIViewController, Alertable {
         
         alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
             print("Capture action Cancel")
+            self.roundedShadowView.isHidden = true
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
