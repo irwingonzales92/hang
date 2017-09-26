@@ -41,7 +41,6 @@ class HomeVC: UIViewController, Alertable {
     @IBOutlet weak var cancelBtn: UIButton!
     
     
-    
     let appDelegate = AppDelegate.getAppDelegate()
     
     var actionForButton: ButtonAction = .startHangout
@@ -454,10 +453,6 @@ class HomeVC: UIViewController, Alertable {
         buttonSelector(forAction: actionForButton)
  
     }
-    
-    
-    
-    
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
     {
@@ -502,8 +497,6 @@ class HomeVC: UIViewController, Alertable {
             
             self.present(alertVC, animated: true, completion: nil)
             
-            }
-
         }
     
     
@@ -612,7 +605,6 @@ class HomeVC: UIViewController, Alertable {
         }
     }
     
-
     
     
     }
@@ -906,9 +898,6 @@ extension HomeVC: MKMapViewDelegate
     
     
 }
-
-    
-
 
 
 

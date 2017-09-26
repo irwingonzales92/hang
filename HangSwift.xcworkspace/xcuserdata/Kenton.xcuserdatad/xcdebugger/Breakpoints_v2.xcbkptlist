@@ -32,7 +32,7 @@
             startingLineNumber = "559"
             endingLineNumber = "559"
             landmarkName = "buttonSelector(forAction:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,7 +48,7 @@
             startingLineNumber = "567"
             endingLineNumber = "567"
             landmarkName = "buttonSelector(forAction:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,7 +144,7 @@
             startingLineNumber = "586"
             endingLineNumber = "586"
             landmarkName = "buttonSelector(forAction:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -192,7 +192,7 @@
             startingLineNumber = "514"
             endingLineNumber = "514"
             landmarkName = "buttonSelector(forAction:)"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
