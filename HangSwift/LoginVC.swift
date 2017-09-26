@@ -85,7 +85,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                     {
                         
                         self.showAlert("Login Successful")
-                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
+//                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
                         print("User Successfully Logged in")
                     }
                     else
@@ -134,7 +134,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                                     else
                                     {
                                         self.showAlert("Sign Up Successful")
-                                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
+//                                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
                                         print("User Successfully Signed Up")
                                         
                                     }
@@ -150,13 +150,13 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
       appDelegate.MenuContainerVC.toggleLoginVC()
     }
     
-    func startHangout(hangoutName: String, host: User)
-    {
-        let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp()] as [String : Any]
-        
-        DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true)
-        
-        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
-    }
+//    func startHangout(hangoutName: String, host: User)
+//    {
+//        let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp()] as [String : Any]
+//        
+//        DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true)
+//        
+//        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+//    }
     
 }
