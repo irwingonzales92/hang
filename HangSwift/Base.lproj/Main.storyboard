@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-Bold</string>
+            <string>AvenirNext-BoldItalic</string>
+            <string>AvenirNext-DemiBold</string>
+            <string>AvenirNext-Heavy</string>
+            <string>AvenirNext-Regular</string>
+        </array>
+        <array key="HelveticaNeueExtras.ttc">
+            <string>HelveticaNeue-CondensedBlack</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--HomeVC-->
         <scene sceneID="tne-QT-ifu">
@@ -89,7 +101,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Oc0-7Z-bAX">
-                                <rect key="frame" x="16" y="20" width="343" height="50"/>
+                                <rect key="frame" x="16" y="40" width="343" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOU-J0-y5E">
                                         <rect key="frame" x="0.0" y="5" width="75" height="40"/>
@@ -742,7 +754,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="bUL-LB-4Gj">
-                                <rect key="frame" x="21" y="25" width="333" height="50"/>
+                                <rect key="frame" x="21" y="45" width="333" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wbX-FO-fJK">
                                         <rect key="frame" x="0.0" y="5" width="30" height="40"/>
@@ -827,8 +839,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Br9-hT-itS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zge-Nj-YjY">
-                                        <rect key="frame" x="61" y="20" width="253" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zge-Nj-YjY">
+                                        <rect key="frame" x="61" y="20" width="70.5" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="kfz-OH-b3E"/>
                                         </constraints>
@@ -836,7 +848,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyW-bc-FOP">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyW-bc-FOP">
                                         <rect key="frame" x="23" y="25" width="30" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Ixa-I7-BrZ"/>
@@ -851,8 +863,12 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="zge-Nj-YjY" firstAttribute="leading" secondItem="iyW-bc-FOP" secondAttribute="trailing" constant="8" symbolic="YES" id="CPz-z1-6kz"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="Npp-XP-dcF"/>
+                                    <constraint firstItem="iyW-bc-FOP" firstAttribute="leading" secondItem="Br9-hT-itS" secondAttribute="leading" constant="23" id="Sl6-ZC-w3v"/>
+                                    <constraint firstItem="iyW-bc-FOP" firstAttribute="centerY" secondItem="zge-Nj-YjY" secondAttribute="centerY" id="TKq-bS-kQ1"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="90" id="ZnM-rs-P4x"/>
+                                    <constraint firstItem="iyW-bc-FOP" firstAttribute="centerY" secondItem="Br9-hT-itS" secondAttribute="centerY" id="euK-dN-lWi"/>
                                     <constraint firstAttribute="height" constant="90" id="hbq-Q4-AKU"/>
                                     <constraint firstAttribute="width" constant="375" id="iVw-rq-7qR"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="375" id="wb4-fa-Mdm"/>
