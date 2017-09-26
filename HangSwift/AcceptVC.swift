@@ -49,7 +49,7 @@ class AcceptVC: UIViewController {
     
     
     @IBAction func acceptHangoutBtnWasPressed(_ sender: Any) {
-        UpdateService.instance.acceptHangout(withLeaderKey: leaderKey, forUserKey: (Auth.auth().currentUser?.uid)!)
+        UpdateService.instance.acceptHangout(withLeaderKey: leaderKey, forGuestKey: (Auth.auth().currentUser?.uid)!)
         presentingViewController?.ShouldPresentLoadingView(true)
     }
     

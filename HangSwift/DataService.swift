@@ -177,6 +177,31 @@ class DataService
             }
         })
     }
+    
+    func guestIsOnTripToLeader(guestKey: String, handler: @escaping (_ status: Bool?, _ guestKey: String?, _ hangoutKey: String?) -> Void) {
+        DataService.instance.REF_USERS.child(guestKey).child(USER_IS_ON_TRIP_TO_LEADER).observe(.value, with: { (guestTripStatusSnapshot) in
+            if let guestTripStatusSnapshot = guestTripStatusSnapshot.value as? Bool {
+                if guestTripStatusSnapshot == true {
+                    DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (hangoutSnapshot) in
+                        if let hangoutSnapshot = hangoutSnapshot.children.allObjects as? [DataSnapshot] {
+                            for hangout in hangoutSnapshot {
+                                if hangout.childSnapshot(forPath: "guestKey").value as? String == guestKey {
+                                    handler(true, guestKey, hangout.key)
+                                } else {
+                                    return
+                                }
+                            }
+                        }
+                    })
+                } else {
+                    handler(false, nil, nil)
+                }
+            }
+        })
+    }
+    
+    
+    
 
 
     func userIsLeader(userKey: String, handler: @escaping (_ status: Bool) -> Void) {
@@ -194,7 +219,7 @@ class DataService
     }
     
     
-    func userIsGuest(userKey: String, handler: @escaping (_ status: Bool) -> Void) {
+    func userIsGuest(guestKey: String, handler: @escaping (_ status: Bool) -> Void) {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (guestSnapshot) in
             if let guestSnapshot = guestSnapshot.children.allObjects as? [DataSnapshot] {
                 for guest in guestSnapshot {

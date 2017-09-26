@@ -80,16 +80,16 @@ class UpdateService
     
     
     
-    func acceptHangout(withLeaderKey leaderKey: String, forUserKey userKey: String) {
-        DataService.instance.REF_HANGOUT.child(leaderKey).updateChildValues(["userKey": userKey, "hangoutIsAccepted": true])
-        DataService.instance.REF_USERS.child(userKey).updateChildValues(["userIsInHangout": true])
+    func acceptHangout(withLeaderKey leaderKey: String, forGuestKey guestKey: String) {
+        DataService.instance.REF_HANGOUT.child(leaderKey).updateChildValues(["guestKey": guestKey, "hangoutIsAccepted": true])
+        DataService.instance.REF_USERS.child(guestKey).updateChildValues(["userIsInHangout": true])
     }
     
-    func cancelHangout(withLeaderKey leaderKey: String, forUserKey userKey: String?) {
+    func cancelHangout(withLeaderKey leaderKey: String, forGuestKey guestKey: String?) {
         DataService.instance.REF_HANGOUT.child(leaderKey).removeValue()
         DataService.instance.REF_USERS.child(leaderKey).child(HANGOUT_COORDINATE).removeValue()
-        if userKey != nil {
-            DataService.instance.REF_USERS.child(userKey!).updateChildValues(["userIsInHangout": false])
+        if guestKey != nil {
+            DataService.instance.REF_USERS.child(guestKey!).updateChildValues(["userIsInHangout": false])
         }
     }
     
