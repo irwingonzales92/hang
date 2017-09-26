@@ -41,9 +41,10 @@ class HomeVC: UIViewController, Alertable {
     @IBOutlet weak var cancelBtn: UIButton!
     
     
+    
     let appDelegate = AppDelegate.getAppDelegate()
     
-    var actionForButton: ButtonAction = .createHangout
+    var actionForButton: ButtonAction = .startHangout
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -141,7 +142,7 @@ class HomeVC: UIViewController, Alertable {
             connectUserAndLeaderForTrip()
             
         }
-    
+        
     }
     
         
@@ -449,12 +450,14 @@ class HomeVC: UIViewController, Alertable {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
-        
-        
-
+        roundedShadowView.isHidden = false
         buttonSelector(forAction: actionForButton)
  
     }
+    
+    
+    
+    
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
     {
@@ -499,8 +502,10 @@ class HomeVC: UIViewController, Alertable {
             
             self.present(alertVC, animated: true, completion: nil)
             
+            }
+
         }
-    }
+    
     
     func buttonSelector(forAction action: ButtonAction)
     {
@@ -508,7 +513,6 @@ class HomeVC: UIViewController, Alertable {
         {
             case .createHangout:
                 
-                    roundedShadowView.isHidden = false
                     self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
                     
                     let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
@@ -608,12 +612,10 @@ class HomeVC: UIViewController, Alertable {
         }
     }
     
-}
 
-
-
-
-
+    
+    
+    }
 
 /// Extensions
 
@@ -904,6 +906,9 @@ extension HomeVC: MKMapViewDelegate
     
     
 }
+
+    
+
 
 
 

@@ -17,12 +17,11 @@ import PMAlertController
 
 
 enum AnnotationType {
-    case guest
+    case user
     case leader
 }
 
 enum ButtonAction {
-    case createHangout
     case startHangout
     case getDirectionsToLeader
     case endHangout
@@ -38,12 +37,11 @@ class HomeVC: UIViewController, Alertable {
     @IBOutlet weak var createMessageBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var roundedShadowView: RoundedShadowView!
-    @IBOutlet weak var cancelBtn: UIButton!
     
     
     let appDelegate = AppDelegate.getAppDelegate()
     
-    var actionForButton: ButtonAction = .createHangout
+    var actionForButton: ButtonAction = .startHangout
     var manager: CLLocationManager?
     var delegate: CenterVCDelegate?
     var regionRadius: CLLocationDistance = 1000
@@ -79,69 +77,9 @@ class HomeVC: UIViewController, Alertable {
             loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true
             buttonsForUser(areHidden: false)
         }
-        self.cancelBtn.fadeTo(alphaValue: 0.0, withDuration: 0.2)
         createMessageBtn.isEnabled = false
         mapView.tintColor = UIColor.green //Change color of location bubble
         roundedShadowView.isHidden = true
-        
-        
-        DataService.instance.REF_HANGOUT.observe(.childRemoved, with: { (removedTripSnapshot) in
-            let removedTripDict = removedTripSnapshot.value as? [String: AnyObject]
-            if removedTripDict?["guestKey"] != nil {
-                DataService.instance.REF_USERS.child(removedTripDict?["guestKey"] as! String).updateChildValues(["userIsInHangout": false])
-            }
-            
-            DataService.instance.userIsLeader(userKey: (Auth.auth().currentUser?.uid)!, handler: { (isLeader) in
-                if isLeader == true {
-                    self.removeOverlaysAndAnnotations(forGuests: false, forLeaders: true)
-                } else {
-                    
-                    self.actionBtn.animateButton(shouldLoad: false, withMessage: "Create Hangout")
-                    
-                    self.findFriendsTextfield.isUserInteractionEnabled = true
-                    self.findFriendsTextfield.text = ""
-                    
-                    self.removeOverlaysAndAnnotations(forGuests: false, forLeaders: true)
-                    self.centerMapOnUserLocation()
-                }
-            })
-        })
-        
-        
-        
-        
-        if Auth.auth().currentUser?.uid != nil {
-            
-            DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-                if isOnTrip == true
-                {
-                    DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (hangoutSnapshot) in
-                        if let hangoutSnapshot = hangoutSnapshot.children.allObjects as? [DataSnapshot] {
-                            for hangout in hangoutSnapshot {
-                                if hangout.childSnapshot(forPath: "guestKey").value as? String == (Auth.auth().currentUser?.uid)! {
-                                    let guestCoordinatesArray = hangout.childSnapshot(forPath: "guestCoordinate").value as! NSArray
-                                    let guestCoordinate = CLLocationCoordinate2D(latitude: guestCoordinatesArray[0] as! CLLocationDegrees, longitude: guestCoordinatesArray[1] as! CLLocationDegrees)
-                                    let guestPlacemark = MKPlacemark(coordinate: guestCoordinate)
-                                    
-                                    
-                                    //IT WON'T LET ME PUT NIL FOR ORIGIN MAP ITEM
-                                    self.searchMapKitForResultsWithPolyline(forOriginMapItem: nil, withDestinationMapItem: MKMapItem(placemark: guestPlacemark))
-                                    
-                                    
-                                    self.setCustomRegion(forAnnotationType: .guest, withCoordinate: guestCoordinate)
-                                    
-                                    self.buttonsForUser(areHidden: false)
-                                }
-                            }
-                        }
-                    })
-                }
-            })
-            
-            connectUserAndLeaderForTrip()
-            
-        }
-    
     }
     
         
@@ -177,7 +115,7 @@ class HomeVC: UIViewController, Alertable {
                 }
                 else
                 {
-                    self.actionBtn.setTitle("Create Hangout", for: UIControlState.normal)
+                    self.actionBtn.setTitle("Hangout", for: UIControlState.normal)
                     self.loadUserAnnotationFromFirebase()
                 }
             }
@@ -204,7 +142,7 @@ class HomeVC: UIViewController, Alertable {
             { (hangoutDict) in
                 if let hangoutDict = hangoutDict
                 {
-                    let guestCoordinateArray = hangoutDict["guestCoordinate"] as! NSArray
+                    let userCoordinateArray = hangoutDict["userCoordinate"] as! NSArray
                     let hangoutID = hangoutDict["hangoutID"] as! String
                     let acceptanceStatus = hangoutDict["hangoutIsAccepted"] as! Bool
                     
@@ -217,7 +155,7 @@ class HomeVC: UIViewController, Alertable {
                                 {
                                     let storyboard = UIStoryboard(name: MAIN_STORYBOARD, bundle: Bundle.main)
                                     let acceptVC = storyboard.instantiateViewController(withIdentifier: "acceptVC") as? AcceptVC
-                                    acceptVC?.initData(coordinate: CLLocationCoordinate2D(latitude: guestCoordinateArray[0] as! CLLocationDegrees, longitude: guestCoordinateArray[1] as! CLLocationDegrees), leaderKey: hangoutID)
+                                    acceptVC?.initData(coordinate: CLLocationCoordinate2D(latitude: userCoordinateArray[0] as! CLLocationDegrees, longitude: userCoordinateArray[1] as! CLLocationDegrees), leaderKey: hangoutID)
                                     self.present(acceptVC!, animated: true, completion: nil)
                                 }
                             }
@@ -296,9 +234,9 @@ class HomeVC: UIViewController, Alertable {
                         if let userDict = user.value as? Dictionary<String, AnyObject>
                         {
                             let coordinateArray = userDict[COORDINATE] as! NSArray
-                            let guestCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
+                            let userCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
                             
-                            let annotation = PartyAnnotation(coordinate: guestCoordinate, withKey: user.key)
+                            let annotation = PartyAnnotation(coordinate: userCoordinate, withKey: user.key)
                             
                             var usersAreVisible: Bool
                             {
@@ -307,7 +245,7 @@ class HomeVC: UIViewController, Alertable {
                                     {
                                         if userAnnotation.key == user.key
                                         {
-                                            userAnnotation.update(annotationPosition: userAnnotation, withCoordinate: guestCoordinate)
+                                            userAnnotation.update(annotationPosition: userAnnotation, withCoordinate: userCoordinate)
                                             return true
                                         }
                                      }
@@ -449,11 +387,167 @@ class HomeVC: UIViewController, Alertable {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
+        roundedShadowView.isHidden = false
+        //UpdateService.instance.updateHangoutsWithCoordinatesUponRequest()
+        self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+        
+        let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
         
         
+        alertVC.addTextField { (textField) in
+            self.hangoutTextField = textField!
+            self.hangoutTextField.placeholder = "Name Your Party"
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+            print("Capture action Cancel")
+            self.roundedShadowView.isHidden = true
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            print("Capture action OK")
+            
+            self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+            UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+            UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+            print("Party Sucessfully Started")
+        }))
+        
+        self.present(alertVC, animated: true, completion: nil)
 
-        buttonSelector(forAction: actionForButton)
- 
+        
+        //buttonSelector(forAction: actionForButton)
+        
+//        UpdateService.instance.updateTripsWithCoordinatesUponRequest()
+//        self.view.endEditing(true)
+        
+        
+//        DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInParty) in
+//            if isInParty == true
+//            {
+//                DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+//                    if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+//                    {
+//                        for hangout in hangoutSnapshot
+//                        {
+//                            if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
+//                            {
+//                                if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == false
+//                                {
+//                                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+//                                    
+//                                    let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+//                                    
+//                                    
+//                                    alertVC.addTextField { (textField) in
+//                                        self.hangoutTextField = textField!
+//                                        self.hangoutTextField.placeholder = "Name Your Party"
+//                                    }
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+//                                        print("Capture action Cancel")
+//                                    }))
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+//                                        print("Capture action OK")
+//                                        
+//                                        self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+//                                        UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+//                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+//                                        print("Party Sucessfully Started")
+//                                    }))
+//                                    
+//                                    self.present(alertVC, animated: true, completion: nil)
+//                                }
+//                                else
+//                                {
+//                                    print("something is wrong")
+//                                    let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+//                                        print("Capture action Cancel")
+//                                    }))
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+//                                        print("Capture action OK")
+//                                        
+//                                        self.endHangout(host: Auth.auth().currentUser!)
+//                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+//                                        print("Party Sucessfully Ended")
+//                                    }))
+//                                    
+//                                    self.present(alertVC, animated: true, completion: nil)
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+//            else
+//            {
+//                DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+//                    if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+//                    {
+//                        for hangout in hangoutSnapshot
+//                        {
+//                            if hangout.childSnapshot(forPath: "owner").value as? String == Auth.auth().currentUser?.uid
+//                            {
+//                                if hangout.childSnapshot(forPath: "hangoutIsActive").value as? Bool == true
+//                                {
+//                                    // End Party Functionality
+//                                    let alertVC = PMAlertController(title: "End Hangout?", description: "Ending hangout will close any location services for guests", image: UIImage(named: ""), style: .alert)
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+//                                        print("Capture action Cancel")
+//                                    }))
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+//                                        print("Capture action OK")
+//                                        
+//                                        self.endHangout(host: Auth.auth().currentUser!)
+//                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+//                                        print("Party Sucessfully Ended")
+//                                    }))
+//                                    
+//                                    self.present(alertVC, animated: true, completion: nil)
+//                                }
+//                                else
+//                                {
+//                                    print("hangout is not active")
+//                                    
+//                                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+//                                    
+//                                    let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+//                                    
+//                                    
+//                                    alertVC.addTextField { (textField) in
+//                                        self.hangoutTextField = textField!
+//                                        self.hangoutTextField.placeholder = "Name Your Party"
+//                                    }
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+//                                        print("Capture action Cancel")
+//                                    }))
+//                                    
+//                                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+//                                        print("Capture action OK")
+//                                        
+//                                        self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+//                                        UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+//                                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+//                                        print("Party Sucessfully Started")
+//                                    }))
+//                                    
+//                                    self.present(alertVC, animated: true, completion: nil)
+//                                }
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+//
+//        }
     }
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
@@ -500,120 +594,34 @@ class HomeVC: UIViewController, Alertable {
             self.present(alertVC, animated: true, completion: nil)
             
         }
-    }
-    
-    func buttonSelector(forAction action: ButtonAction)
-    {
-        switch action
-        {
-            case .createHangout:
-                
-                    roundedShadowView.isHidden = false
-                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
-                    
-                    let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
-                    
-                    
-                    alertVC.addTextField
-                        { (textField) in
-                        self.hangoutTextField = textField!
-                        self.hangoutTextField.placeholder = "Name Your Party"
-                    }
-                    
-                    alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
-                        print("Capture action Cancel")
-                    }))
-                    
-                    alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-                        print("Capture action OK")
-                        
-                        self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
-                        UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
-                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
-                        print("Party Sucessfully Started")
-                    }))
-                    
-                    self.present(alertVC, animated: true, completion: nil)
-                
-            case .getDirectionsToLeader:
-                    DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-                        if isOnTrip == true {
-                            DataService.instance.REF_HANGOUT.child(hangoutKey!).child("destinationCoordinate").observe(.value, with: { (snapshot) in
-                            
-                                let destinationCoordinateArray = snapshot.value as! NSArray
-                                let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
-                                let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
-                                let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
-                                
-                                destinationMapItem.name = "Guest Destination"
-                                destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
-                            })
-                        }
-                    })
-            
-            
-            
-            
-        case .startHangout:
-            
-            self.actionBtn.setTitle("Start Hangout", for: .normal)
-            
-            DataService.instance.REF_HANGOUT.child("guestList").observeSingleEvent(of: .value, with: { (guestSnapshot) in
-                
-                if guestSnapshot.exists() {
-                    
-                    UpdateService.instance.updateHangoutsWithCoordinatesUponRequest()
-                    self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
-                    self.cancelBtn.fadeTo(alphaValue: 1.0, withDuration: 0.2)
-                    
-                    self.view.endEditing(true)
-                    self.findFriendsTextfield.isUserInteractionEnabled = false
-                }
-            })
-            
-            
-            DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-                if isOnTrip == true {
-                    self.removeOverlaysAndAnnotations(forGuests: false, forLeaders: false)
-                    
-                    DataService.instance.REF_HANGOUT.child(hangoutKey!).updateChildValues(["hangoutInProgress": true])
-                    
-                    DataService.instance.REF_HANGOUT.child(hangoutKey!).child("destinationCoordinate").observeSingleEvent(of: .value, with: { (coordinateSnapshot) in
-                        let destinationCoordinateArray = coordinateSnapshot.value as! NSArray
-                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
-                        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
-                        
-                        
-                        //IT WON'T LET ME PUT NIL FOR ORIGIN MAP ITEM
-                        self.searchMapKitForResultsWithPolyline(forOriginMapItem: nil, withDestinationMapItem: MKMapItem(placemark: destinationPlacemark))
-                        self.setCustomRegion(forAnnotationType: .leader, withCoordinate: destinationCoordinate)
-                        
-                        self.actionForButton = .getDirectionsToLeader
-                        self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
-                    })
-                }
-            })
-            
-            
-            case .endHangout:
-//                DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-//                    if isOnTrip == true {
-//                        UpdateService.instance.cancelHangout(withLeaderKey: hangoutKey!, forGuestKey: guestKey!)
-//                        self.buttonsForUser(areHidden: true)
-//                    }
-//                })
-            
-            endHangout(host: (Auth.auth().currentUser)!)
-            
+        
+        
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let loginVC: UIViewController = (storyBoard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC)!
+//        self.present(loginVC, animated: true, completion: nil)
         }
-    }
     
-}
-
-
-
-
-
+    
+//    func buttonSelector(forAction action: ButtonAction)
+//    {
+//        switch action {
+//            case .startHangout
+//                UpdateService.instance.updateTripsWithCoordinatesUponRequest()
+//                actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+//        
+//            case .getDirectionsToLeader
+//            
+//        
+//            case .endHangout
+//            
+//        }
+//    }
+    
+    
+    
+    
+    
+    }
 
 /// Extensions
 
@@ -637,39 +645,6 @@ extension HomeVC: CLLocationManagerDelegate
             mapView.userTrackingMode = .follow
         }
     }
-    
-    
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, leaderKey) in
-            if isOnTrip == true {
-                if region.identifier == "guest" {
-                    self.actionForButton = .startHangout
-                    self.actionBtn.setTitle("START HANGOUT", for: .normal)
-                } else if region.identifier == "destination" {
-                    self.cancelBtn.fadeTo(alphaValue: 0.0, withDuration: 0.2)
-                    self.cancelBtn.isHidden = true
-                    self.actionForButton = .endHangout
-                    self.actionBtn.setTitle("END HANGOUT", for: .normal)
-                }
-            }
-        })
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler:  { (isOnTrip, driverKey, tripKey) in
-            if isOnTrip == true {
-                if region.identifier == "guest" {
-                    self.actionForButton = .getDirectionsToLeader
-                    self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
-                } else if region.identifier == "destination" {
-                    self.actionForButton = .getDirectionsToLeader
-                    self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
-                }
-            }
-        })
-    }
-    
-    
 }
 
 
@@ -723,7 +698,7 @@ extension HomeVC: MKMapViewDelegate
     
     
     //capture the current location of the user and search mapkit for a route using the destination location.
-    func searchMapKitForResultsWithPolyline(forOriginMapItem originMapItem: MKMapItem?, withDestinationMapItem destinationMapItem: MKMapItem)
+    func searchMapKitForResultsWithPolyline(forOriginMapItem originMapItem: MKMapItem, withDestinationMapItem destinationMapItem: MKMapItem)
     {
         let request = MKDirectionsRequest()
         
@@ -791,114 +766,6 @@ extension HomeVC: MKMapViewDelegate
         region = mapView.regionThatFits(region)
         mapView.setRegion(region, animated: true)
     }
-    
-    
-    func removeOverlaysAndAnnotations(forGuests: Bool?, forLeaders: Bool?) {
-        
-        for annotation in mapView.annotations {
-            if let annotation = annotation as? MKPointAnnotation {
-                mapView.removeAnnotation(annotation)
-            }
-            
-            if forLeaders! {
-                if let annotation = annotation as? LeaderAnnotation {
-                    mapView.removeAnnotation(annotation)
-                }
-            }
-            
-            if forGuests! {
-                if let annotation = annotation as? PartyAnnotation {
-                    mapView.removeAnnotation(annotation)
-                }
-            }
-        }
-        
-        for overlay in mapView.overlays {
-            if overlay is MKPolyline {
-                mapView.remove(overlay)
-            }
-        }
-    }
-    
-    
-    
-    func setCustomRegion(forAnnotationType type: AnnotationType, withCoordinate coordinate: CLLocationCoordinate2D) {
-        if type == .guest {
-            let guestRegion = CLCircularRegion(center: coordinate, radius: 100, identifier: "guest")
-            manager?.startMonitoring(for: guestRegion)
-        } else if type == .leader {
-            let destinationRegion = CLCircularRegion(center: coordinate, radius: 100, identifier: "destination")
-            manager?.startMonitoring(for: destinationRegion)
-        }
-    }
-    
-    
-    
-    
-    func connectUserAndLeaderForTrip()
-    {
-        
-        DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler:
-            { (isOnTrip, guestKey, hangoutKey) in
-                if isOnTrip == true
-                {
-                    self.removeOverlaysAndAnnotations(forGuests: false, forLeaders: true)
-                    
-                    DataService.instance.REF_HANGOUT.child(hangoutKey!).observeSingleEvent(of: .value, with:
-                        { (hangoutSnapshot) in
-                            let hangoutDict = hangoutSnapshot.value as? Dictionary<String, AnyObject>
-                            let guestId = hangoutDict?["guestKey"] as! String
-                            
-                            let guestCoordinateArray = hangoutDict?["guestCoordinate"] as! NSArray
-                            let guestCoordinate = CLLocationCoordinate2D(latitude: guestCoordinateArray[0] as! CLLocationDegrees, longitude: guestCoordinateArray[1] as! CLLocationDegrees)
-                            
-                            let guestPlacemark = MKPlacemark(coordinate: guestCoordinate)
-                            let guestMapItem = MKMapItem(placemark: guestPlacemark)
-                            
-                            DataService.instance.REF_USERS.child(guestId).child(COORDINATE).observeSingleEvent(of: .value, with:
-                                { (coordinateSnapshot) in
-                                    let coordinateSnapshot = coordinateSnapshot.value as! NSArray
-                                    let guestCoordinate = CLLocationCoordinate2D(latitude: coordinateSnapshot[0] as! CLLocationDegrees, longitude: coordinateSnapshot[1] as! CLLocationDegrees)
-                                    let guestPlacemark = MKPlacemark(coordinate: guestCoordinate)
-                                    let guestMapItem = MKMapItem(placemark: guestPlacemark)
-                                    
-                                    let guestAnnotation = PartyAnnotation(coordinate: guestCoordinate, withKey: (Auth.auth().currentUser?.uid)!)
-                                    self.mapView.addAnnotation(guestAnnotation)
-                                    
-                                    self.searchMapKitForResultsWithPolyline(forOriginMapItem: guestMapItem, withDestinationMapItem: guestMapItem)
-                                    self.actionBtn.animateButton(shouldLoad: false, withMessage: "Hangout In Progress")
-                                    self.actionBtn.isUserInteractionEnabled = false
-                            })
-                            
-                            
-                            DataService.instance.REF_HANGOUT.child(hangoutKey!).observeSingleEvent(of: .value, with:
-                                { (hangoutSnapshot) in
-                                    if hangoutDict?["hangoutInProgress"] as? Bool == true
-                                    {
-                                        self.removeOverlaysAndAnnotations(forGuests: true, forLeaders: true)
-                                        
-                                        let destinationCoordinateArray = hangoutDict?["destinationCoordinate"] as! NSArray
-                                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
-                                        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
-                                        
-                                        
-                                        self.searchMapKitForResultsWithPolyline(forOriginMapItem: guestMapItem, withDestinationMapItem: MKMapItem(placemark: destinationPlacemark))
-                                        
-                                        self.actionBtn.setTitle("ON TRIP", for: .normal)
-                                    }
-                            })
-                    })
-                }
-        })
-    }
-
-    
-    
-    
-    
-    
-    
-    
     
     
     
