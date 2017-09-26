@@ -152,7 +152,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
     
 //    func startHangout(hangoutName: String, host: User)
 //    {
-//        let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp()] as [String : Any]
+//        let hangoutData = ["provider": host.providerID, "desciption": String(), "hangoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp()] as [String : Any]
 //        
 //        DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true)
 //        

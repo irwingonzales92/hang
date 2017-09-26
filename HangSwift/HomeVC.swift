@@ -79,6 +79,7 @@ class HomeVC: UIViewController, Alertable {
         }
         createMessageBtn.isEnabled = false
         mapView.tintColor = UIColor.green //Change color of location bubble
+        roundedShadowView.isHidden = true
     }
     
         
@@ -344,7 +345,7 @@ class HomeVC: UIViewController, Alertable {
     
     func startHangout(hangoutName: String, host: User, coordinate: CLLocationCoordinate2D, guests: Array<Any>)
     {
-        let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
+        let hangoutData = ["provider": host.providerID, "desciption": String(), "hangoutIsActive": true,"hangoutIsPrivate": Bool(), "owner": host.uid, "startTime": ServerValue.timestamp(), "coordinate": [coordinate.latitude, coordinate.longitude]] as [String : Any]
         
 //        DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
         DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true)
@@ -355,7 +356,7 @@ class HomeVC: UIViewController, Alertable {
     
     func endHangout(host:User)
     {
-        let hangoutData = ["provider": host.providerID, "desciption": String(), "hagnoutIsActive": false,"hangoutIsPrivate": true, "owner": host.uid, "guests": [], "endTime": ServerValue.timestamp(), "coordinate": []] as [String : Any]
+        let hangoutData = ["provider": host.providerID, "desciption": String(), "hangoutIsActive": false,"hangoutIsPrivate": true, "owner": host.uid, "guests": [], "endTime": ServerValue.timestamp(), "coordinate": []] as [String : Any]
         
         DataService.instance.endFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData)
         
@@ -386,7 +387,8 @@ class HomeVC: UIViewController, Alertable {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
-        
+        roundedShadowView.isHidden = false
+        //UpdateService.instance.updateHangoutsWithCoordinatesUponRequest()
         self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
         
         let alertVC = PMAlertController(title: "Let's Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
