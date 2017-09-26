@@ -17,9 +17,9 @@ class DataService
     var userSnapshot: DataSnapshot?
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
-    private var _REF_HANGOUT = DB_BASE.child("hangout")
+    private var _REF_HANGOUT = DB_BASE.child("hangouts")
     private var _REF_FEED = DB_BASE.child("feed")
-    private var _REF_TRIPS = DB_BASE.child("trips")
+    
     
     var REF_BASE: DatabaseReference
     {
@@ -41,10 +41,7 @@ class DataService
         return _REF_FEED
     }
     
-    var REF_TRIPS: DatabaseReference
-    {
-        return _REF_TRIPS
-    }
+    
     
     func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isLeader: Bool)
     {

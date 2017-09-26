@@ -41,13 +41,13 @@ class UpdateService
     }
     
     
-    func observeTrips(handler: @escaping(_ coordinateDict: Dictionary<String, AnyObject>?) -> Void) {
-        DataService.instance.REF_TRIPS.observe(.value, with: { (snapshot) in
-            if let tripSnapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for trip in tripSnapshot {
-                    if trip.hasChild("hangoutID") && trip.hasChild("hangoutIsAccepted") {
-                        if let tripDict = trip.value as? Dictionary<String, AnyObject> {
-                            handler(tripDict) //Passing trip Dictionary to handler
+    func observeHangouts(handler: @escaping(_ coordinateDict: Dictionary<String, AnyObject>?) -> Void) {
+        DataService.instance.REF_HANGOUT.observe(.value, with: { (snapshot) in
+            if let hangoutSnapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for hangout in hangoutSnapshot {
+                    if hangout.hasChild("hangoutID") && hangout.hasChild("hangoutIsAccepted") {
+                        if let hangoutDict = hangout.value as? Dictionary<String, AnyObject> {
+                            handler(hangoutDict) //Passing trip Dictionary to handler
                         }
                     }
                 }
@@ -57,7 +57,7 @@ class UpdateService
     
     
     
-    func updateTripsWithCoordinatesUponRequest() {
+    func updateHangoutsWithCoordinatesUponRequest() {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for user in userSnapshot {
@@ -65,10 +65,10 @@ class UpdateService
                         if user.hasChild(USER_IS_LEADER) {
                             if let userDict = user.value as? Dictionary<String, AnyObject> {
     
-                                let destinationArray = userDict[TRIP_COORDINATE] as! NSArray
+                                let destinationArray = userDict[HANGOUT_COORDINATE] as! NSArray
                                 
                                 //user.key means it has the trips has same ID as User
-                                DataService.instance.REF_TRIPS.child(user.key).updateChildValues(["leaderCoordinate": [destinationArray[0], destinationArray[1]], "hangoutID": user.key, "hangoutIsAccepted": false])
+                                DataService.instance.REF_HANGOUT.child(user.key).updateChildValues(["leaderCoordinate": [destinationArray[0], destinationArray[1]], "hangoutID": user.key, "hangoutIsAccepted": false])
                             }
                         }
                     }
@@ -80,14 +80,14 @@ class UpdateService
     
     
     
-    func acceptTrip(withLeaderKey leaderKey: String, forUserKey userKey: String) {
-        DataService.instance.REF_TRIPS.child(leaderKey).updateChildValues(["userKey": userKey, "hangoutIsAccepted": true])
+    func acceptHangout(withLeaderKey leaderKey: String, forUserKey userKey: String) {
+        DataService.instance.REF_HANGOUT.child(leaderKey).updateChildValues(["userKey": userKey, "hangoutIsAccepted": true])
         DataService.instance.REF_USERS.child(userKey).updateChildValues(["userIsInHangout": true])
     }
     
-    func cancelTrip(withLeaderKey leaderKey: String, forUserKey userKey: String?) {
-        DataService.instance.REF_TRIPS.child(leaderKey).removeValue()
-        DataService.instance.REF_USERS.child(leaderKey).child(TRIP_COORDINATE).removeValue()
+    func cancelHangout(withLeaderKey leaderKey: String, forUserKey userKey: String?) {
+        DataService.instance.REF_HANGOUT.child(leaderKey).removeValue()
+        DataService.instance.REF_USERS.child(leaderKey).child(HANGOUT_COORDINATE).removeValue()
         if userKey != nil {
             DataService.instance.REF_USERS.child(userKey!).updateChildValues(["userIsInHangout": false])
         }

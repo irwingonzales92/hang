@@ -30,10 +30,10 @@ class AcceptVC: UIViewController {
         locationPlacemark = MKPlacemark(coordinate: userCoordinate)
         centerMapOnLocation(location: locationPlacemark.location!)
         
-        DataService.instance.REF_TRIPS.child(leaderKey).observe(.value, with: { (tripSnapshot) in
-            if tripSnapshot.exists() {
+        DataService.instance.REF_HANGOUT.child(leaderKey).observe(.value, with: { (hangoutSnapshot) in
+            if hangoutSnapshot.exists() {
                 //check for acceptance
-                if tripSnapshot.childSnapshot(forPath: "hangoutIsAccepted").value as? Bool == true {
+                if hangoutSnapshot.childSnapshot(forPath: "hangoutIsAccepted").value as? Bool == true {
                     self.dismiss(animated: true, completion: nil)
                 }
             } else {
@@ -48,8 +48,8 @@ class AcceptVC: UIViewController {
     }
     
     
-    @IBAction func acceptTripBtnWasPressed(_ sender: Any) {
-        UpdateService.instance.acceptTrip(withLeaderKey: leaderKey, forUserKey: (Auth.auth().currentUser?.uid)!)
+    @IBAction func acceptHangoutBtnWasPressed(_ sender: Any) {
+        UpdateService.instance.acceptHangout(withLeaderKey: leaderKey, forUserKey: (Auth.auth().currentUser?.uid)!)
         presentingViewController?.ShouldPresentLoadingView(true)
     }
     

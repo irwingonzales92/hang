@@ -137,13 +137,13 @@ class HomeVC: UIViewController, Alertable {
                 self.view.addGestureRecognizer(tap)
         
         
-        UpdateService.instance.observeTrips
-            { (tripDict) in
-                if let tripDict = tripDict
+        UpdateService.instance.observeHangouts
+            { (hangoutDict) in
+                if let hangoutDict = hangoutDict
                 {
-                    let userCoordinateArray = tripDict["userCoordinate"] as! NSArray
-                    let hangoutID = tripDict["hangoutID"] as! String
-                    let acceptanceStatus = tripDict["hangoutIsAccepted"] as! Bool
+                    let userCoordinateArray = hangoutDict["userCoordinate"] as! NSArray
+                    let hangoutID = hangoutDict["hangoutID"] as! String
+                    let acceptanceStatus = hangoutDict["hangoutIsAccepted"] as! Bool
                     
                     if acceptanceStatus == false
                     {
