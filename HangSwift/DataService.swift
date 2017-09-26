@@ -46,7 +46,6 @@ class DataService
     func createFirebaseDBUsers(uid: String, userData: Dictionary<String, Any>, isLeader: Bool)
     {
         REF_USERS.child(uid).updateChildValues(userData)
-        
     }
     
     func createFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>, hangoutName: String, isHangout: Bool)
@@ -106,12 +105,6 @@ class DataService
         }
         else
         {
-            
-        /*
-             Bug Fix Theory: The reason why the tableview keeps reloading is because
-             that it is constantly being observed. Try chaning the methods of "Observe"
-             with "ObserveWithSingleEvent"
-        */
           
         REF_USERS.observeSingleEvent(of: .value, with: { (userSnapshot) in
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
@@ -134,28 +127,6 @@ class DataService
                 handler(userArray)
             }
         })
-        
-            
-//        REF_USERS.observe(.value, with: { (userSnapshot) in
-//            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {return}
-//            for user in userSnapshot
-//            {
-//                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
-//                    
-//                    if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
-//                    {
-//                        userArray.append(userEmail)
-//                    }
-//                    else
-//                    {
-//                        print("query not found")
-//                    }
-//                }
-//            }
-//            DispatchQueue.main.async {
-//                handler(userArray)
-//            }
-//        })
         }
     }
     
@@ -207,9 +178,7 @@ class DataService
         })
     }
 
-    
 
-    
     func userIsLeader(userKey: String, handler: @escaping (_ status: Bool) -> Void) {
         DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (leaderSnapshot) in
             if let leaderSnapshot = leaderSnapshot.children.allObjects as? [DataSnapshot] {
@@ -239,7 +208,23 @@ class DataService
         })
     }
     
+    // Work On After Commit
     
     
+//    func checkIfUserIsInGuestList(userEmail: String, handler: @escaping (_ status: Bool) -> Void)
+//    {
+//        DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
+//            if let guestSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+//            {
+//                for guests in guestSnapshot
+//                {
+//                    if guests.childSnapshot(forPath: "guestList").value as [String]
+//                    {
+//                        for
+//                    }
+//                }
+//            }
+//        }
+//    }
     
 }
