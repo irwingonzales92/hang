@@ -228,7 +228,19 @@ class DataService
     }
     
     
-    
+    func userIsGuest(userKey: String, handler: @escaping (_ status: Bool) -> Void) {
+        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with: { (guestSnapshot) in
+            if let guestSnapshot = guestSnapshot.children.allObjects as? [DataSnapshot] {
+                for guest in guestSnapshot {
+                    if guest.childSnapshot(forPath: "userIsGuest").value as? Bool == true {
+                        handler(true)
+                    } else {
+                        handler(false)
+                    }
+                }
+            }
+        })
+    }
     
     
     

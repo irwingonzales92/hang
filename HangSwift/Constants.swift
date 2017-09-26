@@ -18,6 +18,7 @@ let MAIN_STORYBOARD = "Main"
 
 //USERS
 let USER_IS_LEADER = "userIsLeader"
+let USER_IS_GUEST = "userIsGuest"
 
 // ViewControllers
 let VC_LEFT_PANEL = "LeftSidePanelVC"
