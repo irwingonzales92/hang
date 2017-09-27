@@ -588,14 +588,14 @@ class HomeVC: UIViewController, Alertable {
             
             
             case .endHangout:
-//                DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-//                    if isOnTrip == true {
-//                        UpdateService.instance.cancelHangout(withLeaderKey: hangoutKey!, forGuestKey: guestKey!)
-//                        self.buttonsForUser(areHidden: true)
-//                    }
-//                })
+                DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
+                    if isOnTrip == true {
+                        UpdateService.instance.cancelHangout(withLeaderKey: hangoutKey!, forGuestKey: guestKey!)
+                        self.buttonsForUser(areHidden: true)
+                    }
+                })
             
-            endHangout(host: (Auth.auth().currentUser)!)
+            //endHangout(host: (Auth.auth().currentUser)!)
             
         }
     }
