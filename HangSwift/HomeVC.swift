@@ -68,6 +68,7 @@ class HomeVC: UIViewController, Alertable {
     
     override func viewWillAppear(_ animated: Bool)
     {
+        
         if Auth.auth().currentUser == nil {
             loginBtn.setTitle("Login", for: .normal)
             buttonsForUser(areHidden: true)
@@ -78,6 +79,24 @@ class HomeVC: UIViewController, Alertable {
             loginBtn.setTitle("Logout", for: .normal)
             loginBtn.titleLabel?.adjustsFontSizeToFitWidth = true
             buttonsForUser(areHidden: false)
+            
+            
+            DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInHangout) in
+                if isInHangout == true
+                {
+                    self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
+                    self.actionForButton = .endHangout
+                    self.loadHangoutAnnotation()
+                }
+                else
+                {
+                    self.actionBtn.setTitle("Create Hangout", for: UIControlState.normal)
+                    self.actionForButton = .createHangout
+                    self.loadUserAnnotationFromFirebase()
+                }
+            }
+            
+            
         }
         self.cancelBtn.fadeTo(alphaValue: 0.0, withDuration: 0.2)
         createMessageBtn.isEnabled = false
@@ -130,6 +149,9 @@ class HomeVC: UIViewController, Alertable {
                                     
                                     self.setCustomRegion(forAnnotationType: .guest, withCoordinate: guestCoordinate)
                                     
+                                    self.actionForButton = .getDirectionsToLeader
+                                    self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
+                                    
                                     self.buttonsForUser(areHidden: false)
                                 }
                             }
@@ -167,26 +189,7 @@ class HomeVC: UIViewController, Alertable {
 
                 findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
-        if Auth.auth().currentUser?.uid != nil
-        {
-            DataService.instance.checkIfUserIsInHangout(passedUser: (Auth.auth().currentUser)!) { (isInHangout) in
-                if isInHangout == true
-                {
-                    self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
-                    self.loadHangoutAnnotation()
-                }
-                else
-                {
-                    self.actionBtn.setTitle("Create Hangout", for: UIControlState.normal)
-                    self.loadUserAnnotationFromFirebase()
-                }
-            }
-        }
-        else
-        {
-            print("error")
-            return
-        }
+        
         
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
@@ -523,9 +526,19 @@ class HomeVC: UIViewController, Alertable {
                         UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
                         UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
                         print("Party Sucessfully Started")
+                        
+                        
+                        self.actionForButton = .startHangout
+                        self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
+                        self.actionBtn.setTitle("Start Hangout", for: .normal)
+                        
+                        
+                        
                     }))
                     
                     self.present(alertVC, animated: true, completion: nil)
+            
+            
                 
             case .getDirectionsToLeader:
                     DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
@@ -548,8 +561,6 @@ class HomeVC: UIViewController, Alertable {
             
         case .startHangout:
             
-            self.actionBtn.setTitle("Start Hangout", for: .normal)
-            
             DataService.instance.REF_HANGOUT.child("guestList").observeSingleEvent(of: .value, with: { (guestSnapshot) in
                 
                 if guestSnapshot.exists() {
@@ -560,6 +571,10 @@ class HomeVC: UIViewController, Alertable {
                     
                     self.view.endEditing(true)
                     self.findFriendsTextfield.isUserInteractionEnabled = false
+                    self.roundedShadowView.isHidden = true
+                    
+                    self.actionForButton = .getDirectionsToLeader
+                    self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
                 }
             })
             
@@ -580,10 +595,11 @@ class HomeVC: UIViewController, Alertable {
                         self.searchMapKitForResultsWithPolyline(forOriginMapItem: nil, withDestinationMapItem: MKMapItem(placemark: destinationPlacemark))
                         self.setCustomRegion(forAnnotationType: .leader, withCoordinate: destinationCoordinate)
                         
-                        self.actionForButton = .getDirectionsToLeader
-                        self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
+                        
                     })
                 }
+                
+                
             })
             
             

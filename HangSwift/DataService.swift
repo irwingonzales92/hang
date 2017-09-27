@@ -179,7 +179,7 @@ class DataService
     }
     
     func guestIsOnTripToLeader(guestKey: String, handler: @escaping (_ status: Bool?, _ guestKey: String?, _ hangoutKey: String?) -> Void) {
-        DataService.instance.REF_USERS.child(guestKey).child(USER_IS_ON_TRIP_TO_LEADER).observe(.value, with: { (guestTripStatusSnapshot) in
+        DataService.instance.REF_USERS.child(guestKey).child("userIsInHangout").observe(.value, with: { (guestTripStatusSnapshot) in
             if let guestTripStatusSnapshot = guestTripStatusSnapshot.value as? Bool {
                 if guestTripStatusSnapshot == true {
                     DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (hangoutSnapshot) in

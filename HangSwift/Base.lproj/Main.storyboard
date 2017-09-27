@@ -54,7 +54,7 @@
                                     <constraint firstAttribute="height" constant="65" id="uYx-2f-Nzt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-BoldItalic" family="Avenir Next" pointSize="29"/>
-                                <state key="normal" title="Hang Out">
+                                <state key="normal">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>

@@ -97,6 +97,8 @@ class UpdateService
     
     
     
+    
+    
     func updateHangoutLocationWithCoordinate(coordinate: CLLocationCoordinate2D)
     {
         DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (snapshot) in
