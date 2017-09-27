@@ -184,20 +184,18 @@ class HomeVC: UIViewController, Alertable {
         }
         else
         {
-        print("error")
-        return
+            print("error")
+            return
         }
-
         
-        
-                self.mapView.addSubview(revealingSplashView)
-                revealingSplashView.animationType = SplashAnimationType.heartBeat
-                revealingSplashView.startAnimation()
+        self.mapView.addSubview(revealingSplashView)
+        revealingSplashView.animationType = SplashAnimationType.heartBeat
+        revealingSplashView.startAnimation()
                 
-                revealingSplashView.heartAttack = true
+        revealingSplashView.heartAttack = true
                 
-                let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
-                self.view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap(sender:)))
+        self.view.addGestureRecognizer(tap)
         
         
         UpdateService.instance.observeHangouts
@@ -449,11 +447,7 @@ class HomeVC: UIViewController, Alertable {
     
     @IBAction func actionBtnWasPressed(_ sender: Any)
     {
-        
-        
-
         buttonSelector(forAction: actionForButton)
- 
     }
 
     @IBAction func centerMapBtnWasPressed(_ sender: Any)
@@ -468,10 +462,8 @@ class HomeVC: UIViewController, Alertable {
         
         if Auth.auth().currentUser == nil
         {
-            
             //delegate?.toggleLoginVC()
             appDelegate.MenuContainerVC.toggleLoginVC()
-            
         }
         else
         {
@@ -610,21 +602,12 @@ class HomeVC: UIViewController, Alertable {
     
 }
 
-
-
-
-
-
 /// Extensions
 
 
 ////////////////
 /// MAP VIEW ///
 ////////////////
-
-
-
-
 
 extension HomeVC: CLLocationManagerDelegate
 {
@@ -637,7 +620,6 @@ extension HomeVC: CLLocationManagerDelegate
             mapView.userTrackingMode = .follow
         }
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, leaderKey) in
@@ -700,7 +682,6 @@ extension HomeVC: MKMapViewDelegate
             view.image = leaderAnnotationImg
             return view
         }
-        
         
         return nil
     }
@@ -792,7 +773,6 @@ extension HomeVC: MKMapViewDelegate
         mapView.setRegion(region, animated: true)
     }
     
-    
     func removeOverlaysAndAnnotations(forGuests: Bool?, forLeaders: Bool?) {
         
         for annotation in mapView.annotations {
@@ -819,9 +799,7 @@ extension HomeVC: MKMapViewDelegate
             }
         }
     }
-    
-    
-    
+
     func setCustomRegion(forAnnotationType type: AnnotationType, withCoordinate coordinate: CLLocationCoordinate2D) {
         if type == .guest {
             let guestRegion = CLCircularRegion(center: coordinate, radius: 100, identifier: "guest")
@@ -831,9 +809,6 @@ extension HomeVC: MKMapViewDelegate
             manager?.startMonitoring(for: destinationRegion)
         }
     }
-    
-    
-    
     
     func connectUserAndLeaderForTrip()
     {
@@ -892,25 +867,7 @@ extension HomeVC: MKMapViewDelegate
         })
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
-
-
-
-
-
-
-
 
 /////////////////
 /// TEXTFIELD ///
@@ -991,7 +948,6 @@ extension HomeVC: UITextFieldDelegate
             UIView.animate(withDuration: 0.2, animations:
                 {
                 self.tableView.frame = CGRect(x: 20, y: 170, width: self.view.frame.width - 40, height: self.view.frame.height - 170)
-                    
             })
         }
         else
@@ -1059,13 +1015,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-//            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
-
-            print("Capture action OK")
-            print("Friend is added!")
+            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
             
             self.guestArray.insert(self.matchingFriend, at: indexPath.row)
+//            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
             self.dismiss(animated: true, completion: nil)
+            
+            print("Capture action OK")
+            print("Friend is added!")
         }))
         
         //DataService.instance.REF_USERS.child((Auth.auth().currentUser?.uid)!).updateChildValues([TRIP_COORDINATE: [selectedMapItem.placemark.coordinate.latitude, selectedMapItem.placemark.coordinate.longitude]])
@@ -1073,13 +1030,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         
         self.present(alertVC, animated: true, completion: nil)
 
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         view.endEditing(true)
-        
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
