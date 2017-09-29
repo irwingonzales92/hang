@@ -53,9 +53,24 @@ class DataService
         REF_HANGOUT.child(uid).updateChildValues(hangoutData)
     }
     
+    // PICK UP WORK 1: Modify remove value
+    
+    // Right now, I'm working on the delete function. Rather than changing the status into inactive
     func endFirebaseDBHangout(uid: String, hangoutData: Dictionary<String, Any>)
     {
-        REF_HANGOUT.child(uid).updateChildValues(hangoutData)
+//        REF_HANGOUT.child(uid).updateChildValues(hangoutData)
+        
+        REF_HANGOUT.child(uid).removeValue { (error, ref) in
+            if error != nil
+            {
+                print(error)
+            }
+            else
+            {
+                print(ref)
+                print("Party Ending Successful")
+            }
+        }
     }
     
     func updatePost(withMessage message: String, forUID uid: String, withGroupKey groupKey: String?, sendComplete: @escaping(_ status: Bool) -> ())
@@ -179,9 +194,9 @@ class DataService
     }
     
     func guestIsOnTripToLeader(guestKey: String, handler: @escaping (_ status: Bool?, _ guestKey: String?, _ hangoutKey: String?) -> Void) {
-        DataService.instance.REF_USERS.child(guestKey).child("userIsInHangout").observe(.value, with: { (guestTripStatusSnapshot) in
-            if let guestTripStatusSnapshot = guestTripStatusSnapshot.value as? Bool {
-                if guestTripStatusSnapshot == true {
+        DataService.instance.REF_USERS.child(guestKey).child("userIsInHangout").observe(.value, with: { (userHangoutStatusSnapshot) in
+            if let userHangoutStatusSnapshot = userHangoutStatusSnapshot.value as? Bool {
+                if userHangoutStatusSnapshot == true {
                     DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (hangoutSnapshot) in
                         if let hangoutSnapshot = hangoutSnapshot.children.allObjects as? [DataSnapshot] {
                             for hangout in hangoutSnapshot {

@@ -172,24 +172,22 @@ class HomeVC: UIViewController, Alertable {
     {
         super.viewDidLoad()
         
-                self.setupDelegates()
+        self.setupDelegates()
         
-                manager = CLLocationManager()
-                manager?.delegate = self
-                manager?.desiredAccuracy = kCLLocationAccuracyBest
+        manager = CLLocationManager()
+        manager?.delegate = self
+        manager?.desiredAccuracy = kCLLocationAccuracyBest
         
-                self.checkLocationAuthStatus()
-                self.centerMapOnUserLocation()
-                loadUserAnnotationFromFirebase()
+        self.checkLocationAuthStatus()
+        self.centerMapOnUserLocation()
+        loadUserAnnotationFromFirebase()
         
-                tableView.register(nib, forCellReuseIdentifier: "locationCell")
+        tableView.register(nib, forCellReuseIdentifier: "locationCell")
                 
-        
+        let userID: String = (Auth.auth().currentUser?.email)!
+        print(userID)
                 
-
-                findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        
+        findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         self.mapView.addSubview(revealingSplashView)
         revealingSplashView.animationType = SplashAnimationType.heartBeat
@@ -552,6 +550,7 @@ class HomeVC: UIViewController, Alertable {
                                 
                                 destinationMapItem.name = "Guest Destination"
                                 destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                                self.actionBtn.setTitle("Get Directions", for: .normal)
                             })
                         }
                     })
@@ -603,13 +602,50 @@ class HomeVC: UIViewController, Alertable {
             })
             
             
+            // PICK UP WORK 1: Implement endHangout method after the user agrees to end the hangout via alert view
+            
             case .endHangout:
-                DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-                    if isOnTrip == true {
-                        UpdateService.instance.cancelHangout(withLeaderKey: hangoutKey!, forGuestKey: guestKey!)
-                        self.buttonsForUser(areHidden: true)
-                    }
-                })
+            
+                roundedShadowView.isHidden = false
+                self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
+                
+                let alertVC = PMAlertController(title: "End Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+                
+                
+                alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+                    print("Capture action Cancel")
+                    print("Nevermind")
+                }))
+                
+                alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+                    print("Capture action OK")
+                    
+//                    self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
+//                    UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
+//                    UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+                    
+                    self.endHangout(host: Auth.auth().currentUser!)
+                    print("Party Sucessfully Ended")
+                    
+                    
+                    self.actionForButton = .startHangout
+                    self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
+                    self.actionBtn.setTitle("Start Hangout", for: .normal)
+                    
+                    
+                    
+                }))
+                
+                self.present(alertVC, animated: true, completion: nil)
+                
+//                DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
+//                    if isOnTrip == true {
+//                        UpdateService.instance.cancelHangout(withLeaderKey: hangoutKey!, forGuestKey: guestKey!)
+//                        self.buttonsForUser(areHidden: true)
+//                        print("Ended Hangout")
+//                    }
+//                })
+            
             
             //endHangout(host: (Auth.auth().currentUser)!)
             
