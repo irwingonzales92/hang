@@ -65,7 +65,8 @@ class UpdateService
                         if user.hasChild(USER_IS_LEADER) {
                             if let userDict = user.value as? Dictionary<String, AnyObject> {
     
-                                let destinationArray = userDict[HANGOUT_COORDINATE] as! NSArray
+//                                let destinationArray = userDict[HANGOUT_COORDINATE] as! NSArray
+                                let destinationArray = userDict[USER_COORDINATE] as! NSArray
                                 
                                 //user.key means the trips has same ID as User
                                 DataService.instance.REF_HANGOUT.child(user.key).updateChildValues(["leaderCoordinate": [destinationArray[0], destinationArray[1]], "hangoutID": user.key, "hangoutIsAccepted": false])

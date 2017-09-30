@@ -68,7 +68,10 @@ class HomeVC: UIViewController, Alertable {
     
     override func viewWillAppear(_ animated: Bool)
     {
-        
+        updateUI()
+    }
+    
+    func updateUI() {
         if Auth.auth().currentUser == nil {
             loginBtn.setTitle("Login", for: .normal)
             buttonsForUser(areHidden: true)
@@ -163,7 +166,7 @@ class HomeVC: UIViewController, Alertable {
             connectUserAndLeaderForTrip()
             
         }
-    
+        
     }
     
         
@@ -171,6 +174,8 @@ class HomeVC: UIViewController, Alertable {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: NSNotification.Name.init(rawValue: "UserLoggedIn"), object: nil)
         
         self.setupDelegates()
         
@@ -184,8 +189,8 @@ class HomeVC: UIViewController, Alertable {
         
         tableView.register(nib, forCellReuseIdentifier: "locationCell")
                 
-        let userID: String = (Auth.auth().currentUser?.email)!
-        print(userID)
+//        let userID: String = (Auth.auth().currentUser?.email)!
+//        print(userID)
                 
         findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
@@ -281,8 +286,11 @@ class HomeVC: UIViewController, Alertable {
     // User Annotations
     func loadUserAnnotationFromFirebase()
     {
-        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with:
-            { (snapshot) in
+        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
+            
+//        }
+//        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with:
+//            { (snapshot) in
             
             if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
             {
@@ -320,7 +328,7 @@ class HomeVC: UIViewController, Alertable {
                         }
                     //}
                     }
-                    else
+                   /* else
                     {
                         for annotation in self.mapView.annotations
                         {
@@ -335,7 +343,7 @@ class HomeVC: UIViewController, Alertable {
                                 }
                             }
                         }
-                    }
+                    }*/
                 }
             }
         })
@@ -560,7 +568,7 @@ class HomeVC: UIViewController, Alertable {
             
         case .startHangout:
             
-            DataService.instance.REF_HANGOUT.child("guestList").observeSingleEvent(of: .value, with: { (guestSnapshot) in
+            DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (guestSnapshot) in
                 
                 if guestSnapshot.exists() {
                     
@@ -574,6 +582,10 @@ class HomeVC: UIViewController, Alertable {
                     
                     self.actionForButton = .getDirectionsToLeader
                     self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
+                }
+                else
+                {
+                    print("Shits fucked")
                 }
             })
             
@@ -609,7 +621,7 @@ class HomeVC: UIViewController, Alertable {
                 roundedShadowView.isHidden = false
                 self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
                 
-                let alertVC = PMAlertController(title: "End Hangout?", description: "Let's let everyone know what's up", image: UIImage(named: ""), style: .alert)
+                let alertVC = PMAlertController(title: "End Hangout?", description: "Ending the hangout will lose everyone's location", image: UIImage(named: ""), style: .alert)
                 
                 
                 alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
@@ -620,11 +632,8 @@ class HomeVC: UIViewController, Alertable {
                 alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
                     print("Capture action OK")
                     
-//                    self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
-//                    UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
-//                    UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
-                    
                     self.endHangout(host: Auth.auth().currentUser!)
+                    UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
                     print("Party Sucessfully Ended")
                     
                     

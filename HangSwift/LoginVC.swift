@@ -87,6 +87,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                         self.showAlert("Login Successful")
 //                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
                         print("User Successfully Logged in")
+                        NotificationCenter.default.post(name: Notification.Name.init(rawValue: "UserLoggedIn"), object: nil)
                     }
                     else
                     {
@@ -136,6 +137,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, Alertable {
                                         self.showAlert("Sign Up Successful")
 //                                        self.startHangout(hangoutName: "", host: Auth.auth().currentUser!)
                                         print("User Successfully Signed Up")
+                                        NotificationCenter.default.post(name: Notification.Name.init(rawValue: "UserLoggedIn"), object: nil)
                                         
                                     }
                                 })

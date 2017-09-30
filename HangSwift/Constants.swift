@@ -28,6 +28,7 @@ let VC_LOGIN = "LoginVC"
 //Hangout (Trip)
 let USER_IS_ON_TRIP_TO_LEADER = "userIsOnTripToLeader"
 let HANGOUT_COORDINATE = "hangoutCoordinate"
+let USER_COORDINATE = "coordinate"
 
 // UI Messaging
 let MSG_SIGN_UP_SIGN_IN = "Sign Up / Login"
