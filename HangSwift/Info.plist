@@ -24,6 +24,10 @@
 	<string>Show Your Friends Your Beautiful Face!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your Friends Need To Find You</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your Friends Need To Find You</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your Friends Need To Find You</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Let Em Hear You Roar!</string>
 	<key>UILaunchStoryboardName</key>

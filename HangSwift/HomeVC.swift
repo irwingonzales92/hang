@@ -183,9 +183,12 @@ class HomeVC: UIViewController, Alertable {
         manager?.delegate = self
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         
+        
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         loadUserAnnotationFromFirebase()
+        
+        
         
         tableView.register(nib, forCellReuseIdentifier: "locationCell")
                                 
