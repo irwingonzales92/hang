@@ -86,6 +86,29 @@ class DataService
         }
     }
     
+    func changeEmailToUid(email: String,  handler:@escaping (_ userUID: String) -> ())
+    {
+        REF_USERS.child("userEmail").observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let userSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {return}
+            for user in userSnapshot
+            {
+                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String
+                {
+                    if userEmail.contains(email) == true
+                    {
+                        let userId = user.childSnapshot(forPath: "userId").value as? String
+                        handler(userId!)
+                    }
+                    else
+                    {
+                        print("Email not found")
+                    }
+                }
+            }
+        })
+    }
+    
+    //CHANGE TO UID
     func getUser(forSearchQuery query: String, handler:@escaping (_ userArray: [String]) -> ())
     {
         var userArray = [String]()
@@ -93,7 +116,8 @@ class DataService
             guard let userSnapshot = theSnapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
             {
-                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String {
+                if let userEmail = user.childSnapshot(forPath: "userEmail").value as? String
+                {
                     
                     if userEmail.contains(query) == true && userEmail != Auth.auth().currentUser?.email
                     {

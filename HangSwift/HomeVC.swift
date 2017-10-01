@@ -188,10 +188,7 @@ class HomeVC: UIViewController, Alertable {
         loadUserAnnotationFromFirebase()
         
         tableView.register(nib, forCellReuseIdentifier: "locationCell")
-                
-//        let userID: String = (Auth.auth().currentUser?.email)!
-//        print(userID)
-                
+                                
         findFriendsTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         self.mapView.addSubview(revealingSplashView)
@@ -208,7 +205,7 @@ class HomeVC: UIViewController, Alertable {
             { (hangoutDict) in
                 if let hangoutDict = hangoutDict
                 {
-                    let guestCoordinateArray = hangoutDict["guestCoordinate"] as! NSArray
+                    let guestCoordinateArray = hangoutDict["guestCoordinate"] as? NSArray ?? NSArray()
                     let hangoutID = hangoutDict["hangoutID"] as! String
                     let acceptanceStatus = hangoutDict["hangoutIsAccepted"] as! Bool
                     
@@ -220,9 +217,10 @@ class HomeVC: UIViewController, Alertable {
                                 if available == true
                                 {
                                     let storyboard = UIStoryboard(name: MAIN_STORYBOARD, bundle: Bundle.main)
-                                    let acceptVC = storyboard.instantiateViewController(withIdentifier: "acceptVC") as? AcceptVC
-                                    acceptVC?.initData(coordinate: CLLocationCoordinate2D(latitude: guestCoordinateArray[0] as! CLLocationDegrees, longitude: guestCoordinateArray[1] as! CLLocationDegrees), leaderKey: hangoutID)
-                                    self.present(acceptVC!, animated: true, completion: nil)
+//                                    if let acceptVC = storyboard.instantiateViewController(withIdentifier: "acceptVC") as? AcceptVC {
+                                    //acceptVC.initData(coordinate: CLLocationCoordinate2D(latitude: guestCoordinateArray[0] as! CLLocationDegrees, longitude: guestCoordinateArray[1] as! CLLocationDegrees), leaderKey: hangoutID)
+//                                    self.present(acceptVC, animated: true, completion: nil)
+//                                    }
                                 }
                             }
                         })
@@ -568,26 +566,36 @@ class HomeVC: UIViewController, Alertable {
             
         case .startHangout:
             
-            DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (guestSnapshot) in
+            //DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (guestSnapshot) in
                 
-                if guestSnapshot.exists() {
+                //if guestSnapshot.exists() {
                     
-                    UpdateService.instance.updateHangoutsWithCoordinatesUponRequest()
+            UpdateService.instance.updateHangoutsWithCoordinatesUponRequest(completion: { (annotation) in
+                for mapAnnotation in self.mapView.annotations {
+                    if let pAnnotation = mapAnnotation as? PartyAnnotation {
+                        if pAnnotation.key == annotation.key {
+                            self.mapView.removeAnnotation(mapAnnotation)
+                            self.mapView.addAnnotation(annotation)
+                        }
+                    }
+                }
+            })
+                    
                     self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
                     self.cancelBtn.fadeTo(alphaValue: 1.0, withDuration: 0.2)
                     
                     self.view.endEditing(true)
                     self.findFriendsTextfield.isUserInteractionEnabled = false
-                    self.roundedShadowView.isHidden = true
+                    self.roundedShadowView.isHidden = false
                     
                     self.actionForButton = .getDirectionsToLeader
                     self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
-                }
-                else
-                {
-                    print("Shits fucked")
-                }
-            })
+//                }
+//                else
+//                {
+//                    print("Shits fucked")
+//                }
+            //})
             
             
             DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in

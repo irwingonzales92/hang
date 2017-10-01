@@ -27,8 +27,9 @@ class AcceptVC: UIViewController {
         super.viewDidLoad()
         acceptMapView.delegate = self
         
-        locationPlacemark = MKPlacemark(coordinate: userCoordinate)
-        centerMapOnLocation(location: locationPlacemark.location!)
+        
+//        locationPlacemark = MKPlacemark(coordinate: userCoordinate)
+//        centerMapOnLocation(location: locationPlacemark.location!)
         
         DataService.instance.REF_HANGOUT.child(leaderKey).observe(.value, with: { (hangoutSnapshot) in
             if hangoutSnapshot.exists() {
