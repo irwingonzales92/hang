@@ -23,6 +23,7 @@ enum AnnotationType {
 
 enum ButtonAction {
     case createHangout
+    case addFriends
     case startHangout
     case getDirectionsToLeader
     case endHangout
@@ -536,9 +537,9 @@ class HomeVC: UIViewController, Alertable {
                         print("Party Sucessfully Started")
                         
                         
-                        self.actionForButton = .startHangout
+                        self.actionForButton = .addFriends
                         self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
-                        self.actionBtn.setTitle("Start Hangout", for: .normal)
+                        self.actionBtn.setTitle("Add Friends", for: .normal)
                         
                         
                         
@@ -546,8 +547,14 @@ class HomeVC: UIViewController, Alertable {
                     
                     self.present(alertVC, animated: true, completion: nil)
             
-                    self.textFieldDidBeginEditing(self.findFriendsTextfield)
+        case .addFriends:
+            self.textFieldDidBeginEditing(self.findFriendsTextfield)
+            self.animateTableView(shouldShow: true)
             
+            self.actionForButton = .startHangout
+            self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
+            self.actionBtn.setTitle("Start Hangout", for: .normal)
+        
         case .startHangout:
 
             UpdateService.instance.updateHangoutsWithCoordinatesUponRequest(completion: { (annotation) in
