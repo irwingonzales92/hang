@@ -52,6 +52,7 @@ class HomeVC: UIViewController, Alertable {
     var matchingMapItems: [MKMapItem] = [MKMapItem]()
     //var host: user = user()
     var matchingFriend = String()
+    var savingFriendStr = String()
     let tableViewCell =  UITableViewCell()
     var guestArray = [String]()
     var searchArray = [String]()
@@ -436,6 +437,11 @@ class HomeVC: UIViewController, Alertable {
     {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         self.mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func convertStringsInGuestArray(guestArray: [User])
+    {
+        
     }
     
     
