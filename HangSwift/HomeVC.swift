@@ -443,9 +443,16 @@ class HomeVC: UIViewController, Alertable {
         self.mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func convertStringsInGuestArray(guestArray: [User])
+    func convertedStringFromArray(a1: [String]) -> String
     {
-        
+        var userId = String()
+        for userEmail in a1
+        {
+            DataService.instance.changeEmailToUid(email: userEmail, handler: { (userKey) in
+                userId = userKey
+            })
+        }
+        return userId
     }
     
     
@@ -978,14 +985,14 @@ extension HomeVC: UITextFieldDelegate
     {
         if findFriendsTextfield.text == " "
         {
-            guestArray = []
+            searchArray = []
             self.tableView.reloadData()
         }
         else
         {
             DataService.instance.getUser(forSearchQuery: findFriendsTextfield.text!, handler: { (friendArray) in
                 debugPrint(friendArray)
-                self.guestArray = friendArray
+                self.searchArray = friendArray
                 self.tableView.reloadData()
                 print("Successfully reloaded")
             })
@@ -1054,13 +1061,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
 //            
 //        }
         
-        cell.usernameLabel.text = guestArray[indexPath.row]
+        cell.usernameLabel.text = searchArray[indexPath.row]
         
-        
-//        DataService.instance.getUser(forSearchQuery: self.findFriendsTextfield.text!) { (friendArray) in
-//            cell.textLabel?.text = friendArray[indexPath.row]
-//        }
-        
+
         return cell
     }
     
@@ -1071,7 +1074,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return guestArray.count
+        return searchArray.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
@@ -1090,10 +1093,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
-            
-            self.guestArray.insert(self.matchingFriend, at: indexPath.row)
 //            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+            
+            self.guestArray.insert(self.convertedStringFromArray(a1: self.searchArray), at: 0)
+            
+            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
             self.dismiss(animated: true, completion: nil)
             
             print("Capture action OK")

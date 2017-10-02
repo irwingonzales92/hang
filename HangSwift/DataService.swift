@@ -96,13 +96,30 @@ class DataService
                 {
                     if userEmail.contains(email) == true
                     {
-                        let userId = user.childSnapshot(forPath: "userId").value as? String
-                        handler(userId!)
+//                        let userId = user.childSnapshot(forPath: "userId").value as? String
+                        
+                        // FUNCTION STILL RETURNS NIL!! WORK ON TOMORROW!
+                        self.REF_USERS.queryOrdered(byChild: "userEmail").queryEqual(toValue: userEmail).queryOrdered(byChild: "userId").observeSingleEvent(of: .value, with: { (idSnapshot) in
+                            guard let uidSnap = idSnapshot.children.allObjects as? [DataSnapshot] else {return}
+                            for id in uidSnap
+                            {
+                                if let userIdNumber = id.value as? String
+                                {
+                                    handler(userIdNumber)
+                                }
+                            }
+                        })
+//                        let userId = user.key
+//                        handler(userId)
                     }
                     else
                     {
                         print("Email not found")
                     }
+                }
+                else
+                {
+                    print("Error")
                 }
             }
         })
