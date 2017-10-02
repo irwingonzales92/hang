@@ -23,6 +23,7 @@ enum AnnotationType {
 
 enum ButtonAction {
     case createHangout
+    case addFriends
     case startHangout
     case getDirectionsToLeader
     case endHangout
@@ -184,9 +185,12 @@ class HomeVC: UIViewController, Alertable {
         manager?.delegate = self
         manager?.desiredAccuracy = kCLLocationAccuracyBest
         
+        
         self.checkLocationAuthStatus()
         self.centerMapOnUserLocation()
         loadUserAnnotationFromFirebase()
+        
+        
         
         tableView.register(nib, forCellReuseIdentifier: "locationCell")
                                 
@@ -513,6 +517,7 @@ class HomeVC: UIViewController, Alertable {
         {
             case .createHangout:
                 
+                
                     roundedShadowView.isHidden = false
                     self.actionBtn.animateButton(shouldLoad: true, withMessage: nil)
                     
@@ -538,9 +543,9 @@ class HomeVC: UIViewController, Alertable {
                         print("Party Sucessfully Started")
                         
                         
-                        self.actionForButton = .startHangout
+                        self.actionForButton = .addFriends
                         self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
-                        self.actionBtn.setTitle("Start Hangout", for: .normal)
+                        self.actionBtn.setTitle("Add Friends", for: .normal)
                         
                         
                         
@@ -548,34 +553,16 @@ class HomeVC: UIViewController, Alertable {
                     
                     self.present(alertVC, animated: true, completion: nil)
             
+        case .addFriends:
+            self.textFieldDidBeginEditing(self.findFriendsTextfield)
+            self.animateTableView(shouldShow: true)
             
-                
-            case .getDirectionsToLeader:
-                    DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
-                        if isOnTrip == true {
-                            DataService.instance.REF_HANGOUT.child(hangoutKey!).child("destinationCoordinate").observe(.value, with: { (snapshot) in
-                            
-                                let destinationCoordinateArray = snapshot.value as! NSArray
-                                let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
-                                let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
-                                let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
-                                
-                                destinationMapItem.name = "Guest Destination"
-                                destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
-                                self.actionBtn.setTitle("Get Directions", for: .normal)
-                            })
-                        }
-                    })
-            
-            
-            
-            
+            self.actionForButton = .startHangout
+            self.actionBtn.animateButton(shouldLoad: false, withMessage: nil)
+            self.actionBtn.setTitle("Start Hangout", for: .normal)
+        
         case .startHangout:
-            
-            //DataService.instance.REF_HANGOUT.observeSingleEvent(of: .value, with: { (guestSnapshot) in
-                
-                //if guestSnapshot.exists() {
-                    
+
             UpdateService.instance.updateHangoutsWithCoordinatesUponRequest(completion: { (annotation) in
                 for mapAnnotation in self.mapView.annotations {
                     if let pAnnotation = mapAnnotation as? PartyAnnotation {
@@ -596,13 +583,7 @@ class HomeVC: UIViewController, Alertable {
                     
                     self.actionForButton = .getDirectionsToLeader
                     self.actionBtn.setTitle("GET DIRECTIONS", for: .normal)
-//                }
-//                else
-//                {
-//                    print("Shits fucked")
-//                }
-            //})
-            
+
             
             DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
                 if isOnTrip == true {
@@ -628,8 +609,27 @@ class HomeVC: UIViewController, Alertable {
             })
             
             
-            // PICK UP WORK 1: Implement endHangout method after the user agrees to end the hangout via alert view
+        case .getDirectionsToLeader:
+            DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
+                if isOnTrip == true {
+                    DataService.instance.REF_HANGOUT.child(hangoutKey!).child("destinationCoordinate").observe(.value, with: { (snapshot) in
+                        
+                        let destinationCoordinateArray = snapshot.value as! NSArray
+                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
+                        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
+                        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+                        
+                        destinationMapItem.name = "Guest Destination"
+                        destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                        self.actionBtn.setTitle("Get Directions", for: .normal)
+                    })
+                }
+            })
             
+            
+            
+            // PICK UP WORK 1: Implement endHangout method after the user agrees to end the hangout via alert view
+        
             case .endHangout:
             
                 roundedShadowView.isHidden = false
