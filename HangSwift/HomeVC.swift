@@ -213,7 +213,7 @@ class HomeVC: UIViewController, Alertable {
                     let guestCoordinateArray = hangoutDict["guestCoordinate"] as? NSArray ?? NSArray()
                     let hangoutID = hangoutDict["hangoutID"] as! String
                     let acceptanceStatus = hangoutDict["hangoutIsAccepted"] as! Bool
-                    
+
                     if acceptanceStatus == false
                     {
                         DataService.instance.userIsAvailableForHangout(key: (Auth.auth().currentUser?.uid)!, handler: { (available) in

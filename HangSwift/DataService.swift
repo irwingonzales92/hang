@@ -88,7 +88,7 @@ class DataService
     
     func changeEmailToUid(email: String,  handler:@escaping (_ userUID: String) -> ())
     {
-        REF_USERS.child("userEmail").observeSingleEvent(of: .value, with: { (snapshot) in
+        REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let userSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {return}
             for user in userSnapshot
             {
@@ -99,16 +99,33 @@ class DataService
 //                        let userId = user.childSnapshot(forPath: "userId").value as? String
                         
                         // FUNCTION STILL RETURNS NIL!! WORK ON TOMORROW!
-                        self.REF_USERS.queryOrdered(byChild: "userEmail").queryEqual(toValue: userEmail).queryOrdered(byChild: "userId").observeSingleEvent(of: .value, with: { (idSnapshot) in
-                            guard let uidSnap = idSnapshot.children.allObjects as? [DataSnapshot] else {return}
-                            for id in uidSnap
-                            {
-                                if let userIdNumber = id.value as? String
-                                {
-                                    handler(userIdNumber)
-                                }
-                            }
-                        })
+                        
+                        let userId = user.childSnapshot(forPath: "userId").value as? String
+                        if userId != nil
+                        {
+                            handler((userId)!)
+                            print(userId)
+                        }
+                        else
+                        {
+                            print("error")
+                        }
+                        
+//                        self.REF_USERS.queryOrdered(byChild: "userID").observeSingleEvent(of: .value, with: { (idSnapshot) in
+//                            guard let uidSnap = idSnapshot.children.allObjects as? [DataSnapshot] else {return}
+//                            for id in uidSnap
+//                            {
+//                                if let userIdNumber = id.value as? String
+//                                {
+//                                    handler(userIdNumber)
+//                                    print(id)
+//                                }
+//                                else
+//                                {
+//                                    print("id error")
+//                                }
+//                            }
+//                        })
 //                        let userId = user.key
 //                        handler(userId)
                     }
