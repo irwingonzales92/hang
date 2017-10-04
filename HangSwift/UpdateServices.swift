@@ -184,6 +184,7 @@ class UpdateService
                 for hangout in hangoutSnapshot
                 {
                     DataService.instance.REF_HANGOUT.child(hangout.key).updateChildValues(["guestList": users])
+                    print(users)
                     print("Guest List Added")
                 }
             }

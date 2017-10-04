@@ -450,12 +450,22 @@ class HomeVC: UIViewController, Alertable {
         {
             DataService.instance.changeEmailToUid(email: userEmail, handler: { (userKey) in
                 userId = userKey
+                print(userId)
             })
         }
         return userId
     }
     
-    
+    func convertString(email:String) -> String
+    {
+        var userId = String()
+        
+        DataService.instance.changeEmailToUid(email: email, handler: { (userKey) in
+            userId = userKey
+        })
+        
+        return userId
+    }
     
     /////////////////
     /// IBActions ///
@@ -1093,9 +1103,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
         }))
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-//            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+            var pulledUid = String()
             
-            self.guestArray.insert(self.convertedStringFromArray(a1: self.searchArray), at: 0)
+//            pulledUid = self.convertedStringFromArray(a1: self.searchArray)
+            pulledUid = self.convertString(email: self.searchArray[indexPath.row])
+            self.guestArray.append(pulledUid)
             
             UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
             self.dismiss(animated: true, completion: nil)
