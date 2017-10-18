@@ -289,66 +289,107 @@ class HomeVC: UIViewController, Alertable {
     // User Annotations
     func loadUserAnnotationFromFirebase()
     {
-        DataService.instance.REF_USERS.observe(.value, with: { (snapshot) in
-            
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        DataService.instance.REF_HANGOUT.child(userId).child("guestList").observe(.value, with: { (snapshot) in
+           self.mapView.removeAnnotations(self.mapView.annotations)
 //        }
 //        DataService.instance.REF_USERS.observeSingleEvent(of: .value, with:
 //            { (snapshot) in
-            
-            if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
-            {
-                for user in userSnapshot
-                {
-                    if user.hasChild(COORDINATE)
-                    {
-                        //Tell if user is a leader
-//                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
-                        if let userDict = user.value as? Dictionary<String, AnyObject>
+            let enumerator = snapshot.children
+            while let child = enumerator.nextObject() as? DataSnapshot {
+                if let guestId = child.value as? String {
+                    DataService.instance.REF_USERS.child(guestId).observe(.value, with: { (user) in
+                        if user.hasChild(COORDINATE)
                         {
-                            let coordinateArray = userDict[COORDINATE] as! NSArray
-                            let guestCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
-                            
-                            let annotation = PartyAnnotation(coordinate: guestCoordinate, withKey: user.key)
-                            
-                            var usersAreVisible: Bool
+                            //Tell if user is a leader
+                            //                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
+                            if let userDict = user.value as? Dictionary<String, AnyObject>
                             {
-                                return self.mapView.annotations.contains(where: { (annotation) -> Bool in
-                                    if let userAnnotation = annotation as? PartyAnnotation
-                                    {
-                                        if userAnnotation.key == user.key
-                                        {
-                                            userAnnotation.update(annotationPosition: userAnnotation, withCoordinate: guestCoordinate)
-                                            return true
-                                        }
-                                     }
-                                    return false
-                                })
-                            }
-                            if !usersAreVisible
-                            {
-                                self.mapView.addAnnotation(annotation)
-                            }
-                        }
-                    //}
-                    }
-                   /* else
-                    {
-                        for annotation in self.mapView.annotations
-                        {
-                            if annotation.isKind(of: PartyAnnotation.self)
-                            {
-                                if let annotation = annotation as? PartyAnnotation
+                                let coordinateArray = userDict[COORDINATE] as! NSArray
+                                let guestCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
+                                
+                                let annotation = PartyAnnotation(coordinate: guestCoordinate, withKey: user.key)
+                                
+                                var usersAreVisible: Bool
                                 {
-                                    if annotation.key == user.key
-                                    {
-                                        self.mapView.removeAnnotation(annotation)
-                                    }
+                                    return self.mapView.annotations.contains(where: { (annotation) -> Bool in
+                                        if let userAnnotation = annotation as? PartyAnnotation
+                                        {
+                                            if userAnnotation.key == user.key
+                                            {
+                                                userAnnotation.update(annotationPosition: userAnnotation, withCoordinate: guestCoordinate)
+                                                return true
+                                            }
+                                        }
+                                        return false
+                                    })
+                                }
+                                if !usersAreVisible
+                                {
+                                    self.mapView.addAnnotation(annotation)
                                 }
                             }
                         }
-                    }*/
+                    })
                 }
             }
+            
+           // if let userSnapshot = snapshot.children.allObjects as? [DataSnapshot]
+//            {
+//                for user in userSnapshot
+//                {
+//                    if user.hasChild(COORDINATE)
+//                    {
+//                        //Tell if user is a leader
+////                        if driver.childSnapshot(forPath: USER_IS_LEADER).value as? Bool == true {
+//                        if let userDict = user.value as? Dictionary<String, AnyObject>
+//                        {
+//                            let coordinateArray = userDict[COORDINATE] as! NSArray
+//                            let guestCoordinate = CLLocationCoordinate2D(latitude: coordinateArray[0] as! CLLocationDegrees, longitude: coordinateArray[1] as! CLLocationDegrees)
+//
+//                            let annotation = PartyAnnotation(coordinate: guestCoordinate, withKey: user.key)
+//
+//                            var usersAreVisible: Bool
+//                            {
+//                                return self.mapView.annotations.contains(where: { (annotation) -> Bool in
+//                                    if let userAnnotation = annotation as? PartyAnnotation
+//                                    {
+//                                        if userAnnotation.key == user.key
+//                                        {
+//                                            userAnnotation.update(annotationPosition: userAnnotation, withCoordinate: guestCoordinate)
+//                                            return true
+//                                        }
+//                                     }
+//                                    return false
+//                                })
+//                            }
+//                            if !usersAreVisible
+//                            {
+//                                self.mapView.addAnnotation(annotation)
+//                            }
+//                        }
+//                    //}
+//                    }
+//                   /* else
+//                    {
+//                        for annotation in self.mapView.annotations
+//                        {
+//                            if annotation.isKind(of: PartyAnnotation.self)
+//                            {
+//                                if let annotation = annotation as? PartyAnnotation
+//                                {
+//                                    if annotation.key == user.key
+//                                    {
+//                                        self.mapView.removeAnnotation(annotation)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }*/
+//                }
+//            }
         })
     }
     
@@ -625,19 +666,23 @@ class HomeVC: UIViewController, Alertable {
                 
             })
             
+            connectUserAndLeaderForTrip()
             
         case .getDirectionsToLeader:
             DataService.instance.guestIsOnTripToLeader(guestKey: (Auth.auth().currentUser?.uid)!, handler: { (isOnTrip, guestKey, hangoutKey) in
                 if isOnTrip == true {
                     DataService.instance.REF_HANGOUT.child(hangoutKey!).child("destinationCoordinate").observe(.value, with: { (snapshot) in
                         
-                        let destinationCoordinateArray = snapshot.value as! NSArray
-                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
-                        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
-                        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
                         
-                        destinationMapItem.name = "Guest Destination"
-                        destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                        self.connectUserAndLeaderForTrip()
+                        
+//                        let destinationCoordinateArray = snapshot.value as! NSArray
+//                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
+//                        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
+//                        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+                        
+//                        destinationMapItem.name = "Guest Destination"
+//                        destinationMapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
                         self.actionBtn.setTitle("Get Directions", for: .normal)
                     })
                 }
@@ -942,10 +987,13 @@ extension HomeVC: MKMapViewDelegate
                                 { (hangoutSnapshot) in
                                     if hangoutDict?["hangoutInProgress"] as? Bool == true
                                     {
+                                        let latitude = hangoutSnapshot.childSnapshot(forPath: "coordinate").childSnapshot(forPath: "0").value as! Double
+                                        let longitude = hangoutSnapshot.childSnapshot(forPath: "coordinate").childSnapshot(forPath: "1").value as! Double
+                                        
                                         self.removeOverlaysAndAnnotations(forGuests: true, forLeaders: true)
                                         
                                         let destinationCoordinateArray = hangoutDict?["destinationCoordinate"] as! NSArray
-                                        let destinationCoordinate = CLLocationCoordinate2D(latitude: destinationCoordinateArray[0] as! CLLocationDegrees, longitude: destinationCoordinateArray[1] as! CLLocationDegrees)
+                                        let destinationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                                         let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
                                         
                                         
@@ -1106,11 +1154,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource
             var pulledUid = String()
             
 //            pulledUid = self.convertedStringFromArray(a1: self.searchArray)
-            pulledUid = self.convertString(email: self.searchArray[indexPath.row])
-            self.guestArray.append(pulledUid)
+            //pulledUid = self.convertString(email: self.searchArray[indexPath.row])
             
-            UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
-            self.dismiss(animated: true, completion: nil)
+            DataService.instance.changeEmailToUid(email: self.searchArray[indexPath.row], handler: { (userKey) in
+                pulledUid = userKey
+                self.guestArray.append(pulledUid)
+                debugPrint(pulledUid)
+                UpdateService.instance.addUsersIntoGuestList(users: self.guestArray)
+                self.dismiss(animated: true, completion: nil)
+            })
+            
+            
+
             
             print("Capture action OK")
             print("Friend is added!")
