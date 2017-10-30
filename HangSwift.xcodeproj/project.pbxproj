@@ -28,6 +28,7 @@
 		574F828B1F25CBE3006D41BE /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574F828A1F25CBE3006D41BE /* UIViewExt.swift */; };
 		574F828D1F25D128006D41BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 574F828C1F25D128006D41BE /* GoogleService-Info.plist */; };
 		575F612E1F64381C009533B6 /* FriendSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575F612D1F64381C009533B6 /* FriendSearchVC.swift */; };
+		576F8D461FA6E868006A9A4E /* Hangout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576F8D451FA6E868006A9A4E /* Hangout.swift */; };
 		577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C541F4B93DB005529A2 /* AuthService.swift */; };
 		577A7C571F4C93BD005529A2 /* ThrowawayFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */; };
 		577A7C5B1F4D0899005529A2 /* CreatePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577A7C5A1F4D0899005529A2 /* CreatePostVC.swift */; };
@@ -79,6 +80,7 @@
 		574F828A1F25CBE3006D41BE /* UIViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		574F828C1F25D128006D41BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		575F612D1F64381C009533B6 /* FriendSearchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchVC.swift; sourceTree = "<group>"; };
+		576F8D451FA6E868006A9A4E /* Hangout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hangout.swift; sourceTree = "<group>"; };
 		577A7C541F4B93DB005529A2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		577A7C561F4C93BD005529A2 /* ThrowawayFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThrowawayFunctions.swift; sourceTree = "<group>"; };
 		577A7C5A1F4D0899005529A2 /* CreatePostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostVC.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				574F828A1F25CBE3006D41BE /* UIViewExt.swift */,
 				57F09E771F4543B20008701B /* UITextFieldExt.swift */,
 				CD0C27321F7200C2002DB47D /* UIViewControllerExt.swift */,
+				576F8D451FA6E868006A9A4E /* Hangout.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				57A39E2D1F42191D00D30F9D /* ProfileVC.swift in Sources */,
 				57F09E781F4543B20008701B /* UITextFieldExt.swift in Sources */,
 				57F09E761F453DE20008701B /* HangoutVC.swift in Sources */,
+				576F8D461FA6E868006A9A4E /* Hangout.swift in Sources */,
 				CD983AA91F6EE6B400ABDA65 /* Alertable.swift in Sources */,
 				CD0C272F1F71B52B002DB47D /* Constants.swift in Sources */,
 				577A7C551F4B93DB005529A2 /* AuthService.swift in Sources */,

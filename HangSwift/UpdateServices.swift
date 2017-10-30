@@ -155,6 +155,7 @@ class UpdateService
                     if user.key == passedUser.uid
                     {
                         DataService.instance.REF_USERS.child(user.key).updateChildValues(["userIsInHangout": bool])
+                        DataService.instance.REF_USERS.child()
                         print("User is in hangout")
                     }
                 }

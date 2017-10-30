@@ -57,6 +57,7 @@ class HomeVC: UIViewController, Alertable {
     let tableViewCell =  UITableViewCell()
     var guestArray = [String]()
     var searchArray = [String]()
+    var pulledPartyArray = [String]()
     var hangoutTextField = UITextField()
     //var currentUserID = Auth.auth().currentUser?.uid
     var leaderAnnotationImg = UIImage(named: "leaderAnnotationImg")
@@ -92,6 +93,23 @@ class HomeVC: UIViewController, Alertable {
                     self.actionBtn.setTitle("End Hangout", for: UIControlState.normal)
                     self.actionForButton = .endHangout
                     self.loadHangoutAnnotation()
+                    
+                    DataService.instance.REF_HANGOUT.child("guestList").observeSingleEvent(of: .value, with: { (snapshot) in
+                        let hangoutGuestList = snapshot.value as? [String]
+                        
+                        for guest in hangoutGuestList
+                        {
+//                            if Auth.auth().currentUser?.uid = guest
+//                            {
+//                                  // USE ONLY IF PARTY LEADER
+//                            }
+                            
+                            // *** DO SOMETHING WITH UIDS ***
+                        }
+                        
+                        hangoutGuestList = self.pulledPartyArray
+                    })
+    
                 }
                 else
                 {
