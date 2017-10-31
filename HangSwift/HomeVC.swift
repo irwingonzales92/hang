@@ -94,20 +94,28 @@ class HomeVC: UIViewController, Alertable {
                     self.actionForButton = .endHangout
                     self.loadHangoutAnnotation()
                     
-                    DataService.instance.REF_HANGOUT.child("guestList").observeSingleEvent(of: .value, with: { (snapshot) in
-                        let hangoutGuestList = snapshot.value as? [String]
+                    DataService.instance.REF_HANGOUT.queryEqual(toValue: Auth.auth().currentUser!.uid).queryOrdered(byChild: "guestList").observeSingleEvent(of: .value, with: { (snapshot) in
+                        var hangoutGuestList = snapshot.value as? [String]
                         
-                        for guest in hangoutGuestList
+                        if hangoutGuestList != nil
                         {
-//                            if Auth.auth().currentUser?.uid = guest
-//                            {
-//                                  // USE ONLY IF PARTY LEADER
-//                            }
+                            for guest in hangoutGuestList!
+                            {
+                                //                            if Auth.auth().currentUser?.uid = guest
+                                //                            {
+                                //                                  // USE ONLY IF PARTY LEADER
+                                //                            }
+                                
+                                // *** DO SOMETHING WITH UIDS ***
+                            }
                             
-                            // *** DO SOMETHING WITH UIDS ***
+                            hangoutGuestList! == self.pulledPartyArray
                         }
-                        
-                        hangoutGuestList = self.pulledPartyArray
+                        else
+                        {
+                            debugPrint(hangoutGuestList)
+                        }
+ 
                     })
     
                 }
@@ -481,7 +489,7 @@ class HomeVC: UIViewController, Alertable {
 //        DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true, guests: guests)
         DataService.instance.createFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData, hangoutName: hangoutName, isHangout: true)
         
-        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!, hangoutId: host.uid)
         self.mapView.reloadInputViews()
     }
     
@@ -491,7 +499,7 @@ class HomeVC: UIViewController, Alertable {
         
         DataService.instance.endFirebaseDBHangout(uid: host.uid, hangoutData: hangoutData)
         
-        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!, hangoutId: host.uid)
         self.mapView.reloadInputViews()
     }
     
@@ -615,7 +623,7 @@ class HomeVC: UIViewController, Alertable {
                         
                         self.startHangout(hangoutName: "Hangout", host: Auth.auth().currentUser!, coordinate: self.mapView.userLocation.coordinate, guests: self.guestArray)
                         UpdateService.instance.updateHangoutTitle(title: (self.hangoutTextField.text)!)
-                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!)
+                        UpdateService.instance.updateUserIsInHangoutStatus(bool: true, passedUser: Auth.auth().currentUser!, hangoutId: (Auth.auth().currentUser?.uid)!)
                         print("Party Sucessfully Started")
                         
                         
@@ -727,7 +735,7 @@ class HomeVC: UIViewController, Alertable {
                     print("Capture action OK")
                     
                     self.endHangout(host: Auth.auth().currentUser!)
-                    UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!)
+                    UpdateService.instance.updateUserIsInHangoutStatus(bool: false, passedUser: Auth.auth().currentUser!, hangoutId: Auth.auth().currentUser!.uid)
                     print("Party Sucessfully Ended")
                     
                     

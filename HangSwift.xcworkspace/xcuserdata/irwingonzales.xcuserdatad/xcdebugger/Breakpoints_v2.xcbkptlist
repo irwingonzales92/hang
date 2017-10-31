@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.232866"
+            timestampString = "531125303.175384"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "475"
             endingLineNumber = "475"
-            landmarkName = "endHangout(host:)"
+            landmarkName = "loadHangoutAnnotation()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.23548"
+            timestampString = "531125303.175884"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "473"
             endingLineNumber = "473"
-            landmarkName = "endHangout(host:)"
+            landmarkName = "loadHangoutAnnotation()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.236714"
+            timestampString = "531125303.175976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "430"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.237793"
+            timestampString = "531125303.176027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "433"
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.238838"
+            timestampString = "531125303.176073"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "278"
             endingLineNumber = "278"
-            landmarkName = "checkLocationAuthStatus()"
+            landmarkName = "buttonsForUser(areHidden:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.23985"
+            timestampString = "531125303.176121"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
             endingLineNumber = "281"
-            landmarkName = "checkLocationAuthStatus()"
+            landmarkName = "buttonsForUser(areHidden:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.240924"
+            timestampString = "531125303.176193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "346"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.242306"
+            timestampString = "531125303.176307"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "356"
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.243814"
+            timestampString = "531125303.176379"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "358"
@@ -218,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.245017"
+            timestampString = "531125303.176468"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "362"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.582545"
+            timestampString = "531125303.176545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.582882"
+            timestampString = "531125303.177462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "89"
@@ -294,11 +294,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.246215"
+            timestampString = "531125303.177986"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "734"
@@ -307,34 +307,34 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "HangSwift.HomeVC.locationManager(__ObjC.CLLocationManager, didExitRegion: __ObjC.CLRegion) -&gt; ()"
+                  symbolName = "HangSwift.HomeVC.buttonSelector(forAction: HangSwift.ButtonAction) -&gt; ()"
                   moduleName = "HangSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
-                  timestampString = "529024977.581512"
+                  timestampString = "531125214.016688"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "734"
                   endingLineNumber = "734"
-                  offsetFromSymbolStart = "25">
+                  offsetFromSymbolStart = "5368">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in HangSwift.HomeVC.locationManager(__ObjC.CLLocationManager, didExitRegion: __ObjC.CLRegion) -&gt; ()"
+                  symbolName = "closure #8 () -&gt; () in HangSwift.HomeVC.buttonSelector(forAction: HangSwift.ButtonAction) -&gt; ()"
                   moduleName = "HangSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
-                  timestampString = "529024977.58449"
+                  timestampString = "531125214.018839"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "735"
                   endingLineNumber = "735"
-                  offsetFromSymbolStart = "142">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -346,7 +346,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.247445"
+            timestampString = "531125303.178061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "634"
@@ -362,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.248452"
+            timestampString = "531125303.178142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "643"
@@ -374,16 +374,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.249399"
+            timestampString = "531125303.178207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "928"
             endingLineNumber = "928"
-            landmarkName = "removeOverlaysAndAnnotations(forGuests:forLeaders:)"
+            landmarkName = "zoom(toFitAnnotationsFromMapView:forActiveTripToLeader:withKey:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -394,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.25034"
+            timestampString = "531125303.178261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "906"
@@ -410,12 +410,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.251326"
+            timestampString = "531125303.178335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "923"
             endingLineNumber = "923"
-            landmarkName = "removeOverlaysAndAnnotations(forGuests:forLeaders:)"
+            landmarkName = "zoom(toFitAnnotationsFromMapView:forActiveTripToLeader:withKey:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -426,44 +426,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.252229"
+            timestampString = "531125303.178409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "918"
             endingLineNumber = "918"
-            landmarkName = "removeOverlaysAndAnnotations(forGuests:forLeaders:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.253113"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "929"
-            endingLineNumber = "929"
-            landmarkName = "removeOverlaysAndAnnotations(forGuests:forLeaders:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.254251"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "529"
-            endingLineNumber = "529"
-            landmarkName = "centerMapBtnWasPressed(_:)"
+            landmarkName = "zoom(toFitAnnotationsFromMapView:forActiveTripToLeader:withKey:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -474,7 +442,71 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.255309"
+            timestampString = "531125303.178508"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "929"
+            endingLineNumber = "929"
+            landmarkName = "zoom(toFitAnnotationsFromMapView:forActiveTripToLeader:withKey:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.178575"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "convertString(email:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HangSwift.HomeVC.convertString(email: Swift.String) -&gt; Swift.String"
+                  moduleName = "HangSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
+                  timestampString = "531125214.040328"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "530"
+                  endingLineNumber = "530"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String) -&gt; () in HangSwift.HomeVC.convertString(email: Swift.String) -&gt; Swift.String"
+                  moduleName = "HangSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
+                  timestampString = "531125214.04456"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "528"
+                  endingLineNumber = "528"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.178625"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "568"
@@ -518,16 +550,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.256222"
+            timestampString = "531125303.178671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "588"
             endingLineNumber = "588"
-            landmarkName = "buttonSelector(forAction:)"
+            landmarkName = "menuBtnWasPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -538,7 +570,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.257234"
+            timestampString = "531125303.178759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "648"
@@ -550,7 +582,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/UpdateServices.swift"
@@ -566,7 +598,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/UpdateServices.swift"
@@ -582,7 +614,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/UpdateServices.swift"
@@ -598,7 +630,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/UpdateServices.swift"
@@ -614,7 +646,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/UpdateServices.swift"
@@ -634,7 +666,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.2583"
+            timestampString = "531125303.178936"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "447"
@@ -646,17 +678,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.259202"
+            timestampString = "531125303.179014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "458"
             endingLineNumber = "458"
-            landmarkName = "HomeVC"
-            landmarkType = "3">
+            landmarkName = "loadHangoutAnnotation()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -666,7 +698,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.661614"
+            timestampString = "531125303.17908"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
@@ -682,7 +714,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.661773"
+            timestampString = "531125303.179612"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"
@@ -698,7 +730,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.662014"
+            timestampString = "531125303.180109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "95"
@@ -714,7 +746,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.662099"
+            timestampString = "531125303.180582"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
@@ -730,7 +762,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.662161"
+            timestampString = "531125303.181028"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
@@ -746,7 +778,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.662241"
+            timestampString = "531125303.181522"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
@@ -762,7 +794,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.6623"
+            timestampString = "531125303.182043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "129"
@@ -810,7 +842,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.662348"
+            timestampString = "531125303.182515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
@@ -822,32 +854,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.260314"
+            timestampString = "531125303.182981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1111"
             endingLineNumber = "1111"
-            landmarkName = "HomeVC"
-            landmarkType = "21">
+            landmarkName = "animateTableView(shouldShow:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.261267"
+            timestampString = "531125303.183068"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1113"
             endingLineNumber = "1113"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkName = "animateTableView(shouldShow:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -858,7 +890,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.67164"
+            timestampString = "531125303.183132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
@@ -870,11 +902,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.671724"
+            timestampString = "531125303.18362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "103"
@@ -886,11 +918,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.671783"
+            timestampString = "531125303.184934"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -902,11 +934,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.671835"
+            timestampString = "531125303.185826"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
@@ -918,11 +950,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.671886"
+            timestampString = "531125303.18635"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
@@ -934,11 +966,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/DataService.swift"
-            timestampString = "528786329.671936"
+            timestampString = "531125303.186837"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
@@ -950,49 +982,113 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangSwift/HomeVC.swift"
-            timestampString = "529024975.262454"
+            timestampString = "531125303.187297"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1110"
             endingLineNumber = "1110"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "animateTableView(shouldShow:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.187362"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "updateUI()"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in HangSwift.HomeVC.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in HangSwift.HomeVC.updateUI() -&gt; ()"
                   moduleName = "HangSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
-                  timestampString = "529024977.672939"
+                  timestampString = "531125303.383557"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1110"
-                  endingLineNumber = "1110"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "400">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in HangSwift.HomeVC.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  symbolName = "closure #1 (__ObjC.DataSnapshot) -&gt; () in closure #1 (Swift.Bool) -&gt; () in HangSwift.HomeVC.updateUI() -&gt; ()"
                   moduleName = "HangSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/irwingonzales/Desktop/hang/HangSwift/HomeVC.swift"
-                  timestampString = "529024977.675582"
+                  timestampString = "531125303.386388"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1110"
-                  endingLineNumber = "1110"
-                  offsetFromSymbolStart = "2082">
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.187435"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "updateUI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.18752"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "updateUI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HangSwift/HomeVC.swift"
+            timestampString = "531125303.187598"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "updateUI()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
