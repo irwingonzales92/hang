@@ -109,7 +109,7 @@ class HomeVC: UIViewController, Alertable {
                                 // *** DO SOMETHING WITH UIDS ***
                             }
                             
-                            hangoutGuestList! == self.pulledPartyArray
+                            hangoutGuestList! = self.pulledPartyArray
                         }
                         else
                         {
